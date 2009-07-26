@@ -1,0 +1,24 @@
+#!/bin/ksh
+#ident "@(#)postinstall 1.4 08/04/15 SMI"
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+
+if [ ! -d /usr/share/pixmaps ]
+then
+	mkdir -p -m 755 /usr/share/pixmaps
+fi
+
+cp ${BASEDIR}/SUNWddu/config/ddu.png /usr/share/pixmaps
+
+if [ ! -d /usr/share/applications ]
+then
+	mkdir -p -m 755 /usr/share/applications
+fi
+
+cp ${BASEDIR}/SUNWddu/config/ddu.desktop /usr/share/applications
+
+if [ "${BASEDIR}" != "/opt" ]
+then
+	ln -s ${BASEDIR}/SUNWddu /opt/SUNWddu
+fi

@@ -1,0 +1,61 @@
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)Makefile.common 1.2 09/02/17 SMI"
+#
+
+include $(SRC)/include/Makefile.environment
+
+ARCH		:sh = uname -p
+ASFLAGS		= -P
+
+DTS_ERRNO	= -D_TS_ERRNO
+INCDIR		= $(SRC)/include
+CPPFLAGS	= $(DTEXTDOM) -I/usr/include -I$(INCDIR)
+
+CCMODE		= -Xa
+ILDOFF		= -xildoff
+
+CERRWARN	= -errtags=yes -errwarn=%all
+CERRWARN	+= -erroff=E_EMPTY_TRANSLATION_UNIT
+CERRWARN	+= -erroff=E_STATEMENT_NOT_REACHED
+
+C99MODE		= -xc99=%none
+C99LMODE	= $(C99MODE:-xc99%=-Xc99%)
+
+CGLOBALSTATIC	= -W0,-xglobalstatic
+
+CFLAGS		+= $(COPTFLAG)
+
+SECLEVEL		= core
+ALWAYS_LINT_DEFS	= -errtags=yes -s
+ALWAYS_LINT_DEFS	+= -erroff=E_PTRDIFF_OVERFLOW
+ALWAYS_LINT_DEFS	+= -erroff=E_ASSIGN_NARROW_CONV
+ALWAYS_LINT_DEFS	+= -U__PRAGMA_REDEFINE_EXTNAME
+ALWAYS_LINT_DEFS	+= $(C99LMODE)
+ALWAYS_LINT_DEFS	+= -errsecurity=$(SECLEVEL)
+ALWAYS_LINT_DEFS	+= -erroff=E_SEC_CREAT_WITHOUT_EXCL
+ALWAYS_LINT_DEFS	+= -erroff=E_SEC_FORBIDDEN_WARN_CREAT
+ALWAYS_LINT_DEFS	+= -erroff=E_ASSIGN_INT_TO_SMALL_INT
+ALWAYS_LINT_DEFS	+= -erroff=E_CAST_INT_CONST_TO_SMALL_INT 
+ALWAYS_LINT_DEFS	+= -erroff=E_CAST_INT_TO_SMALL_INT
+ALWAYS_LINT_DEFS	+= -erroff=E_CAST_TO_PTR_FROM_INT
+ALWAYS_LINT_DEFS	+= -erroff=E_COMP_INT_WITH_LARGE_INT
+ALWAYS_LINT_DEFS	+= -erroff=E_INTEGRAL_CONST_EXP_EXPECTED
+ALWAYS_LINT_DEFS	+= -erroff=E_PASS_INT_TO_SMALL_INT 
+ALWAYS_LINT_DEFS	+= -erroff=E_PTR_CONV_LOSES_BITS
+
+COMPILE.c	= $(CC) $(CFLAGS) $(CPPFLAGS) -c
+COMPILE.s	= $(AS) $(ASFLAGS) $(CPPFLAGS)
+LINK.c	= $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
+LINT.c	= $(LINT) $(LINTFLAGS) $(CPPFLAGS) $(ALWAYS_LINT_DEFS)
+
+%.o: %.c
+	$(COMPILE.c) $<
+	
+%.o: ../%.c
+	$(COMPILE.c) $<
+
+%.o: %.s
+	$(COMPILE.s) -o $@ $<

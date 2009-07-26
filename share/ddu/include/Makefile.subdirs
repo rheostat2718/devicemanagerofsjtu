@@ -1,0 +1,17 @@
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)Makefile.subdirs 1.1 08/12/21 SMI"
+#
+
+all :=          TARGET= all
+clean :=        TARGET= clean 
+lint :=         TARGET= lint
+check :=        TARGET= check
+
+all clean lint check: $(SUBDIRS)
+
+$(SUBDIRS): FRC
+	@cd $@; pwd; $(MAKE) $(TARGET)
+FRC:

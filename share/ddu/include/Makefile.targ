@@ -1,0 +1,22 @@
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)Makefile.targ 1.1 08/07/28 SMI"
+#
+
+clean:
+	rm -f *~ *.o *.ln core
+	rm -f $(TARGETS)
+
+lint:
+	@$(LINT.c) $(SRCS) $(LDLIBS) $(LNOUTPUT)
+
+check:
+	@if [ ! -z "$(SRCS)" ]; then		\
+		$(CSTYLE) -p -P $(SRCS);	\
+	 fi
+	@if [ ! -z "$(HDRS)" ]; then		\
+		$(CSTYLE) -p -P $(HDRS);	\
+		$(HDRCHK) $(HDRS);		\
+	 fi

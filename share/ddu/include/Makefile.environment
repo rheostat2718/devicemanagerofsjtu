@@ -1,0 +1,19 @@
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+#
+#ident	"@(#)Makefile.environment 1.1 08/07/28 SMI"
+#
+
+CC	= cc
+LINT	= lint
+CSTYLE	= cstyle
+HDRCHK	= hdrchk
+
+CP	= /bin/cp
+ECHO	= /bin/echo
+MKDIR	= /bin/mkdir
+MV	= /bin/mv
+SORT	= /bin/sort
+TOUCH	= /bin/touch
+SCCS_GET	= /usr/ccs/bin/sccs get
