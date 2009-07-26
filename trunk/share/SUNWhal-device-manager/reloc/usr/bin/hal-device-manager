@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+
+"""This is the main executable for DeviceManager. GTK+/Glade code is based
+on simplepy from Shannon -jj Behrens <jjinux@yahoo.com>"""
+
+import sys
+import pygtk
+import gtk
+import gnome
+
+sys.path.append('/usr/share/hal/device-manager')
+
+import Const
+import LibGladeApplication
+from DeviceManager import DeviceManager
+
+gnome.program_init(Const.NAME, Const.VERSION)
+gtk.glade.bindtextdomain('hal', '${prefix}/share/locale')
+gtk.glade.textdomain('hal')
+DeviceManager()
+gtk.main()
