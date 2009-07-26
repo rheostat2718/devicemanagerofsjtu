@@ -1,0 +1,21 @@
+PKG=SUNWddu
+CLASSES=none 
+BASEDIR=/usr
+TZ=PST8PDT
+PATH=/sbin:/usr/sbin:/usr/bin:/usr/sadm/install/bin
+NAME=Device Driver Utility(DDU)
+ARCH=all
+VERSION=1.2,REV=2009.04.28
+REV=0
+SUNW_PKGTYPE=usr
+SUNW_PKGVERS=1.0
+SUNW_PRODVERS=5.11
+HOTLINE=Please contact your local service provider
+SUNW_PRODNAME=SunOS
+MAXINST=1000
+CATEGORY=system
+DESC=Device Driver Utility
+VENDOR=Sun Microsystems, Inc.
+EMAIL=
+PSTAMP=
+PKGINST=SUNWddu

@@ -1,0 +1,10 @@
+#!/bin/ksh
+#ident "@(#)postremove 1.4 08/04/15 SMI"
+#
+# Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+# Use is subject to license terms.
+
+rm -rf ${BASEDIR}/SUNWddu
+rm -rf /opt/SUNWddu
+rm -f /usr/share/pixmaps/ddu.png
+rm -f /usr/share/applications/ddu.desktop
