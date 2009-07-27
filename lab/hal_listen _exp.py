@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+'''this program is for listenning to hal and reacting to signal from hal'''
+
 import dbus
 import dbus.glib
 from dbus.mainloop.glib import DBusGMainLoop
