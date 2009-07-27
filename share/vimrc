@@ -105,18 +105,12 @@ autocmd! bufwritepost vimrc source ~/vim_local/vimrc
 syntax enable
 
 "Set font to Monaco 10pt
-if MySys() == "mac"
-  set gfn=Bitstream\ Vera\ Sans\ Mono:h14
-  set nomacatsui
-  set termencoding=macroman
-elseif MySys() == "linux"
-  set gfn=Monospace\ 11
-endif
+set gfn=Monospace\ 11
 
 if has("gui_running")
   set guioptions-=T
   let psc_style='cool'
-  colorscheme ps_color
+  colorscheme evening
 else
   set background=dark
   colorscheme zellner
@@ -260,11 +254,6 @@ map <C-l> <C-W>l
 "Actually, the tab does not switch buffers, but my arrows
 "Bclose function ca be found in "Buffer related" section
 map <leader>bd :Bclose<cr>
-map <down> <leader>bd
-"Use the arrows to something usefull
-map <right> :bn<cr>
-map <left> :bp<cr>
-
 "Tab configuration
 map <leader>tn :tabnew %<cr>
 map <leader>te :tabedit
@@ -335,13 +324,6 @@ nmap <M-k> mz:m-2<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
-if MySys() == "mac"
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
-endif
-
 func! DeleteTrailingWS()
   exe "normal mz"
   %s/\s\+$//ge
@@ -361,17 +343,9 @@ endfunc
 
 func! DeleteTillSlash()
   let g:cmd = getcmdline()
-  if MySys() == "linux" || MySys() == "mac"
-    let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
-  else
-    let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\]\\).*", "\\1", "")
-  endif
+  let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*", "\\1", "")
   if g:cmd == g:cmd_edited
-    if MySys() == "linux" || MySys() == "mac"
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
-    else
-      let g:cmd_edited = substitute(g:cmd, "\\(.*\[\\\\\]\\).*\[\\\\\]", "\\1", "")
-    endif
+    let g:cmd_edited = substitute(g:cmd, "\\(.*\[/\]\\).*/", "\\1", "")
   endif
   return g:cmd_edited
 endfunc
