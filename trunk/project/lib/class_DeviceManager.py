@@ -9,31 +9,31 @@ class DeviceManager(object):
     '''class of Device Manager'''
     def __init__(cls):
         '''init of DM'''
-        cls.daemon=Daemon(cls)
-        cls.devices=cls.getDeviceInfo()
-        cls.gui=DeviceManagerGUI(cls)
+        cls.__daemon=Daemon(cls)
+        cls.__devices=cls.getDeviceInfo()
+        cls.__gui=DeviceManagerGUI(cls)
 
     def loop(cls):
         '''loop threads and itself'''
         import threading
-        cls.threads=[]
-        cls.threads.append(threading.Thread(target=cls.gui.loop))
-        cls.threads.append(threading.Thread(target=cls.daemon.loop))
+        cls.__threads=[]
+        cls.__threads.append(threading.Thread(target=cls.__gui.loop))
+        cls.__threads.append(threading.Thread(target=cls.__daemon.loop))
         for t in threads:
             t.start()
-        cls.threads[0].join()
+        cls.__threads[0].join()
 
     def update(cls, dev=None, from_=None):
         '''update all device'''
         cls.getDeviceInfo(dev)
         if from_!='GUI':
-            gui.update()
+            cls.__gui.update()
 
     def getDeviceInfo(cls, dev=None):
         '''get device information
 if dev==none, update all device information'''
-        if cls.devices!=None:
-            dict=cls.devices
+        if cls.__devices!=None:
+            dict=cls.__devices
         else:
             dict={}
         
@@ -42,10 +42,16 @@ if dev==none, update all device information'''
 
     def addDriver(cls, dev):
         '''add driver'''
-        cls.devices[dev.getPath()].addDriver()
+        cls.__devices[dev.getPath()].addDriver()
     def removeDriver(cls, dev):
         '''remove driver'''
-        cls.devices[dev.getPath()].removeDriver()
+        cls.__devices[dev.getPath()].removeDriver()
     def updateDriver(cls, dev, drv=None):
         '''update driver'''
-        cls.devices[dev.getPath()].updateDriver(drv)
+        cls.__devices[dev.getPath()].updateDriver(drv)
+    def mount(cls, dev):
+        '''mount device'''
+        cls.__devices[dev.getPath()].mount()
+    def unmount(cls, dev):
+        '''unmount device'''
+        cls.__devices[dev.getPath()].mount()

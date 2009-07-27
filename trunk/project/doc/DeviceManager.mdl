@@ -11,7 +11,43 @@
 	(object Attribute
 	    tool       	"Java"
 	    name       	"IDE"
-	    value      	"Internal Editor"))
+	    value      	"Internal Editor")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagName1"
+	    value      	"")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagText1"
+	    value      	"")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagApply1"
+	    value      	"")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagName2"
+	    value      	"")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagText2"
+	    value      	"")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagApply2"
+	    value      	"")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagName3"
+	    value      	"")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagText3"
+	    value      	"")
+	(object Attribute
+	    tool       	"Java"
+	    name       	"UserDefineTagApply3"
+	    value      	""))
     quid       	"4A6D3E8B0167"
     defaults   	(object defaults
 	rightMargin 	0.250000
@@ -210,16 +246,12 @@
 			opExportControl 	"Public"
 			uid        	0))
 		class_attributes 	(list class_attribute_list
-		    (object ClassAttribute "panel"
-			quid       	"4A6D449B005D")
-		    (object ClassAttribute "hal_interface"
+		    (object ClassAttribute "hal_manager"
 			quid       	"4A6D44A501F4")
-		    (object ClassAttribute "device"
-			quid       	"4A6D44E602DE")
-		    (object ClassAttribute "signal"
-			quid       	"4A6D44FA00CB")
 		    (object ClassAttribute "gLoop"
-			quid       	"4A6D452400DA")))
+			quid       	"4A6D452400DA")
+		    (object ClassAttribute "manager"
+			quid       	"4A6D5FF700DA")))
 	    (object Class "DriverManager"
 		quid       	"4A6D3F410128"
 		operations 	(list Operations
@@ -1542,79 +1574,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object UseCaseView "Use Case View::getDeviceInfo" @46
-			location   	(1147, 171)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@46
-			    location   	(1147, 309)
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	630
-			    justify    	0
-			    label      	"getDeviceInfo")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"4A6D3EE2033C"
-			height     	118)
-		    (object UseCaseView "Use Case View::getDriverInfo" @47
-			location   	(1268, 537)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@47
-			    location   	(1268, 675)
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	630
-			    justify    	0
-			    label      	"getDriverInfo")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"4A6D3F7103D8"
-			height     	118)
-		    (object UseCaseView "Use Case View::mgrDevice" @48
-			location   	(1300, 965)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@48
-			    location   	(1300, 1103)
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	630
-			    justify    	0
-			    label      	"mgrDevice")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"4A6D3FF10109"
-			height     	118)
-		    (object UseCaseView "Use Case View::addDevice" @49
+		    (object UseCaseView "Use Case View::addDevice" @46
 			location   	(1780, 477)
 			font       	(object Font
 			    size       	12
@@ -1626,7 +1586,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@49
+			    Parent_View 	@46
 			    location   	(1780, 615)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1638,7 +1598,7 @@
 			fill_color 	13434879
 			quidu      	"4A6D3FE002BF"
 			height     	118)
-		    (object UseCaseView "Use Case View::removeDevice" @50
+		    (object UseCaseView "Use Case View::removeDevice" @47
 			location   	(1822, 809)
 			font       	(object Font
 			    size       	12
@@ -1650,7 +1610,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@50
+			    Parent_View 	@47
 			    location   	(1822, 947)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1662,21 +1622,7 @@
 			fill_color 	13434879
 			quidu      	"4A6D4008003E"
 			height     	118)
-		    (object DependencyView "" @51
-			stereotype 	TRUE
-			line_color 	3342489
-			quidu      	"4A6D40120271"
-			client     	@49
-			supplier   	@48
-			line_style 	0)
-		    (object DependencyView "" @52
-			stereotype 	TRUE
-			line_color 	3342489
-			quidu      	"4A6D40170157"
-			client     	@50
-			supplier   	@48
-			line_style 	0)
-		    (object UseCaseView "Use Case View::updateDriver" @53
+		    (object UseCaseView "Use Case View::updateDriver" @48
 			location   	(1915, 1065)
 			font       	(object Font
 			    size       	12
@@ -1688,7 +1634,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@53
+			    Parent_View 	@48
 			    location   	(1915, 1203)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1700,14 +1646,7 @@
 			fill_color 	13434879
 			quidu      	"4A6D401E0177"
 			height     	118)
-		    (object DependencyView "" @54
-			stereotype 	TRUE
-			line_color 	3342489
-			quidu      	"4A6D402A007D"
-			client     	@53
-			supplier   	@48
-			line_style 	0)
-		    (object UseCaseView "Use Case View::addDriver" @55
+		    (object UseCaseView "Use Case View::addDriver" @49
 			location   	(1831, 1349)
 			font       	(object Font
 			    size       	12
@@ -1719,7 +1658,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@55
+			    Parent_View 	@49
 			    location   	(1831, 1487)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1731,7 +1670,7 @@
 			fill_color 	13434879
 			quidu      	"4A6D402C0128"
 			height     	118)
-		    (object UseCaseView "Use Case View::removeDriver" @56
+		    (object UseCaseView "Use Case View::removeDriver" @50
 			location   	(1806, 1655)
 			font       	(object Font
 			    size       	12
@@ -1743,7 +1682,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@56
+			    Parent_View 	@50
 			    location   	(1806, 1793)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1755,21 +1694,138 @@
 			fill_color 	13434879
 			quidu      	"4A6D4033001F"
 			height     	118)
+		    (object UseCaseView "Use Case View::getDeviceInfo" @51
+			location   	(1147, 171)
+			font       	(object Font
+			    size       	12
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@51
+			    location   	(1147, 309)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"getDeviceInfo")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4A6D3EE2033C"
+			height     	118)
+		    (object UseCaseView "Use Case View::getDriverInfo" @52
+			location   	(1268, 537)
+			font       	(object Font
+			    size       	12
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@52
+			    location   	(1268, 675)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"getDriverInfo")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4A6D3F7103D8"
+			height     	118)
+		    (object UseCaseView "Use Case View::mgrDevice" @53
+			location   	(1300, 965)
+			font       	(object Font
+			    size       	12
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@53
+			    location   	(1300, 1103)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"mgrDevice")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4A6D3FF10109"
+			height     	118)
+		    (object DependencyView "" @54
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4A6D40120271"
+			client     	@46
+			supplier   	@53
+			line_style 	0)
+		    (object DependencyView "" @55
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4A6D40170157"
+			client     	@47
+			supplier   	@53
+			line_style 	0)
+		    (object DependencyView "" @56
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4A6D402A007D"
+			client     	@48
+			supplier   	@53
+			line_style 	0)
 		    (object DependencyView "" @57
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"4A6D405101B5"
-			client     	@55
-			supplier   	@48
+			client     	@49
+			supplier   	@53
 			line_style 	0)
 		    (object DependencyView "" @58
 			stereotype 	TRUE
 			line_color 	3342489
 			quidu      	"4A6D4053030D"
-			client     	@56
-			supplier   	@48
+			client     	@50
+			supplier   	@53
 			line_style 	0)
-		    (object ClassView "Class" "Use Case View::DeviceManager" @59
+		    (object UseCaseView "Use Case View::watchDevice" @59
+			location   	(988, 1356)
+			font       	(object Font
+			    size       	12
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@59
+			    location   	(988, 1494)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"watchDevice")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4A6D40590119"
+			height     	118)
+		    (object ClassView "Class" "Use Case View::DeviceManager" @60
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -1784,37 +1840,20 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@59
+			    Parent_View 	@60
 			    location   	(258, 747)
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	339
+			    max_width  	325
 			    justify    	0
 			    label      	"DeviceManager")
 			icon       	"Actor"
 			icon_style 	"Icon"
 			line_color 	3342489
 			quidu      	"4A6D3EC3002E"
-			compartment 	(object Compartment
-			    Parent_View 	@59
-			    location   	(100, 819)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    icon_style 	"Icon"
-			    anchor     	2
-			    nlines     	14
-			    max_width  	313
-			    justify    	0)
 			annotation 	8
 			autoResize 	TRUE)
-		    (object AssociationViewNew "$UNNAMED$3" @60
+		    (object AssociationViewNew "$UNNAMED$3" @61
 			location   	(654, 398)
 			font       	(object Font
 			    size       	12
@@ -1829,25 +1868,25 @@
 			line_color 	3342489
 			quidu      	"4A6D3FCD005D"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$4" @61
-				Parent_View 	@60
+			    (object RoleView "$UNNAMED$4" @62
+				Parent_View 	@61
 				location   	(406, -111)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D3FCD0280"
-				client     	@60
-				supplier   	@46
+				client     	@61
+				supplier   	@51
 				line_style 	0)
-			    (object RoleView "$UNNAMED$5" @62
-				Parent_View 	@60
+			    (object RoleView "$UNNAMED$5" @63
+				Parent_View 	@61
 				location   	(406, -111)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D3FCD0290"
-				client     	@60
-				supplier   	@59
+				client     	@61
+				supplier   	@60
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$6" @63
+		    (object AssociationViewNew "$UNNAMED$6" @64
 			location   	(736, 560)
 			font       	(object Font
 			    size       	12
@@ -1862,25 +1901,25 @@
 			line_color 	3342489
 			quidu      	"4A6D3FD101D4"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$7" @64
-				Parent_View 	@63
+			    (object RoleView "$UNNAMED$7" @65
+				Parent_View 	@64
 				location   	(478, -27)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D3FD1038A"
-				client     	@63
-				supplier   	@47
+				client     	@64
+				supplier   	@52
 				line_style 	0)
-			    (object RoleView "$UNNAMED$8" @65
-				Parent_View 	@63
+			    (object RoleView "$UNNAMED$8" @66
+				Parent_View 	@64
 				location   	(478, -27)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D3FD1038C"
-				client     	@63
-				supplier   	@59
+				client     	@64
+				supplier   	@60
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$12" @66
+		    (object AssociationViewNew "$UNNAMED$12" @67
 			location   	(752, 764)
 			font       	(object Font
 			    size       	12
@@ -1895,48 +1934,24 @@
 			line_color 	3342489
 			quidu      	"4A6D3FFC0138"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$13" @67
-				Parent_View 	@66
+			    (object RoleView "$UNNAMED$13" @68
+				Parent_View 	@67
 				location   	(494, 177)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D3FFC030D"
-				client     	@66
-				supplier   	@48
+				client     	@67
+				supplier   	@53
 				line_style 	0)
-			    (object RoleView "$UNNAMED$14" @68
-				Parent_View 	@66
+			    (object RoleView "$UNNAMED$14" @69
+				Parent_View 	@67
 				location   	(494, 177)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D3FFC030F"
-				client     	@66
-				supplier   	@59
+				client     	@67
+				supplier   	@60
 				line_style 	0)))
-		    (object UseCaseView "Use Case View::watchDevice" @69
-			location   	(988, 1356)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@69
-			    location   	(988, 1494)
-			    anchor_loc 	1
-			    nlines     	2
-			    max_width  	630
-			    justify    	0
-			    label      	"watchDevice")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"4A6D40590119"
-			height     	118)
 		    (object AssociationViewNew "$UNNAMED$15" @70
 			location   	(680, 1032)
 			font       	(object Font
@@ -1959,7 +1974,7 @@
 				line_color 	3342489
 				quidu      	"4A6D406E038A"
 				client     	@70
-				supplier   	@69
+				supplier   	@59
 				line_style 	0)
 			    (object RoleView "$UNNAMED$17" @72
 				Parent_View 	@70
@@ -1968,7 +1983,7 @@
 				line_color 	3342489
 				quidu      	"4A6D406E038C"
 				client     	@70
-				supplier   	@59
+				supplier   	@60
 				line_style 	0)))))
 	    (object ObjectDiagram "init_DeviceManager"
 		mechanism_ref 	@1
@@ -1996,7 +2011,7 @@
 			    location   	(291, 644)
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	399
+			    max_width  	403
 			    justify    	0
 			    label      	"")
 			icon       	"Actor"
@@ -2373,7 +2388,6 @@
 			annotation 	1
 			Focus_Of_Control 	(object Focus_Of_Control "" @93
 			    location   	(1344, 294)
-			    line_color 	3342489
 			    InterObjView 	@92
 			    height     	60
 			    y_coord    	0
@@ -2454,13 +2468,12 @@
 			annotation 	1
 			Focus_Of_Control 	(object Focus_Of_Control "" @98
 			    location   	(900, 294)
-			    line_color 	3342489
 			    InterObjView 	@97
 			    height     	60
 			    y_coord    	0
 			    Nested     	FALSE)
 			Focus_Of_Control 	(object Focus_Of_Control "" @99
-			    location   	(819, 416)
+			    location   	(900, 416)
 			    line_color 	3342489
 			    InterObjView 	@97
 			    height     	60
@@ -2739,7 +2752,54 @@
 		origin_x   	194
 		origin_y   	1976
 		items      	(list diagram_item_list
-		    (object ClassView "Class" "Use Case View::DeviceManager" @108
+		    (object ClassView "Class" "Use Case View::Daemon" @108
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(578, 1489)
+			font       	(object Font
+			    size       	12
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@108
+			    location   	(344, 1303)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	468
+			    justify    	0
+			    label      	"Daemon")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4A6D3F190290"
+			compartment 	(object Compartment
+			    Parent_View 	@108
+			    location   	(344, 1424)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    icon_style 	"Icon"
+			    fill_color 	13434879
+			    anchor     	2
+			    nlines     	5
+			    max_width  	281)
+			width      	486
+			height     	400
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Use Case View::DeviceManager" @109
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -2754,11 +2814,11 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@108
+			    Parent_View 	@109
 			    location   	(1236, 897)
 			    anchor_loc 	1
 			    nlines     	2
-			    max_width  	343
+			    max_width  	325
 			    justify    	0
 			    label      	"DeviceManager")
 			icon       	"Actor"
@@ -2766,8 +2826,8 @@
 			line_color 	3342489
 			quidu      	"4A6D3EC3002E"
 			compartment 	(object Compartment
-			    Parent_View 	@108
-			    location   	(1078, 1023)
+			    Parent_View 	@109
+			    location   	(1072, 1023)
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -2784,55 +2844,8 @@
 			    justify    	0)
 			annotation 	8
 			autoResize 	TRUE)
-		    (object ClassView "Class" "Use Case View::Daemon" @109
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(578, 1489)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@109
-			    location   	(344, 1252)
-			    fill_color 	13434879
-			    nlines     	1
-			    max_width  	468
-			    justify    	0
-			    label      	"Daemon")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"4A6D3F190290"
-			compartment 	(object Compartment
-			    Parent_View 	@109
-			    location   	(344, 1373)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    icon_style 	"Icon"
-			    fill_color 	13434879
-			    anchor     	2
-			    nlines     	7
-			    max_width  	287)
-			width      	486
-			height     	502
-			annotation 	8
-			autoResize 	TRUE)
 		    (object AssociationViewNew "$UNNAMED$38" @110
-			location   	(914, 1103)
+			location   	(892, 1128)
 			font       	(object Font
 			    size       	12
 			    face       	"Arial"
@@ -2848,21 +2861,21 @@
 			roleview_list 	(list RoleViews
 			    (object RoleView "$UNNAMED$39" @111
 				Parent_View 	@110
-				location   	(-406, 547)
+				location   	(-428, 572)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D453C030D"
 				client     	@110
-				supplier   	@109
+				supplier   	@108
 				line_style 	0)
 			    (object RoleView "$UNNAMED$40" @112
 				Parent_View 	@110
-				location   	(-406, 547)
+				location   	(-428, 572)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D453C031C"
 				client     	@110
-				supplier   	@108
+				supplier   	@109
 				line_style 	0)))
 		    (object ClassView "Class" "Use Case View::DaemonPanel" @113
 			ShowCompartmentStereotypes 	TRUE
@@ -2912,7 +2925,7 @@
 			annotation 	8
 			autoResize 	TRUE)
 		    (object AssociationViewNew "$UNNAMED$41" @114
-			location   	(524, 1863)
+			location   	(527, 1838)
 			font       	(object Font
 			    size       	12
 			    face       	"Arial"
@@ -2928,7 +2941,7 @@
 			roleview_list 	(list RoleViews
 			    (object RoleView "$UNNAMED$42" @115
 				Parent_View 	@114
-				location   	(-829, -219)
+				location   	(-826, -244)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D45400242"
@@ -2937,12 +2950,12 @@
 				line_style 	0)
 			    (object RoleView "$UNNAMED$43" @116
 				Parent_View 	@114
-				location   	(-829, -219)
+				location   	(-826, -244)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D45400244"
 				client     	@114
-				supplier   	@109
+				supplier   	@108
 				line_style 	0)))
 		    (object ClassView "Class" "Use Case View::DeviceManagerGUI" @117
 			ShowCompartmentStereotypes 	TRUE
@@ -2986,7 +2999,7 @@
 			    fill_color 	13434879
 			    anchor     	2
 			    nlines     	25
-			    max_width  	369)
+			    max_width  	378)
 			width      	554
 			height     	1400
 			annotation 	8
@@ -3022,9 +3035,56 @@
 				line_color 	3342489
 				quidu      	"4A6D43AE03C8"
 				client     	@118
-				supplier   	@108
+				supplier   	@109
 				line_style 	0)))
-		    (object ClassView "Class" "Use Case View::Device" @121
+		    (object ClassView "Class" "Use Case View::DriverManager" @121
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(553, 3062)
+			font       	(object Font
+			    size       	12
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@121
+			    location   	(320, 2825)
+			    fill_color 	13434879
+			    nlines     	1
+			    max_width  	466
+			    justify    	0
+			    label      	"DriverManager")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4A6D3F410128"
+			compartment 	(object Compartment
+			    Parent_View 	@121
+			    location   	(320, 2946)
+			    font       	(object Font
+				size       	10
+				face       	"Arial"
+				bold       	FALSE
+				italics    	FALSE
+				underline  	FALSE
+				strike     	FALSE
+				color      	0
+				default_color 	TRUE)
+			    icon_style 	"Icon"
+			    fill_color 	13434879
+			    anchor     	2
+			    nlines     	7
+			    max_width  	312)
+			width      	484
+			height     	502
+			annotation 	8
+			autoResize 	TRUE)
+		    (object ClassView "Class" "Use Case View::Device" @122
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -3039,7 +3099,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@121
+			    Parent_View 	@122
 			    location   	(962, 1832)
 			    fill_color 	13434879
 			    nlines     	1
@@ -3051,7 +3111,7 @@
 			fill_color 	13434879
 			quidu      	"4A6D3F0A02AF"
 			compartment 	(object Compartment
-			    Parent_View 	@121
+			    Parent_View 	@122
 			    location   	(962, 1953)
 			    font       	(object Font
 				size       	10
@@ -3071,7 +3131,7 @@
 			height     	1402
 			annotation 	8
 			autoResize 	TRUE)
-		    (object AssociationViewNew "$UNNAMED$35" @122
+		    (object AssociationViewNew "$UNNAMED$35" @123
 			location   	(1211, 1769)
 			font       	(object Font
 			    size       	12
@@ -3086,25 +3146,25 @@
 			line_color 	3342489
 			quidu      	"4A6D44D703C8"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$36" @123
-				Parent_View 	@122
+			    (object RoleView "$UNNAMED$36" @124
+				Parent_View 	@123
 				location   	(-109, 1213)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D44D80196"
-				client     	@122
-				supplier   	@121
+				client     	@123
+				supplier   	@122
 				line_style 	0)
-			    (object RoleView "$UNNAMED$37" @124
-				Parent_View 	@122
+			    (object RoleView "$UNNAMED$37" @125
+				Parent_View 	@123
 				location   	(-109, 1213)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D44D80198"
-				client     	@122
-				supplier   	@108
+				client     	@123
+				supplier   	@109
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$44" @125
+		    (object AssociationViewNew "$UNNAMED$44" @126
 			location   	(839, 2340)
 			font       	(object Font
 			    size       	12
@@ -3119,25 +3179,25 @@
 			line_color 	3342489
 			quidu      	"4A6D454E002E"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$45" @126
-				Parent_View 	@125
+			    (object RoleView "$UNNAMED$45" @127
+				Parent_View 	@126
 				location   	(317, 128)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D454E0177"
-				client     	@125
-				supplier   	@121
+				client     	@126
+				supplier   	@122
 				line_style 	0)
-			    (object RoleView "$UNNAMED$46" @127
-				Parent_View 	@125
+			    (object RoleView "$UNNAMED$46" @128
+				Parent_View 	@126
 				location   	(317, 128)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D454E0179"
-				client     	@125
+				client     	@126
 				supplier   	@113
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$47" @128
+		    (object AssociationViewNew "$UNNAMED$47" @129
 			location   	(1696, 2146)
 			font       	(object Font
 			    size       	12
@@ -3152,71 +3212,24 @@
 			line_color 	3342489
 			quidu      	"4A6D45500213"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$48" @129
-				Parent_View 	@128
+			    (object RoleView "$UNNAMED$48" @130
+				Parent_View 	@129
 				location   	(-537, 524)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D4551008C"
-				client     	@128
-				supplier   	@121
+				client     	@129
+				supplier   	@122
 				line_style 	0)
-			    (object RoleView "$UNNAMED$49" @130
-				Parent_View 	@128
+			    (object RoleView "$UNNAMED$49" @131
+				Parent_View 	@129
 				location   	(-537, 524)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4A6D4551009C"
-				client     	@128
+				client     	@129
 				supplier   	@117
 				line_style 	0)))
-		    (object ClassView "Class" "Use Case View::DriverManager" @131
-			ShowCompartmentStereotypes 	TRUE
-			IncludeAttribute 	TRUE
-			IncludeOperation 	TRUE
-			location   	(553, 3062)
-			font       	(object Font
-			    size       	12
-			    face       	"Arial"
-			    bold       	FALSE
-			    italics    	FALSE
-			    underline  	FALSE
-			    strike     	FALSE
-			    color      	0
-			    default_color 	TRUE)
-			label      	(object ItemLabel
-			    Parent_View 	@131
-			    location   	(320, 2825)
-			    fill_color 	13434879
-			    nlines     	1
-			    max_width  	466
-			    justify    	0
-			    label      	"DriverManager")
-			icon_style 	"Icon"
-			line_color 	3342489
-			fill_color 	13434879
-			quidu      	"4A6D3F410128"
-			compartment 	(object Compartment
-			    Parent_View 	@131
-			    location   	(320, 2946)
-			    font       	(object Font
-				size       	10
-				face       	"Arial"
-				bold       	FALSE
-				italics    	FALSE
-				underline  	FALSE
-				strike     	FALSE
-				color      	0
-				default_color 	TRUE)
-			    icon_style 	"Icon"
-			    fill_color 	13434879
-			    anchor     	2
-			    nlines     	7
-			    max_width  	303)
-			width      	484
-			height     	502
-			annotation 	8
-			autoResize 	TRUE)
 		    (object AssociationViewNew "$UNNAMED$50" @132
 			location   	(873, 2789)
 			font       	(object Font
@@ -3239,7 +3252,7 @@
 				line_color 	3342489
 				quidu      	"4A6D4F6C036B"
 				client     	@132
-				supplier   	@131
+				supplier   	@121
 				line_style 	0)
 			    (object RoleView "$UNNAMED$52" @134
 				Parent_View 	@132
@@ -3248,7 +3261,7 @@
 				line_color 	3342489
 				quidu      	"4A6D4F6C036D"
 				client     	@132
-				supplier   	@121
+				supplier   	@122
 				line_style 	0)))))))
     root_subsystem 	(object SubSystem "Component View"
 	quid       	"4A6D3E8B016A"
@@ -4848,9 +4861,9 @@
 		    (object Attribute
 			tool       	"Ada95"
 			name       	"TypeEqualityName"
-			value      	
+			value      	(value Text 
 |"="
-			)
+			))
 		    (object Attribute
 			tool       	"Ada95"
 			name       	"InlineEquality"
