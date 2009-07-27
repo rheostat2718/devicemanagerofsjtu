@@ -1,0 +1,20 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+_italic_
+About *module*:
+#include </sys/modctl.h>
+modctl()
+
+_driver attached_:
+modload
+modunload
+_device instance_:
+add_drv
+rem_drv
+update_drv
