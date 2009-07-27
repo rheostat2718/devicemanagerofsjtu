@@ -1,3 +1,4 @@
+#!/bin/python2.6
 import os
 #load local data or update it from internet (if possible)
 #and create a dictionary

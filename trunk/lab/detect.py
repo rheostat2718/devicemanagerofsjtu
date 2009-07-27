@@ -1,3 +1,4 @@
+#!/bin/python2.6
 #it seems a simple shell script may fulfill the task
 #but we may need some post processing ... later
 def daemon():
