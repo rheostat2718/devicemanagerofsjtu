@@ -11,7 +11,7 @@ def test():
     root=Tk()
     root.title('Test')
     l=loaddata()
-    t=ListBox(root,text=loaddata())
+    t=Listbox(root,text=loaddata())
     t.pack(expand=YES,fill=BOTH)
     root.mainloop()
 
