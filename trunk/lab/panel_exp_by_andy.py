@@ -4,7 +4,6 @@ pygtk.require('2.0')
 import gtk
 
 class HelloTray:
-
   def __init__(self):
     self.statusIcon = gtk.StatusIcon()
     self.statusIcon.set_from_stock(gtk.STOCK_ABOUT)
