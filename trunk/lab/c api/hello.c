@@ -20,7 +20,7 @@ static struct PyMethodDef hello_methods[] = {
     {"message", message, 1},       /* method name, C func ptr, always-tuple */
     {NULL, NULL}                   /* end of table marker */
 };
-,
+
 /* module initializer */
 void inithello( )                       /* called on first import */
 {                                      /* name matters if loaded dynamically */
