@@ -1,0 +1,5168 @@
+/
+    compatible names: none
+    binding name: i86pc
+    driver name: rootnex
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=acpi-status, dev=NONE, type=INT
+        value= 19
+        name=relative-addressing, dev=NONE, type=INT
+        value= 1
+        name=MMU_PAGEOFFSET, dev=NONE, type=INT
+        value= 4095
+        name=MMU_PAGESIZE, dev=NONE, type=INT
+        value= 4096
+        name=PAGESIZE, dev=NONE, type=INT
+        value= 4096
+        name=biosdev-0x80, dev=NONE, type=BYTE
+        value=0x01eb044d332e30fafcbe007cbf00068cc88ed089f48ec08ed851b90001f3a559e9008afbb402cd1624033c037505c606610701bbbe07b90400803f80740e83c310e2f6bd7507b91300e9e600b400cd1353b441bbaa55b90000cd13723f81fb55aa7539f7c101007433bda407b90300e8c8005b53b90500666a0066ff770866ff365c076a016a10b44289e6cd139f83c4109e737bb400cd13e2ddeb6bbda707b90300e895005b538a166007b408cd137308bd6207b91300eb7988c8243fa25907fec6f6e6a35a078b47088b570af7365a0789c389d0f6365907fec430c988fdc1e90280e1c008e188dd88c68a166007c41e5c07be0500b80102cd137312b400cd134e83fe0075efbd8807b90e00eb23bb007c81bffe0155aa7408bd9607b90b00eb108a1660075e66ff165c07bda107b90300bb4f00e80c00cd18803e6107007418bb1f0060b80113ba0017cd10b007b90100cd10b400cd1661c3000000007c0000800043616e277420726561642067656f6d657472794e6f2061637469766520706172746974696f6e43616e277420726561642050425242616420504252207369672121214c4241434853000000000000000000000000000000000000000080000101bffeffffc13e0000dda17f0100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000055aa011a0003001e060000ff0000003f0000009ee07f01000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        name=ramdisk_start, dev=NONE, type=UNKNOW
+
+        value= 14360576 0
+        name=ramdisk_end, dev=NONE, type=UNKNOW
+
+        value= 64536576 0
+        name=boot-file, dev=NONE, type=UNKNOW
+
+        value= /platform/i86pc/kernel/amd64/unix
+        name=whoami, dev=NONE, type=UNKNOW
+
+        value= /platform/i86pc/kernel/amd64/unix
+        name=zfs-bootfs, dev=NONE, type=UNKNOW
+
+        value= rpool/229
+        name=bootpath, dev=NONE, type=UNKNOW
+
+        value= /pci@0,0/pci15ad,1976@10/sd@0,0:a
+        name=diskdevid, dev=NONE, type=UNKNOW
+
+        value= id1,sd@f008c37524a66909d00005e460002/a
+        name=console, dev=NONE, type=UNKNOW
+
+        value= graphics
+        name=boot-args, dev=NONE, type=UNKNOW
+
+        value=0x00
+        name=bootargs, dev=NONE, type=UNKNOW
+
+        value=0x00
+        name=mfg-name, dev=NONE, type=UNKNOW
+
+        value= i86pc
+        name=impl-arch-name, dev=NONE, type=UNKNOW
+
+        value= i86pc
+        name=cpu_apicid_array, dev=NONE, type=UNKNOW
+
+        value=0x00
+        name=boot-ncpus, dev=NONE, type=UNKNOW
+
+        value= 1
+        name=acpi-srat-memory-0, dev=NONE, type=UNKNOW
+
+        value= 0 0 0 655360 0 1
+        name=acpi-srat-memory-1, dev=NONE, type=UNKNOW
+
+        value= 0 1048576 0 1072693248 0 1
+        name=ata-dma-enabled, dev=NONE, type=UNKNOW
+
+        value= 1
+        name=atapi-cd-dma-enabled, dev=NONE, type=UNKNOW
+
+        value= 1
+        name=ttyb-rts-dtr-off, dev=NONE, type=UNKNOW
+
+        value= false
+        name=ttyb-ignore-cd, dev=NONE, type=UNKNOW
+
+        value= true
+        name=ttya-rts-dtr-off, dev=NONE, type=UNKNOW
+
+        value= false
+        name=ttya-ignore-cd, dev=NONE, type=UNKNOW
+
+        value= true
+        name=ttyb-mode, dev=NONE, type=UNKNOW
+
+        value= 9600,8,n,1,-
+        name=ttya-mode, dev=NONE, type=UNKNOW
+
+        value= 9600,8,n,1,-
+        name=lba-access-ok, dev=NONE, type=UNKNOW
+
+        value= 1
+        name=keyboard-layout, dev=NONE, type=UNKNOW
+
+        value= Unknown
+        name=deferred-console-buf, dev=NONE, type=UNKNOW
+
+        value= 59772928 0
+        name=bios-boot-device, dev=NONE, type=STRING
+        value= 80
+        name=stdout, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/scsi_vhci
+    compatible names: none
+    binding name: scsi_vhci
+    driver name: scsi_vhci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=pm-want-child-notification?, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=class, dev=NONE, type=STRING
+        value= root
+        name=load-balance, dev=NONE, type=STRING
+        value= round-robin
+        name=auto-failback, dev=NONE, type=STRING
+        value= enable
+        name=ddi-forceload, dev=NONE, type=STRING
+        value= misc/scsi_vhci/scsi_vhci_f_asym_sun misc/scsi_vhci/scsi_vhci_f_asym_lsi misc/scsi_vhci/scsi_vhci_f_asym_emc misc/scsi_vhci/scsi_vhci_f_sym_emc misc/scsi_vhci/scsi_vhci_f_sym_hds misc/scsi_vhci/scsi_vhci_f_sym misc/scsi_vhci/scsi_vhci_f_tpgs
+        name=initiator-interconnect-type, dev=NONE, type=STRING
+        value= SPI
+        name=scsi-selection-timeout, dev=NONE, type=INT
+        value= 250
+        name=scsi-watchdog-tick, dev=NONE, type=INT
+        value= 10
+        name=scsi-tag-age-limit, dev=NONE, type=INT
+        value= 2
+        name=scsi-reset-delay, dev=NONE, type=INT
+        value= 3000
+        name=scsi-options, dev=NONE, type=INT
+        value= 1081336
+    Minor nodes:
+        name=devctl, dev=(18/0), spectype=char, nodetype=ddi_ctl:devctl:scsi
+/isa
+    compatible names: none
+    binding name: isa
+    driver name: isa
+    driver ops: DI_BUS_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=bus-type, dev=NONE, type=STRING
+        value= isa
+        name=device_type, dev=NONE, type=STRING
+        value= isa
+    Minor nodes:
+        none
+/isa/i8042@1,60
+    compatible names: none
+    binding name: i8042
+    driver name: i8042
+    driver ops: DI_BUS_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=unit-address, dev=NONE, type=STRING
+        value= 1,60
+        name=interrupts, dev=NONE, type=INT
+        value= 1 12
+        name=reg, dev=NONE, type=INT
+        value= 1 96 1 1 100 1
+    Minor nodes:
+        none
+/isa/i8042@1,60/keyboard@0
+    compatible names: pnpPNP,303
+    binding name: pnpPNP,303
+    driver name: kb8042
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ddi-no-autodetach, dev=NONE, type=INT
+        value= 1
+        name=device-type, dev=NONE, type=STRING
+        value= keyboard
+        name=interrupts, dev=NONE, type=INT
+        value= 1 12
+        name=reg, dev=NONE, type=INT
+        value= 0
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.ISA_.KBC_
+        name=model, dev=NONE, type=STRING
+        value= IBM Enhanced (101/102-key, PS/2 mouse support)
+        name=compatible, dev=NONE, type=STRING
+        value= pnpPNP,303
+    Minor nodes:
+        name=kb8042, dev=(101/0), spectype=char, nodetype=ddi_keyboard
+/isa/i8042@1,60/mouse@1
+    compatible names: pnpPNP,f03
+    binding name: pnpPNP,f03
+    driver name: mouse8042
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ddi-no-autodetach, dev=NONE, type=INT
+        value= 1
+        name=device-type, dev=NONE, type=STRING
+        value= mouse
+        name=reg, dev=NONE, type=INT
+        value= 1
+        name=interrupts, dev=NONE, type=INT
+        value= 12
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.ISA_.MOUS
+        name=model, dev=NONE, type=STRING
+        value= PS/2 Port for PS/2-style Mice
+        name=compatible, dev=NONE, type=STRING
+        value= pnpPNP,f03
+    Minor nodes:
+        name=mouse, dev=(116/0), spectype=char, nodetype=ddi_mouse
+/isa/lp@1,378
+    compatible names: PNP0400
+    binding name: lp
+    driver name: ecpp
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fast-centronics, dev=NONE, type=STRING
+        value= false
+        name=fast-1284-compatible, dev=NONE, type=STRING
+        value= true
+        name=centronics-init-seq, dev=NONE, type=STRING
+        value= false
+        name=centronics-retry, dev=NONE, type=INT
+        value= 750
+        name=centronics-wait-for-busy, dev=NONE, type=INT
+        value= 5000
+        name=centronics-data-setup-time, dev=NONE, type=INT
+        value= 2
+        name=centronics-strobe-pulse-width, dev=NONE, type=INT
+        value= 2
+        name=ecpp-transfer-timeout, dev=NONE, type=INT
+        value= 90
+        name=interrupts, dev=NONE, type=INT
+        value= 7
+        name=reg, dev=NONE, type=INT
+        value= 1 888 8
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.ISA_.SIO_.LPTB
+        name=model, dev=NONE, type=STRING
+        value= Standard LPT printer port
+        name=compatible, dev=NONE, type=STRING
+        value= PNP0400
+    Minor nodes:
+        none
+/isa/asy
+    compatible names: PNP0501
+    binding name: asy
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=interrupts, dev=NONE, type=INT
+        value= 4
+        name=reg, dev=NONE, type=INT
+        value= 1 1016 8
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.ISA_.SIO_.COMA
+        name=model, dev=NONE, type=STRING
+        value= 16550A-compatible COM port
+        name=compatible, dev=NONE, type=STRING
+        value= PNP0501
+    Minor nodes:
+        none
+/isa/asy
+    compatible names: PNP0501
+    binding name: asy
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=interrupts, dev=NONE, type=INT
+        value= 3
+        name=reg, dev=NONE, type=INT
+        value= 1 760 8
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.ISA_.SIO_.COMB
+        name=model, dev=NONE, type=STRING
+        value= 16550A-compatible COM port
+        name=compatible, dev=NONE, type=STRING
+        value= PNP0501
+    Minor nodes:
+        none
+/isa/fdc
+    compatible names: PNP0700
+    binding name: fdc
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=dma-channels, dev=NONE, type=INT
+        value= 2
+        name=interrupts, dev=NONE, type=INT
+        value= 6
+        name=reg, dev=NONE, type=INT
+        value= 1 1008 6 1 1015 1
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.ISA_.SIO_.FDC_
+        name=model, dev=NONE, type=STRING
+        value= PC standard floppy disk controller
+        name=compatible, dev=NONE, type=STRING
+        value= PNP0700
+    Minor nodes:
+        none
+/isa/pit_beep
+    compatible names: none
+    binding name: pit_beep
+    driver name: pit_beep
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pci@0,0
+    compatible names: pciex_root_complex
+    binding name: pciex_root_complex
+    driver name: npe
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=ecfg, dev=NONE, type=UNKNOW
+
+        value=
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 34 0 2 -2130706432 0 38 0 2 -2130706432 0 42 0 2 -2130706432 0 50 0 2 -2130706432 0 54 0 2 -2130706432 0 58 0 2 -2130706432 0 62 0 2 -2130706432 0 68 0 12 -2130706432 0 84 0 12 -2130706432 0 98 0 2 -2130706432 0 101 0 11 -2130706432 0 120 0 8 -2130706432 0 162 0 2 -2130706432 0 166 0 2 -2130706432 0 170 0 2 -2130706432 0 174 0 2 -2130706432 0 182 0 2 -2130706432 0 186 0 2 -2130706432 0 190 0 2 -2130706432 0 224 0 144 -2130706432 0 376 0 120 -2130706432 0 504 0 256 -2130706432 0 768 0 118 -2130706432 0 887 0 1 -2130706432 0 896 0 48 -2130706432 0 956 0 4 -2130706432 0 992 0 16 -2130706432 0 1024 0 208 -2130706432 0 1234 0 2078 -2130706432 0 3314 0 6 -2130706432 0 3328 0 768 -2130706432 0 4176 0 16 -2130706432 0 4320 0 800 -2130706432 0 5376 0 2816 -2113929216 0 835584 0 65536 -2113929216 0 917504 0 16384 -2113929216 0 1074790400 0 -1880096768 -2113929216 0 -662437888 0 786432 -2113929216 0 -575668224 0 38797312 -2113929216 0 -268435456 0 247463936 -1040187392 0 -616562688 0 2097152
+        name=bus-range, dev=NONE, type=INT
+        value= 0 255
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 0 0 0 0 3320 -2130706432 0 3328 0 3328 0 61952 -2113929216 0 655360 0 655360 0 131072 -2113929216 0 835584 0 835584 0 65536 -2113929216 0 917504 0 917504 0 16384 -2113929216 0 1073741824 0 1073741824 0 -1094713344 -1040187392 0 -616562688 0 -616562688 0 40894464
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex_root_complex
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=reg, dev=NONE, type=INT
+        value= 0 0 0
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+    Minor nodes:
+        name=devctl, dev=(183/255), spectype=char, nodetype=ddi_ctl:devctl
+        name=reg, dev=(183/253), spectype=char, nodetype=ddi_tool_reg
+        name=intr, dev=(183/252), spectype=char, nodetype=ddi_tool_intr
+/pci@0,0/pci15ad,1976
+    compatible names:  pci8086,7190.15ad.1976.1 pci8086,7190.15ad.1976 pci15ad,1976 pci8086,7190.1 pci8086,7190 pciclass,060000 pciclass,0600\n    binding name: pci15ad,1976
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=reg, dev=NONE, type=INT
+        value= 0 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pci8086,7190.15ad.1976.1 pci8086,7190.15ad.1976 pci15ad,1976 pci8086,7190.1 pci8086,7190 pciclass,060000 pciclass,0600
+        name=model, dev=NONE, type=STRING
+        value= Host bridge
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 0
+        name=min-grant, dev=NONE, type=INT
+        value= 0
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 6518
+        name=unit-address, dev=NONE, type=STRING
+        value= 0
+        name=class-code, dev=NONE, type=INT
+        value= 393216
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 32902
+        name=device-id, dev=NONE, type=INT
+        value= 29072
+    Minor nodes:
+        none
+/pci@0,0/pci8086,7191@1
+    compatible names:  pci8086,7191.1 pci8086,7191 pciclass,060400 pciclass,0604\n    binding name: pciclass,060400
+    driver name: pci_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=device_type, dev=NONE, type=STRING
+        value= pci
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 1073741824 0 1048576
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 1073741824 -2113929216 0 1073741824 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.AGP_
+        name=reg, dev=NONE, type=INT
+        value= 2048 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pci8086,7191.1 pci8086,7191 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=bus-range, dev=NONE, type=INT
+        value= 1 1
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pci
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=66mhz-capable, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=unit-address, dev=NONE, type=STRING
+        value= 1
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 32902
+        name=device-id, dev=NONE, type=INT
+        value= 29073
+    Minor nodes:
+        name=devctl, dev=(84/255), spectype=char, nodetype=ddi_ctl:devctl
+/pci@0,0/pci15ad,1976
+    compatible names:  pci8086,7110.15ad.1976.8 pci8086,7110.15ad.1976 pci15ad,1976 pci8086,7110.8 pci8086,7110 pciclass,060100 pciclass,0601\n    binding name: pci15ad,1976
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.ISA_
+        name=reg, dev=NONE, type=INT
+        value= 14336 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pci8086,7110.15ad.1976.8 pci8086,7110.15ad.1976 pci15ad,1976 pci8086,7110.8 pci8086,7110 pciclass,060100 pciclass,0601
+        name=model, dev=NONE, type=STRING
+        value= ISA bridge
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 0
+        name=min-grant, dev=NONE, type=INT
+        value= 0
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 6518
+        name=unit-address, dev=NONE, type=STRING
+        value= 7
+        name=class-code, dev=NONE, type=INT
+        value= 393472
+        name=revision-id, dev=NONE, type=INT
+        value= 8
+        name=vendor-id, dev=NONE, type=INT
+        value= 32902
+        name=device-id, dev=NONE, type=INT
+        value= 28944
+    Minor nodes:
+        none
+/pci@0,0/pci-ide@7,1
+    compatible names:  pci8086,7111.15ad.1976.1 pci8086,7111.15ad.1976 pci15ad,1976 pci8086,7111.1 pci8086,7111 pciclass,01018a pciclass,0101\n    binding name: pci-ide
+    driver name: pci-ide
+    driver ops: DI_BUS_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.IDE_
+        name=#size-cells, dev=NONE, type=INT
+        value= 0
+        name=#address-cells, dev=NONE, type=INT
+        value= 1
+        name=device_type, dev=NONE, type=STRING
+        value= pci-ide
+        name=assigned-addresses, dev=NONE, type=INT
+        value= -2130691824 0 496 0 8 -2130691820 0 1014 0 1 -2130691816 0 368 0 8 -2130691812 0 886 0 1 -2130691808 0 4288 0 16
+        name=reg, dev=NONE, type=INT
+        value= 14592 0 0 0 0 -2130691824 0 496 0 8 -2130691820 0 1014 0 1 -2130691816 0 368 0 8 -2130691812 0 886 0 1 16791840 0 0 0 16
+        name=compatible, dev=NONE, type=STRING
+        value= pci8086,7111.15ad.1976.1 pci8086,7111.15ad.1976 pci15ad,1976 pci8086,7111.1 pci8086,7111 pciclass,01018a pciclass,0101
+        name=model, dev=NONE, type=STRING
+        value= IDE controller
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 0
+        name=min-grant, dev=NONE, type=INT
+        value= 0
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 6518
+        name=unit-address, dev=NONE, type=STRING
+        value= 7,1
+        name=class-code, dev=NONE, type=INT
+        value= 65930
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 32902
+        name=device-id, dev=NONE, type=INT
+        value= 28945
+    Minor nodes:
+        none
+/pci@0,0/pci-ide@7,1/ide
+    compatible names: none
+    binding name: ide
+    driver name: ata
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=compatibility-mode, dev=NONE, type=INT
+        value= 1
+        name=reg, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pci@0,0/pci-ide@7,1/ide@1
+    compatible names: none
+    binding name: ide
+    driver name: ata
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=device_type, dev=NONE, type=STRING
+        value= ide
+        name=flow_control, dev=NONE, type=STRING
+        value= dmult
+        name=queue, dev=NONE, type=STRING
+        value= qfifo
+        name=max_transfer, dev=NONE, type=INT
+        value= 256
+        name=ata-options, dev=NONE, type=INT
+        value= 1
+        name=drive0_block_factor, dev=NONE, type=INT
+        value= 1
+        name=drive1_block_factor, dev=NONE, type=INT
+        value= 1
+        name=timing_flags, dev=NONE, type=INT
+        value= 0
+        name=initiator-interconnect-type, dev=NONE, type=STRING
+        value= SPI
+        name=scsi-selection-timeout, dev=NONE, type=INT
+        value= 250
+        name=scsi-watchdog-tick, dev=NONE, type=INT
+        value= 10
+        name=scsi-tag-age-limit, dev=NONE, type=INT
+        value= 2
+        name=scsi-reset-delay, dev=NONE, type=INT
+        value= 3000
+        name=scsi-options, dev=NONE, type=INT
+        value= 1081336
+        name=compatibility-mode, dev=NONE, type=INT
+        value= 1
+        name=reg, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=control, dev=(112/1), spectype=char, nodetype=ddi_pseudo
+/pci@0,0/pci-ide@7,1/ide@1/sd@0,0
+    compatible names: none
+    binding name: sd
+    driver name: sd
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=pm-components, dev=NONE, type=STRING
+        value= NAME=spindle-motor 0=off 1=on
+        name=pm-hardware-state, dev=NONE, type=STRING
+        value= needs-suspend-resume
+        name=ddi-failfast-supported, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-kernel-ioctl, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=removable-media, dev=NONE, type=BOOL
+        value= true.
+        name=lun, dev=NONE, type=INT
+        value= 0
+        name=target, dev=NONE, type=INT
+        value= 0
+        name=class, dev=NONE, type=STRING
+        value= scsi
+        name=inquiry-revision-id, dev=NONE, type=STRING
+        value= CM00
+        name=inquiry-product-id, dev=NONE, type=STRING
+        value= CDDVDW TS-H652H
+        name=inquiry-vendor-id, dev=NONE, type=STRING
+        value= TSSTcorp
+        name=inquiry-device-type, dev=NONE, type=INT
+        value= 5
+        name=variant, dev=NONE, type=STRING
+        value= atapi
+    Minor nodes:
+        name=a, dev=(215/0), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=b, dev=(215/1), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=c, dev=(215/2), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=d, dev=(215/3), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=e, dev=(215/4), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=f, dev=(215/5), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=g, dev=(215/6), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=h, dev=(215/7), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=i, dev=(215/8), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=j, dev=(215/9), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=k, dev=(215/10), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=l, dev=(215/11), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=m, dev=(215/12), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=n, dev=(215/13), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=o, dev=(215/14), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=p, dev=(215/15), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=q, dev=(215/16), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=r, dev=(215/17), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=s, dev=(215/18), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=t, dev=(215/19), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=u, dev=(215/20), spectype=block, nodetype=ddi_block:cdrom:channel
+        name=a,raw, dev=(215/0), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=b,raw, dev=(215/1), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=c,raw, dev=(215/2), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=d,raw, dev=(215/3), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=e,raw, dev=(215/4), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=f,raw, dev=(215/5), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=g,raw, dev=(215/6), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=h,raw, dev=(215/7), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=i,raw, dev=(215/8), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=j,raw, dev=(215/9), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=k,raw, dev=(215/10), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=l,raw, dev=(215/11), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=m,raw, dev=(215/12), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=n,raw, dev=(215/13), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=o,raw, dev=(215/14), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=p,raw, dev=(215/15), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=q,raw, dev=(215/16), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=r,raw, dev=(215/17), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=s,raw, dev=(215/18), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=t,raw, dev=(215/19), spectype=char, nodetype=ddi_block:cdrom:channel
+        name=u,raw, dev=(215/20), spectype=char, nodetype=ddi_block:cdrom:channel
+/pci@0,0/pci15ad,1976
+    compatible names:  pci8086,7113.15ad.1976.8 pci8086,7113.15ad.1976 pci15ad,1976 pci8086,7113.8 pci8086,7113 pciclass,068000 pciclass,0680\n    binding name: pci15ad,1976
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PWR_
+        name=reg, dev=NONE, type=INT
+        value= 15104 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pci8086,7113.15ad.1976.8 pci8086,7113.15ad.1976 pci15ad,1976 pci8086,7113.8 pci8086,7113 pciclass,068000 pciclass,0680
+        name=model, dev=NONE, type=STRING
+        value= Bridge device
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 0
+        name=min-grant, dev=NONE, type=INT
+        value= 0
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 6518
+        name=unit-address, dev=NONE, type=STRING
+        value= 7,3
+        name=class-code, dev=NONE, type=INT
+        value= 425984
+        name=revision-id, dev=NONE, type=INT
+        value= 8
+        name=vendor-id, dev=NONE, type=INT
+        value= 32902
+        name=device-id, dev=NONE, type=INT
+        value= 28947
+    Minor nodes:
+        none
+/pci@0,0/pci15ad,740
+    compatible names:  pci15ad,740.15ad.740.10 pci15ad,740.15ad.740 pci15ad,740 pci15ad,740.10 pci15ad,740 pciclass,088000 pciclass,0880\n    binding name: pci15ad,740
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=assigned-addresses, dev=NONE, type=INT
+        value= -2130690288 0 4224 0 64
+        name=reg, dev=NONE, type=INT
+        value= 16128 0 0 0 0 16793360 0 0 0 64
+        name=compatible, dev=NONE, type=STRING
+        value= pci15ad,740.15ad.740.10 pci15ad,740.15ad.740 pci15ad,740 pci15ad,740.10 pci15ad,740 pciclass,088000 pciclass,0880
+        name=model, dev=NONE, type=STRING
+        value= System peripheral
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=interrupts, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 255
+        name=min-grant, dev=NONE, type=INT
+        value= 6
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 1856
+        name=unit-address, dev=NONE, type=STRING
+        value= 7,7
+        name=class-code, dev=NONE, type=INT
+        value= 557056
+        name=revision-id, dev=NONE, type=INT
+        value= 16
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1856
+    Minor nodes:
+        none
+/pci@0,0/display@f
+    compatible names:  pci15ad,405.15ad.405.0 pci15ad,405.15ad.405 pci15ad,405 pci15ad,405.0 pci15ad,405 pciclass,030000 pciclass,0300\n    binding name: pciclass,030000
+    driver name: vgatext
+    driver ops: DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ddi-no-autodetach, dev=NONE, type=INT
+        value= 1
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-kernel-ioctl, dev=(99/0), type=BOOL
+        value= true.
+        name=video-adapter-type, dev=NONE, type=STRING
+        value= svga
+        name=display-type, dev=NONE, type=STRING
+        value= color
+        name=assigned-addresses, dev=NONE, type=INT
+        value= -2130675696 0 4304 0 16 -2113898476 0 -805306368 0 134217728 -2113898472 0 -671088640 0 8388608 -1593804800 0 944 0 12 -1593804800 0 960 0 32 -2113898496 0 655360 0 131072
+        name=reg, dev=NONE, type=INT
+        value= 30720 0 0 0 0 16807952 0 0 0 16 33585172 0 0 0 134217728 33585176 0 0 0 8388608 -1593804800 0 944 0 12 -1593804800 0 960 0 32 -2113898496 0 655360 0 131072
+        name=compatible, dev=NONE, type=STRING
+        value= pci15ad,405.15ad.405.0 pci15ad,405.15ad.405 pci15ad,405 pci15ad,405.0 pci15ad,405 pciclass,030000 pciclass,0300
+        name=model, dev=NONE, type=STRING
+        value= VGA compatible controller
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=interrupts, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 0
+        name=min-grant, dev=NONE, type=INT
+        value= 0
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 1029
+        name=device_type, dev=NONE, type=STRING
+        value= display
+        name=unit-address, dev=NONE, type=STRING
+        value= f
+        name=class-code, dev=NONE, type=INT
+        value= 196608
+        name=revision-id, dev=NONE, type=INT
+        value= 0
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1029
+    Minor nodes:
+        name=text-0, dev=(99/0), spectype=char, nodetype=ddi_display
+/pci@0,0/pci15ad,1976@10
+    compatible names:  pci1000,30.15ad.1976.1 pci1000,30.15ad.1976 pci15ad,1976 pci1000,30.1 pci1000,30 pciclass,010000 pciclass,0100\n    binding name: pci1000,30
+    driver name: mpt
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=targetf-TQ, dev=NONE, type=INT
+        value= 0
+        name=targetf-wide, dev=NONE, type=INT
+        value= 1
+        name=targetf-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=targete-TQ, dev=NONE, type=INT
+        value= 0
+        name=targete-wide, dev=NONE, type=INT
+        value= 1
+        name=targete-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=targetd-TQ, dev=NONE, type=INT
+        value= 0
+        name=targetd-wide, dev=NONE, type=INT
+        value= 1
+        name=targetd-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=targetc-TQ, dev=NONE, type=INT
+        value= 0
+        name=targetc-wide, dev=NONE, type=INT
+        value= 1
+        name=targetc-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=targetb-TQ, dev=NONE, type=INT
+        value= 0
+        name=targetb-wide, dev=NONE, type=INT
+        value= 1
+        name=targetb-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=targeta-TQ, dev=NONE, type=INT
+        value= 0
+        name=targeta-wide, dev=NONE, type=INT
+        value= 1
+        name=targeta-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target9-TQ, dev=NONE, type=INT
+        value= 0
+        name=target9-wide, dev=NONE, type=INT
+        value= 1
+        name=target9-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target8-TQ, dev=NONE, type=INT
+        value= 0
+        name=target8-wide, dev=NONE, type=INT
+        value= 1
+        name=target8-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target6-TQ, dev=NONE, type=INT
+        value= 0
+        name=target6-wide, dev=NONE, type=INT
+        value= 1
+        name=target6-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target5-TQ, dev=NONE, type=INT
+        value= 0
+        name=target5-wide, dev=NONE, type=INT
+        value= 1
+        name=target5-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target4-TQ, dev=NONE, type=INT
+        value= 0
+        name=target4-wide, dev=NONE, type=INT
+        value= 1
+        name=target4-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target3-TQ, dev=NONE, type=INT
+        value= 0
+        name=target3-wide, dev=NONE, type=INT
+        value= 1
+        name=target3-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target2-TQ, dev=NONE, type=INT
+        value= 0
+        name=target2-wide, dev=NONE, type=INT
+        value= 1
+        name=target2-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target1-TQ, dev=NONE, type=INT
+        value= 0
+        name=target1-wide, dev=NONE, type=INT
+        value= 1
+        name=target1-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=target0-TQ, dev=NONE, type=INT
+        value= 1
+        name=target0-wide, dev=NONE, type=INT
+        value= 1
+        name=target0-sync-speed, dev=NONE, type=INT
+        value= 320000
+        name=firmware-version, dev=NONE, type=STRING
+        value= 0.0.0.0
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-vhci-class, dev=NONE, type=STRING
+        value= scsi_vhci
+        name=mpxio-disable, dev=NONE, type=STRING
+        value= yes
+        name=disable-sata-mpxio, dev=NONE, type=STRING
+        value= no
+        name=initiator-interconnect-type, dev=NONE, type=STRING
+        value= SPI
+        name=scsi-selection-timeout, dev=NONE, type=INT
+        value= 250
+        name=scsi-watchdog-tick, dev=NONE, type=INT
+        value= 10
+        name=scsi-tag-age-limit, dev=NONE, type=INT
+        value= 2
+        name=scsi-reset-delay, dev=NONE, type=INT
+        value= 3000
+        name=scsi-options, dev=NONE, type=INT
+        value= 1081336
+        name=assigned-addresses, dev=NONE, type=INT
+        value= -2130673648 0 5120 0 256 -2097119212 0 -662568960 0 131072 -2097119204 0 -662700032 0 131072
+        name=reg, dev=NONE, type=INT
+        value= 32768 0 0 0 0 16810000 0 0 0 256 50364436 0 0 0 131072 50364444 0 0 0 131072
+        name=compatible, dev=NONE, type=STRING
+        value= pci1000,30.15ad.1976.1 pci1000,30.15ad.1976 pci15ad,1976 pci1000,30.1 pci1000,30 pciclass,010000 pciclass,0100
+        name=model, dev=NONE, type=STRING
+        value= SCSI bus controller
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=interrupts, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 255
+        name=min-grant, dev=NONE, type=INT
+        value= 6
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 6518
+        name=unit-address, dev=NONE, type=STRING
+        value= 10
+        name=class-code, dev=NONE, type=INT
+        value= 65536
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 4096
+        name=device-id, dev=NONE, type=INT
+        value= 48
+    Minor nodes:
+        name=devctl, dev=(169/0), spectype=char, nodetype=ddi_ctl:devctl:scsi
+        name=scsi, dev=(169/1), spectype=char, nodetype=ddi_ctl:attachment_point:scsi
+/pci@0,0/pci15ad,1976@10/sd@0,0
+    compatible names:  scsiclass,00.vVMware_.pVMware_Virtual_S.r1_0 scsiclass,00.vVMware_.pVMware_Virtual_S scsa,00.bmpt scsiclass,00 scsiclass\n    binding name: scsiclass,00
+    driver name: sd
+    driver ops: DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id:  magic 0x6964 revision 0x0001 type 0x0003 len 0x000e
+        hint sd id 0x00ffffff8c37524a66ffffff90ffffff9d00005e460002n    Properties:
+        name=lba-access-ok, dev=(215/64), type=BOOL
+        value= true.
+        name=pm-hardware-state, dev=NONE, type=STRING
+        value= needs-suspend-resume
+        name=ddi-failfast-supported, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-kernel-ioctl, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=Nblocks, dev=(215/64), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/65), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/66), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/67), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/68), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/69), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/70), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/71), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/72), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/73), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/74), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/75), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/76), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/77), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/78), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/79), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/80), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/81), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/82), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/83), type=UNKNOW
+
+        value=
+        name=Nblocks, dev=(215/84), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/64), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/65), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/66), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/67), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/68), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/69), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/70), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/71), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/72), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/73), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/74), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/75), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/76), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/77), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/78), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/79), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/80), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/81), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/82), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/83), type=UNKNOW
+
+        value=
+        name=Size, dev=(215/84), type=UNKNOW
+
+        value=
+        name=device-nblocks, dev=NONE, type=UNKNOW
+
+        value=
+        name=device-blksize, dev=NONE, type=INT
+        value= 512
+        name=lun, dev=NONE, type=INT
+        value= 0
+        name=target, dev=NONE, type=INT
+        value= 0
+        name=class, dev=NONE, type=STRING
+        value= scsi
+        name=devid, dev=NONE, type=STRING
+        value= id1,sd@f008c37524a66909d00005e460002
+        name=inquiry-revision-id, dev=NONE, type=STRING
+        value= 1.0
+        name=inquiry-product-id, dev=NONE, type=STRING
+        value= VMware Virtual S
+        name=inquiry-vendor-id, dev=NONE, type=STRING
+        value= VMware,
+        name=inquiry-device-type, dev=NONE, type=INT
+        value= 0
+        name=compatible, dev=NONE, type=STRING
+        value= scsiclass,00.vVMware_.pVMware_Virtual_S.r1_0 scsiclass,00.vVMware_.pVMware_Virtual_S scsa,00.bmpt scsiclass,00 scsiclass
+        name=lun, dev=NONE, type=INT
+        value= 0
+        name=target, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=a, dev=(215/64), spectype=block, nodetype=ddi_block:channel
+        name=b, dev=(215/65), spectype=block, nodetype=ddi_block:channel
+        name=c, dev=(215/66), spectype=block, nodetype=ddi_block:channel
+        name=d, dev=(215/67), spectype=block, nodetype=ddi_block:channel
+        name=e, dev=(215/68), spectype=block, nodetype=ddi_block:channel
+        name=f, dev=(215/69), spectype=block, nodetype=ddi_block:channel
+        name=g, dev=(215/70), spectype=block, nodetype=ddi_block:channel
+        name=h, dev=(215/71), spectype=block, nodetype=ddi_block:channel
+        name=i, dev=(215/72), spectype=block, nodetype=ddi_block:channel
+        name=j, dev=(215/73), spectype=block, nodetype=ddi_block:channel
+        name=k, dev=(215/74), spectype=block, nodetype=ddi_block:channel
+        name=l, dev=(215/75), spectype=block, nodetype=ddi_block:channel
+        name=m, dev=(215/76), spectype=block, nodetype=ddi_block:channel
+        name=n, dev=(215/77), spectype=block, nodetype=ddi_block:channel
+        name=o, dev=(215/78), spectype=block, nodetype=ddi_block:channel
+        name=p, dev=(215/79), spectype=block, nodetype=ddi_block:channel
+        name=q, dev=(215/80), spectype=block, nodetype=ddi_block:channel
+        name=r, dev=(215/81), spectype=block, nodetype=ddi_block:channel
+        name=s, dev=(215/82), spectype=block, nodetype=ddi_block:channel
+        name=t, dev=(215/83), spectype=block, nodetype=ddi_block:channel
+        name=u, dev=(215/84), spectype=block, nodetype=ddi_block:channel
+        name=a,raw, dev=(215/64), spectype=char, nodetype=ddi_block:channel
+        name=b,raw, dev=(215/65), spectype=char, nodetype=ddi_block:channel
+        name=c,raw, dev=(215/66), spectype=char, nodetype=ddi_block:channel
+        name=d,raw, dev=(215/67), spectype=char, nodetype=ddi_block:channel
+        name=e,raw, dev=(215/68), spectype=char, nodetype=ddi_block:channel
+        name=f,raw, dev=(215/69), spectype=char, nodetype=ddi_block:channel
+        name=g,raw, dev=(215/70), spectype=char, nodetype=ddi_block:channel
+        name=h,raw, dev=(215/71), spectype=char, nodetype=ddi_block:channel
+        name=i,raw, dev=(215/72), spectype=char, nodetype=ddi_block:channel
+        name=j,raw, dev=(215/73), spectype=char, nodetype=ddi_block:channel
+        name=k,raw, dev=(215/74), spectype=char, nodetype=ddi_block:channel
+        name=l,raw, dev=(215/75), spectype=char, nodetype=ddi_block:channel
+        name=m,raw, dev=(215/76), spectype=char, nodetype=ddi_block:channel
+        name=n,raw, dev=(215/77), spectype=char, nodetype=ddi_block:channel
+        name=o,raw, dev=(215/78), spectype=char, nodetype=ddi_block:channel
+        name=p,raw, dev=(215/79), spectype=char, nodetype=ddi_block:channel
+        name=q,raw, dev=(215/80), spectype=char, nodetype=ddi_block:channel
+        name=r,raw, dev=(215/81), spectype=char, nodetype=ddi_block:channel
+        name=s,raw, dev=(215/82), spectype=char, nodetype=ddi_block:channel
+        name=t,raw, dev=(215/83), spectype=char, nodetype=ddi_block:channel
+        name=u,raw, dev=(215/84), spectype=char, nodetype=ddi_block:channel
+/pci@0,0/pci15ad,790@11
+    compatible names:  pci15ad,790.2 pci15ad,790 pciclass,060401 pciclass,0604\n    binding name: pciclass,060401
+    driver name: pci_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=device_type, dev=NONE, type=STRING
+        value= pci
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 8352 0 8032 -2113929216 0 -661581824 0 61440 -2113929216 0 -661389312 0 11272192 -1040187392 0 -614465536 0 5242880
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.P2P0
+        name=reg, dev=NONE, type=INT
+        value= 34816 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pci15ad,790.2 pci15ad,790 pciclass,060401 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= Subtractive Decode PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 8192 -2130706432 0 8192 0 8192 -2113929216 0 -661651456 -2113929216 0 -661651456 0 11534336 -1040187392 0 -614465536 -1040187392 0 -614465536 0 5242880
+        name=bus-range, dev=NONE, type=INT
+        value= 2 2
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pci
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=unit-address, dev=NONE, type=STRING
+        value= 11
+        name=class-code, dev=NONE, type=INT
+        value= 394241
+        name=revision-id, dev=NONE, type=INT
+        value= 2
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1936
+    Minor nodes:
+        name=devctl, dev=(84/511), spectype=char, nodetype=ddi_ctl:devctl
+/pci@0,0/pci15ad,790@11/pci15ad,750@0
+    compatible names:  pci8086,100f.15ad.750.1 pci8086,100f.15ad.750 pci15ad,750 pci8086,100f.1 pci8086,100f pciclass,020000 pciclass,0200\n    binding name: pci8086,100f
+    driver name: e1000g
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ForceSpeedDuplex, dev=NONE, type=INT
+        value= 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7
+        name=AutoNegAdvertised, dev=NONE, type=INT
+        value= 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        name=MaxFrameSize, dev=NONE, type=INT
+        value= 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        name=FlowControl, dev=NONE, type=INT
+        value= 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+        name=TbiCompatibilityEnable, dev=NONE, type=INT
+        value= 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+        name=SetMasterSlave, dev=NONE, type=INT
+        value= 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.P2P0.S1F0
+        name=assigned-addresses, dev=NONE, type=INT
+        value= -2097020912 0 -661520384 0 131072 -2097020904 0 -661651456 0 65536 -2130575328 0 8192 0 64
+        name=reg, dev=NONE, type=INT
+        value= 131072 0 0 0 0 50462736 0 0 0 131072 50462744 0 0 0 65536 16908320 0 0 0 64
+        name=compatible, dev=NONE, type=STRING
+        value= pci8086,100f.15ad.750.1 pci8086,100f.15ad.750 pci15ad,750 pci8086,100f.1 pci8086,100f pciclass,020000 pciclass,0200
+        name=model, dev=NONE, type=STRING
+        value= Ethernet controller
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=66mhz-capable, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=interrupts, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 0
+        name=min-grant, dev=NONE, type=INT
+        value= 255
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 1872
+        name=unit-address, dev=NONE, type=STRING
+        value= 0
+        name=class-code, dev=NONE, type=INT
+        value= 131072
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 32902
+        name=device-id, dev=NONE, type=INT
+        value= 4111
+    Minor nodes:
+        name=e1000g0, dev=(110/1), spectype=char, nodetype=ddi_network
+/pci@0,0/pci15ad,790@11/pci1274,1371
+    compatible names:  pci1274,1371.1274.1371.2 pci1274,1371.1274.1371 pci1274,1371 pci1274,1371.2 pci1274,1371 pciclass,040100 pciclass,0401\n    binding name: pci1274,1371
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.P2P0.S2F0
+        name=assigned-addresses, dev=NONE, type=INT
+        value= -2130573296 0 8256 0 64
+        name=reg, dev=NONE, type=INT
+        value= 133120 0 0 0 0 16910352 0 0 0 64
+        name=compatible, dev=NONE, type=STRING
+        value= pci1274,1371.1274.1371.2 pci1274,1371.1274.1371 pci1274,1371 pci1274,1371.2 pci1274,1371 pciclass,040100 pciclass,0401
+        name=model, dev=NONE, type=STRING
+        value= Audio device
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=interrupts, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 255
+        name=min-grant, dev=NONE, type=INT
+        value= 6
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 4724
+        name=subsystem-id, dev=NONE, type=INT
+        value= 4977
+        name=unit-address, dev=NONE, type=STRING
+        value= 1
+        name=class-code, dev=NONE, type=INT
+        value= 262400
+        name=revision-id, dev=NONE, type=INT
+        value= 2
+        name=vendor-id, dev=NONE, type=INT
+        value= 4724
+        name=device-id, dev=NONE, type=INT
+        value= 4977
+    Minor nodes:
+        none
+/pci@0,0/pci15ad,790@11/pci15ad,770@3
+    compatible names:  pci15ad,770.15ad.770.0 pci15ad,770.15ad.770 pci15ad,770 pci15ad,770.0 pci15ad,770 pciclass,0c0320 pciclass,0c03\n    binding name: pciclass,0c0320
+    driver name: ehci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=usb-port-count, dev=NONE, type=INT
+        value= 6
+        name=pm-want-child-notification?, dev=NONE, type=BOOL
+        value= true.
+        name=driver-minor, dev=NONE, type=INT
+        value= 0
+        name=driver-major, dev=NONE, type=INT
+        value= 2
+        name=root-hub, dev=NONE, type=BOOL
+        value= true.
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.P2P0.S4F0
+        name=assigned-addresses, dev=NONE, type=INT
+        value= -2113791984 0 -661585920 0 4096
+        name=reg, dev=NONE, type=INT
+        value= 137216 0 0 0 0 33691664 0 0 0 4096
+        name=compatible, dev=NONE, type=STRING
+        value= pci15ad,770.15ad.770.0 pci15ad,770.15ad.770 pci15ad,770 pci15ad,770.0 pci15ad,770 pciclass,0c0320 pciclass,0c03
+        name=model, dev=NONE, type=STRING
+        value= Universal Serial Bus EHCI compliant
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=interrupts, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 255
+        name=min-grant, dev=NONE, type=INT
+        value= 6
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 1904
+        name=unit-address, dev=NONE, type=STRING
+        value= 3
+        name=class-code, dev=NONE, type=INT
+        value= 787232
+        name=revision-id, dev=NONE, type=INT
+        value= 0
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1904
+    Minor nodes:
+        name=1, dev=(51/0), spectype=char, nodetype=ddi_ctl:attachment_point:usb
+        name=2, dev=(51/0), spectype=char, nodetype=ddi_ctl:attachment_point:usb
+        name=3, dev=(51/0), spectype=char, nodetype=ddi_ctl:attachment_point:usb
+        name=4, dev=(51/0), spectype=char, nodetype=ddi_ctl:attachment_point:usb
+        name=5, dev=(51/0), spectype=char, nodetype=ddi_ctl:attachment_point:usb
+        name=6, dev=(51/0), spectype=char, nodetype=ddi_ctl:attachment_point:usb
+        name=hubd, dev=(51/4096), spectype=char, nodetype=ddi_ctl:devctl
+/pci@0,0/pci15ad,790@11/pci15ad,1976@4
+    compatible names:  pci8086,7112.15ad.1976.0 pci8086,7112.15ad.1976 pci15ad,1976 pci8086,7112.0 pci8086,7112 pciclass,0c0300 pciclass,0c03\n    binding name: pciclass,0c0300
+    driver name: uhci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=fm-errcb-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=usb-port-count, dev=NONE, type=INT
+        value= 2
+        name=pm-want-child-notification?, dev=NONE, type=BOOL
+        value= true.
+        name=driver-minor, dev=NONE, type=INT
+        value= 0
+        name=driver-major, dev=NONE, type=INT
+        value= 2
+        name=root-hub, dev=NONE, type=BOOL
+        value= true.
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.P2P0.S5F0
+        name=assigned-addresses, dev=NONE, type=INT
+        value= -2130567136 0 8320 0 32
+        name=reg, dev=NONE, type=INT
+        value= 139264 0 0 0 0 16916512 0 0 0 32
+        name=compatible, dev=NONE, type=STRING
+        value= pci8086,7112.15ad.1976.0 pci8086,7112.15ad.1976 pci15ad,1976 pci8086,7112.0 pci8086,7112 pciclass,0c0300 pciclass,0c03
+        name=model, dev=NONE, type=STRING
+        value= Universal Serial Bus UHCI compliant
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=fast-back-to-back, dev=NONE, type=BOOL
+        value= true.
+        name=devsel-speed, dev=NONE, type=INT
+        value= 1
+        name=interrupts, dev=NONE, type=INT
+        value= 1
+        name=max-latency, dev=NONE, type=INT
+        value= 0
+        name=min-grant, dev=NONE, type=INT
+        value= 0
+        name=subsystem-vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=subsystem-id, dev=NONE, type=INT
+        value= 6518
+        name=unit-address, dev=NONE, type=STRING
+        value= 4
+        name=class-code, dev=NONE, type=INT
+        value= 787200
+        name=revision-id, dev=NONE, type=INT
+        value= 0
+        name=vendor-id, dev=NONE, type=INT
+        value= 32902
+        name=device-id, dev=NONE, type=INT
+        value= 28946
+    Minor nodes:
+        name=1, dev=(53/0), spectype=char, nodetype=ddi_ctl:attachment_point:usb
+        name=2, dev=(53/0), spectype=char, nodetype=ddi_ctl:attachment_point:usb
+        name=hubd, dev=(53/4096), spectype=char, nodetype=ddi_ctl:devctl
+/pci@0,0/pci15ad,7a0@15
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/0), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 16384 0 4096 -2113929216 0 -650117120 0 1048576 -1040187392 0 -609222656 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE40
+        name=reg, dev=NONE, type=INT
+        value= 43008 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 16384 -2130706432 0 16384 0 4096 -2113929216 0 -650117120 -2113929216 0 -650117120 0 1048576 -1040187392 0 -609222656 -1040187392 0 -609222656 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 3 3
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3159601
+        name=physical-slot#, dev=NONE, type=INT
+        value= 160
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 15
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/255), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie160, dev=(184/0), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@15,1
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/256), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 32768 0 4096 -2113929216 0 -645922816 0 1048576 -1040187392 0 -605028352 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE41
+        name=reg, dev=NONE, type=INT
+        value= 43264 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 32768 -2130706432 0 32768 0 4096 -2113929216 0 -645922816 -2113929216 0 -645922816 0 1048576 -1040187392 0 -605028352 -1040187392 0 -605028352 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 4 4
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3225137
+        name=physical-slot#, dev=NONE, type=INT
+        value= 161
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 15,1
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/511), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie161, dev=(184/256), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@15,2
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/512), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 49152 0 4096 -2113929216 0 -641728512 0 1048576 -1040187392 0 -600834048 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE42
+        name=reg, dev=NONE, type=INT
+        value= 43520 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 49152 -2130706432 0 49152 0 4096 -2113929216 0 -641728512 -2113929216 0 -641728512 0 1048576 -1040187392 0 -600834048 -1040187392 0 -600834048 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 5 5
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3290673
+        name=physical-slot#, dev=NONE, type=INT
+        value= 162
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 15,2
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/767), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie162, dev=(184/512), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@15,3
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/768), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -637534208 0 1048576 -1040187392 0 -596639744 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE43
+        name=reg, dev=NONE, type=INT
+        value= 43776 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -637534208 -2113929216 0 -637534208 0 1048576 -1040187392 0 -596639744 -1040187392 0 -596639744 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 6 6
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3356209
+        name=physical-slot#, dev=NONE, type=INT
+        value= 163
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 15,3
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/1023), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie163, dev=(184/768), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@15,4
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/1024), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -633339904 0 1048576 -1040187392 0 -592445440 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE44
+        name=reg, dev=NONE, type=INT
+        value= 44032 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -633339904 -2113929216 0 -633339904 0 1048576 -1040187392 0 -592445440 -1040187392 0 -592445440 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 7 7
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3421745
+        name=physical-slot#, dev=NONE, type=INT
+        value= 164
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 15,4
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/1279), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie164, dev=(184/1024), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@15,5
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/1280), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -629145600 0 1048576 -1040187392 0 -588251136 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE45
+        name=reg, dev=NONE, type=INT
+        value= 44288 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -629145600 -2113929216 0 -629145600 0 1048576 -1040187392 0 -588251136 -1040187392 0 -588251136 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 8 8
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3487281
+        name=physical-slot#, dev=NONE, type=INT
+        value= 165
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 15,5
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/1535), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie165, dev=(184/1280), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@15,6
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/1536), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -624951296 0 1048576 -1040187392 0 -584056832 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE46
+        name=reg, dev=NONE, type=INT
+        value= 44544 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -624951296 -2113929216 0 -624951296 0 1048576 -1040187392 0 -584056832 -1040187392 0 -584056832 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 9 9
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3552817
+        name=physical-slot#, dev=NONE, type=INT
+        value= 166
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 15,6
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/1791), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie166, dev=(184/1536), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@15,7
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/1792), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -620756992 0 1048576 -1040187392 0 -579862528 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE47
+        name=reg, dev=NONE, type=INT
+        value= 44800 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -620756992 -2113929216 0 -620756992 0 1048576 -1040187392 0 -579862528 -1040187392 0 -579862528 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 10 10
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3618353
+        name=physical-slot#, dev=NONE, type=INT
+        value= 167
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 15,7
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/2047), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie167, dev=(184/1792), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@16
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/2048), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 20480 0 4096 -2113929216 0 -649068544 0 1048576 -1040187392 0 -608174080 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE50
+        name=reg, dev=NONE, type=INT
+        value= 45056 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 20480 -2130706432 0 20480 0 4096 -2113929216 0 -649068544 -2113929216 0 -649068544 0 1048576 -1040187392 0 -608174080 -1040187392 0 -608174080 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 11 11
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3291441
+        name=physical-slot#, dev=NONE, type=INT
+        value= 192
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 16
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/2303), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie192, dev=(184/2048), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@16,1
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/2304), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 36864 0 4096 -2113929216 0 -644874240 0 1048576 -1040187392 0 -603979776 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE51
+        name=reg, dev=NONE, type=INT
+        value= 45312 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 36864 -2130706432 0 36864 0 4096 -2113929216 0 -644874240 -2113929216 0 -644874240 0 1048576 -1040187392 0 -603979776 -1040187392 0 -603979776 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 12 12
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3356977
+        name=physical-slot#, dev=NONE, type=INT
+        value= 193
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 16,1
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/2559), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie193, dev=(184/2304), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@16,2
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/2560), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 53248 0 4096 -2113929216 0 -640679936 0 1048576 -1040187392 0 -599785472 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE52
+        name=reg, dev=NONE, type=INT
+        value= 45568 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 53248 -2130706432 0 53248 0 4096 -2113929216 0 -640679936 -2113929216 0 -640679936 0 1048576 -1040187392 0 -599785472 -1040187392 0 -599785472 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 13 13
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3422513
+        name=physical-slot#, dev=NONE, type=INT
+        value= 194
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 16,2
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/2815), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie194, dev=(184/2560), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@16,3
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/2816), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -636485632 0 1048576 -1040187392 0 -595591168 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE53
+        name=reg, dev=NONE, type=INT
+        value= 45824 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -636485632 -2113929216 0 -636485632 0 1048576 -1040187392 0 -595591168 -1040187392 0 -595591168 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 14 14
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3488049
+        name=physical-slot#, dev=NONE, type=INT
+        value= 195
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 16,3
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/3071), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie195, dev=(184/2816), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@16,4
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/3072), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -632291328 0 1048576 -1040187392 0 -591396864 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE54
+        name=reg, dev=NONE, type=INT
+        value= 46080 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -632291328 -2113929216 0 -632291328 0 1048576 -1040187392 0 -591396864 -1040187392 0 -591396864 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 15 15
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3553585
+        name=physical-slot#, dev=NONE, type=INT
+        value= 196
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 16,4
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/3327), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie196, dev=(184/3072), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@16,5
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/3328), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -628097024 0 1048576 -1040187392 0 -587202560 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE55
+        name=reg, dev=NONE, type=INT
+        value= 46336 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -628097024 -2113929216 0 -628097024 0 1048576 -1040187392 0 -587202560 -1040187392 0 -587202560 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 16 16
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3619121
+        name=physical-slot#, dev=NONE, type=INT
+        value= 197
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 16,5
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/3583), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie197, dev=(184/3328), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@16,6
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/3584), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -623902720 0 1048576 -1040187392 0 -583008256 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE56
+        name=reg, dev=NONE, type=INT
+        value= 46592 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -623902720 -2113929216 0 -623902720 0 1048576 -1040187392 0 -583008256 -1040187392 0 -583008256 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 17 17
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3684657
+        name=physical-slot#, dev=NONE, type=INT
+        value= 198
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 16,6
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/3839), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie198, dev=(184/3584), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@16,7
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/3840), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -619708416 0 1048576 -1040187392 0 -578813952 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE57
+        name=reg, dev=NONE, type=INT
+        value= 46848 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -619708416 -2113929216 0 -619708416 0 1048576 -1040187392 0 -578813952 -1040187392 0 -578813952 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 18 18
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3750193
+        name=physical-slot#, dev=NONE, type=INT
+        value= 199
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 16,7
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/4095), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie199, dev=(184/3840), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@17
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/4096), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 24576 0 4096 -2113929216 0 -648019968 0 1048576 -1040187392 0 -607125504 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE60
+        name=reg, dev=NONE, type=INT
+        value= 47104 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 24576 -2130706432 0 24576 0 4096 -2113929216 0 -648019968 -2113929216 0 -648019968 0 1048576 -1040187392 0 -607125504 -1040187392 0 -607125504 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 19 19
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3420722
+        name=physical-slot#, dev=NONE, type=INT
+        value= 224
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 17
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/4351), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie224, dev=(184/4096), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@17,1
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/4352), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 40960 0 4096 -2113929216 0 -643825664 0 1048576 -1040187392 0 -602931200 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE61
+        name=reg, dev=NONE, type=INT
+        value= 47360 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 40960 -2130706432 0 40960 0 4096 -2113929216 0 -643825664 -2113929216 0 -643825664 0 1048576 -1040187392 0 -602931200 -1040187392 0 -602931200 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 20 20
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3486258
+        name=physical-slot#, dev=NONE, type=INT
+        value= 225
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 17,1
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/4607), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie225, dev=(184/4352), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@17,2
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/4608), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 57344 0 4096 -2113929216 0 -639631360 0 1048576 -1040187392 0 -598736896 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE62
+        name=reg, dev=NONE, type=INT
+        value= 47616 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 57344 -2130706432 0 57344 0 4096 -2113929216 0 -639631360 -2113929216 0 -639631360 0 1048576 -1040187392 0 -598736896 -1040187392 0 -598736896 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 21 21
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3551794
+        name=physical-slot#, dev=NONE, type=INT
+        value= 226
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 17,2
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/4863), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie226, dev=(184/4608), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@17,3
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/4864), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -635437056 0 1048576 -1040187392 0 -594542592 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE63
+        name=reg, dev=NONE, type=INT
+        value= 47872 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -635437056 -2113929216 0 -635437056 0 1048576 -1040187392 0 -594542592 -1040187392 0 -594542592 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 22 22
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3617330
+        name=physical-slot#, dev=NONE, type=INT
+        value= 227
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 17,3
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/5119), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie227, dev=(184/4864), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@17,4
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/5120), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -631242752 0 1048576 -1040187392 0 -590348288 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE64
+        name=reg, dev=NONE, type=INT
+        value= 48128 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -631242752 -2113929216 0 -631242752 0 1048576 -1040187392 0 -590348288 -1040187392 0 -590348288 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 23 23
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3682866
+        name=physical-slot#, dev=NONE, type=INT
+        value= 228
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 17,4
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/5375), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie228, dev=(184/5120), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@17,5
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/5376), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -627048448 0 1048576 -1040187392 0 -586153984 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE65
+        name=reg, dev=NONE, type=INT
+        value= 48384 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -627048448 -2113929216 0 -627048448 0 1048576 -1040187392 0 -586153984 -1040187392 0 -586153984 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 24 24
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3748402
+        name=physical-slot#, dev=NONE, type=INT
+        value= 229
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 17,5
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/5631), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie229, dev=(184/5376), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@17,6
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/5632), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -622854144 0 1048576 -1040187392 0 -581959680 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE66
+        name=reg, dev=NONE, type=INT
+        value= 48640 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -622854144 -2113929216 0 -622854144 0 1048576 -1040187392 0 -581959680 -1040187392 0 -581959680 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 25 25
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3158834
+        name=physical-slot#, dev=NONE, type=INT
+        value= 230
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 17,6
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/5887), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie230, dev=(184/5632), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@17,7
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/5888), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -618659840 0 1048576 -1040187392 0 -577765376 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE67
+        name=reg, dev=NONE, type=INT
+        value= 48896 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -618659840 -2113929216 0 -618659840 0 1048576 -1040187392 0 -577765376 -1040187392 0 -577765376 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 26 26
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3224370
+        name=physical-slot#, dev=NONE, type=INT
+        value= 231
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 17,7
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/6143), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie231, dev=(184/5888), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@18
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/6144), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 28672 0 4096 -2113929216 0 -646971392 0 1048576 -1040187392 0 -606076928 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE70
+        name=reg, dev=NONE, type=INT
+        value= 49152 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 28672 -2130706432 0 28672 0 4096 -2113929216 0 -646971392 -2113929216 0 -646971392 0 1048576 -1040187392 0 -606076928 -1040187392 0 -606076928 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 27 27
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3552562
+        name=physical-slot#, dev=NONE, type=INT
+        value= 256
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 18
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/6399), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie256, dev=(184/6144), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@18,1
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/6400), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 45056 0 4096 -2113929216 0 -642777088 0 1048576 -1040187392 0 -601882624 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE71
+        name=reg, dev=NONE, type=INT
+        value= 49408 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 45056 -2130706432 0 45056 0 4096 -2113929216 0 -642777088 -2113929216 0 -642777088 0 1048576 -1040187392 0 -601882624 -1040187392 0 -601882624 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 28 28
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3618098
+        name=physical-slot#, dev=NONE, type=INT
+        value= 257
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 18,1
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/6655), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie257, dev=(184/6400), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@18,2
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/6656), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2130706432 0 61440 0 4096 -2113929216 0 -638582784 0 1048576 -1040187392 0 -597688320 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE72
+        name=reg, dev=NONE, type=INT
+        value= 49664 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2130706432 0 61440 -2130706432 0 61440 0 4096 -2113929216 0 -638582784 -2113929216 0 -638582784 0 1048576 -1040187392 0 -597688320 -1040187392 0 -597688320 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 29 29
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3683634
+        name=physical-slot#, dev=NONE, type=INT
+        value= 258
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 18,2
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/6911), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie258, dev=(184/6656), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@18,3
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/6912), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -634388480 0 1048576 -1040187392 0 -593494016 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE73
+        name=reg, dev=NONE, type=INT
+        value= 49920 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -634388480 -2113929216 0 -634388480 0 1048576 -1040187392 0 -593494016 -1040187392 0 -593494016 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 30 30
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3749170
+        name=physical-slot#, dev=NONE, type=INT
+        value= 259
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 18,3
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/7167), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie259, dev=(184/6912), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@18,4
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/7168), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -630194176 0 1048576 -1040187392 0 -589299712 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE74
+        name=reg, dev=NONE, type=INT
+        value= 50176 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -630194176 -2113929216 0 -630194176 0 1048576 -1040187392 0 -589299712 -1040187392 0 -589299712 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 31 31
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3159602
+        name=physical-slot#, dev=NONE, type=INT
+        value= 260
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 18,4
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/7423), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie260, dev=(184/7168), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@18,5
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/7424), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -625999872 0 1048576 -1040187392 0 -585105408 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE75
+        name=reg, dev=NONE, type=INT
+        value= 50432 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -625999872 -2113929216 0 -625999872 0 1048576 -1040187392 0 -585105408 -1040187392 0 -585105408 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 32 32
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3225138
+        name=physical-slot#, dev=NONE, type=INT
+        value= 261
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 18,5
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/7679), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie261, dev=(184/7424), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@18,6
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/7680), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -621805568 0 1048576 -1040187392 0 -580911104 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE76
+        name=reg, dev=NONE, type=INT
+        value= 50688 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -621805568 -2113929216 0 -621805568 0 1048576 -1040187392 0 -580911104 -1040187392 0 -580911104 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 33 33
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3290674
+        name=physical-slot#, dev=NONE, type=INT
+        value= 262
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 18,6
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/7935), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie262, dev=(184/7680), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pci@0,0/pci15ad,7a0@18,7
+    compatible names:  pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604\n    binding name: pciexclass,060400
+    driver name: pcie_pci
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=ap-names, dev=NONE, type=INT
+        value= 1
+        name=pci-occupant, dev=(184/7936), type=STRING
+        value= 
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=fm-accchk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-dmachk-capable, dev=NONE, type=BOOL
+        value= true.
+        name=fm-ereport-capable, dev=NONE, type=BOOL
+        value= true.
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=interrupt-priorities, dev=NONE, type=INT
+        value= 1
+        name=pci-msi-capid-pointer, dev=NONE, type=INT
+        value= 140
+        name=available, dev=NONE, type=INT
+        value= -2113929216 0 -617611264 0 1048576 -1040187392 0 -576716800 0 1048576
+        name=acpi-namespace, dev=NONE, type=STRING
+        value= \_SB_.PCI0.PE77
+        name=reg, dev=NONE, type=INT
+        value= 50944 0 0 0 0
+        name=compatible, dev=NONE, type=STRING
+        value= pciex15ad,7a0.1 pciex15ad,7a0 pciexclass,060400 pciexclass,0604 pci15ad,7a0.1 pci15ad,7a0 pciclass,060400 pciclass,0604
+        name=model, dev=NONE, type=STRING
+        value= PCI-PCI bridge
+        name=ranges, dev=NONE, type=INT
+        value= -2113929216 0 -617611264 -2113929216 0 -617611264 0 1048576 -1040187392 0 -576716800 -1040187392 0 -576716800 0 1048576
+        name=bus-range, dev=NONE, type=INT
+        value= 34 34
+        name=#size-cells, dev=NONE, type=INT
+        value= 2
+        name=#address-cells, dev=NONE, type=INT
+        value= 3
+        name=device_type, dev=NONE, type=STRING
+        value= pciex
+        name=power-consumption, dev=NONE, type=INT
+        value= 1 1
+        name=slot-names, dev=NONE, type=INT
+        value= 1 1701405552 3356210
+        name=physical-slot#, dev=NONE, type=INT
+        value= 263
+        name=devsel-speed, dev=NONE, type=INT
+        value= 0
+        name=unit-address, dev=NONE, type=STRING
+        value= 18,7
+        name=class-code, dev=NONE, type=INT
+        value= 394240
+        name=revision-id, dev=NONE, type=INT
+        value= 1
+        name=vendor-id, dev=NONE, type=INT
+        value= 5549
+        name=device-id, dev=NONE, type=INT
+        value= 1952
+        name=pci-hotplug-type, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(184/8191), spectype=char, nodetype=ddi_ctl:devctl
+        name=pcie263, dev=(184/7936), spectype=char, nodetype=ddi_ctl:attachment_point:pci
+/pseudo
+    compatible names: none
+    binding name: pseudo
+    driver name: pseudo
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+        name=class, dev=NONE, type=STRING
+        value= root
+    Minor nodes:
+        name=devctl, dev=(2/0), spectype=char, nodetype=ddi_ctl:devctl
+/pseudo/zconsnex@1
+    compatible names: none
+    binding name: zconsnex
+    driver name: pseudo
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=valid-children, dev=NONE, type=STRING
+        value= zcons
+        name=instance, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=devctl, dev=(2/1), spectype=char, nodetype=ddi_ctl:devctl
+/pseudo/cn@0
+    compatible names: none
+    binding name: cn
+    driver name: cn
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=syscon, dev=(0/0), spectype=char, nodetype=ddi_pseudo
+        name=systty, dev=(0/0), spectype=char, nodetype=ddi_pseudo
+        name=console, dev=(0/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/ip@0
+    compatible names: none
+    binding name: ip
+    driver name: ip
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=ip, dev=(3/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/icmp@0
+    compatible names: none
+    binding name: icmp
+    driver name: icmp
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=icmp, dev=(5/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/openeepr@0
+    compatible names: none
+    binding name: openeepr
+    driver name: openeepr
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=openprom, dev=(6/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/llc1@0
+    compatible names: none
+    binding name: llc1
+    driver name: llc1
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        none
+    Minor nodes:
+        none
+/pseudo/softmac@0
+    compatible names: none
+    binding name: softmac
+    driver name: softmac
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/tl@0
+    compatible names: none
+    binding name: tl
+    driver name: tl
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=ticots, dev=(10/0), spectype=char, nodetype=ddi_pseudo
+        name=ticotsord, dev=(10/1), spectype=char, nodetype=ddi_pseudo
+        name=ticlts, dev=(10/2), spectype=char, nodetype=ddi_pseudo
+/pseudo/clone@0
+    compatible names: none
+    binding name: clone
+    driver name: clone
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/sad@0
+    compatible names: none
+    binding name: sad
+    driver name: sad
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=user, dev=(12/0), spectype=char, nodetype=ddi_pseudo
+        name=admin, dev=(12/1), spectype=char, nodetype=ddi_pseudo
+/pseudo/mm@0
+    compatible names: none
+    binding name: mm
+    driver name: mm
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=mem, dev=(13/0), spectype=char, nodetype=ddi_pseudo
+        name=kmem, dev=(13/1), spectype=char, nodetype=ddi_pseudo
+        name=allkmem, dev=(13/3), spectype=char, nodetype=ddi_pseudo
+        name=null, dev=(13/2), spectype=char, nodetype=ddi_pseudo
+        name=zero, dev=(13/12), spectype=char, nodetype=ddi_pseudo
+/pseudo/iwscn@0
+    compatible names: none
+    binding name: iwscn
+    driver name: iwscn
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=iwscn, dev=(14/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/wc@0
+    compatible names: none
+    binding name: wc
+    driver name: wc
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=screen-height, dev=(15/0), type=STRING
+        value= 0
+        name=screen-width, dev=(15/0), type=STRING
+        value= 0
+        name=screen-#rows, dev=(15/0), type=STRING
+        value= 25
+        name=screen-#cols, dev=(15/0), type=STRING
+        value= 80
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=wscons, dev=(15/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/vnic@0
+    compatible names: none
+    binding name: vnic
+    driver name: vnic
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/aggr@0
+    compatible names: none
+    binding name: aggr
+    driver name: aggr
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/log@0
+    compatible names: none
+    binding name: log
+    driver name: log
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=conslog, dev=(21/0), spectype=char, nodetype=ddi_pseudo
+        name=log, dev=(21/5), spectype=char, nodetype=ddi_pseudo
+/pseudo/sy@0
+    compatible names: none
+    binding name: sy
+    driver name: sy
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=tty, dev=(22/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/dld@0
+    compatible names: none
+    binding name: dld
+    driver name: dld
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        none
+    Minor nodes:
+        name=ctl, dev=(23/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/ptc@0
+    compatible names: none
+    binding name: ptc
+    driver name: ptc
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=ptyp0, dev=(25/0), spectype=char, nodetype=ddi_pseudo
+        name=ptyp1, dev=(25/1), spectype=char, nodetype=ddi_pseudo
+        name=ptyp2, dev=(25/2), spectype=char, nodetype=ddi_pseudo
+        name=ptyp3, dev=(25/3), spectype=char, nodetype=ddi_pseudo
+        name=ptyp4, dev=(25/4), spectype=char, nodetype=ddi_pseudo
+        name=ptyp5, dev=(25/5), spectype=char, nodetype=ddi_pseudo
+        name=ptyp6, dev=(25/6), spectype=char, nodetype=ddi_pseudo
+        name=ptyp7, dev=(25/7), spectype=char, nodetype=ddi_pseudo
+        name=ptyp8, dev=(25/8), spectype=char, nodetype=ddi_pseudo
+        name=ptyp9, dev=(25/9), spectype=char, nodetype=ddi_pseudo
+        name=ptypa, dev=(25/10), spectype=char, nodetype=ddi_pseudo
+        name=ptypb, dev=(25/11), spectype=char, nodetype=ddi_pseudo
+        name=ptypc, dev=(25/12), spectype=char, nodetype=ddi_pseudo
+        name=ptypd, dev=(25/13), spectype=char, nodetype=ddi_pseudo
+        name=ptype, dev=(25/14), spectype=char, nodetype=ddi_pseudo
+        name=ptypf, dev=(25/15), spectype=char, nodetype=ddi_pseudo
+        name=ptyq0, dev=(25/16), spectype=char, nodetype=ddi_pseudo
+        name=ptyq1, dev=(25/17), spectype=char, nodetype=ddi_pseudo
+        name=ptyq2, dev=(25/18), spectype=char, nodetype=ddi_pseudo
+        name=ptyq3, dev=(25/19), spectype=char, nodetype=ddi_pseudo
+        name=ptyq4, dev=(25/20), spectype=char, nodetype=ddi_pseudo
+        name=ptyq5, dev=(25/21), spectype=char, nodetype=ddi_pseudo
+        name=ptyq6, dev=(25/22), spectype=char, nodetype=ddi_pseudo
+        name=ptyq7, dev=(25/23), spectype=char, nodetype=ddi_pseudo
+        name=ptyq8, dev=(25/24), spectype=char, nodetype=ddi_pseudo
+        name=ptyq9, dev=(25/25), spectype=char, nodetype=ddi_pseudo
+        name=ptyqa, dev=(25/26), spectype=char, nodetype=ddi_pseudo
+        name=ptyqb, dev=(25/27), spectype=char, nodetype=ddi_pseudo
+        name=ptyqc, dev=(25/28), spectype=char, nodetype=ddi_pseudo
+        name=ptyqd, dev=(25/29), spectype=char, nodetype=ddi_pseudo
+        name=ptyqe, dev=(25/30), spectype=char, nodetype=ddi_pseudo
+        name=ptyqf, dev=(25/31), spectype=char, nodetype=ddi_pseudo
+        name=ptyr0, dev=(25/32), spectype=char, nodetype=ddi_pseudo
+        name=ptyr1, dev=(25/33), spectype=char, nodetype=ddi_pseudo
+        name=ptyr2, dev=(25/34), spectype=char, nodetype=ddi_pseudo
+        name=ptyr3, dev=(25/35), spectype=char, nodetype=ddi_pseudo
+        name=ptyr4, dev=(25/36), spectype=char, nodetype=ddi_pseudo
+        name=ptyr5, dev=(25/37), spectype=char, nodetype=ddi_pseudo
+        name=ptyr6, dev=(25/38), spectype=char, nodetype=ddi_pseudo
+        name=ptyr7, dev=(25/39), spectype=char, nodetype=ddi_pseudo
+        name=ptyr8, dev=(25/40), spectype=char, nodetype=ddi_pseudo
+        name=ptyr9, dev=(25/41), spectype=char, nodetype=ddi_pseudo
+        name=ptyra, dev=(25/42), spectype=char, nodetype=ddi_pseudo
+        name=ptyrb, dev=(25/43), spectype=char, nodetype=ddi_pseudo
+        name=ptyrc, dev=(25/44), spectype=char, nodetype=ddi_pseudo
+        name=ptyrd, dev=(25/45), spectype=char, nodetype=ddi_pseudo
+        name=ptyre, dev=(25/46), spectype=char, nodetype=ddi_pseudo
+        name=ptyrf, dev=(25/47), spectype=char, nodetype=ddi_pseudo
+/pseudo/ptsl@0
+    compatible names: none
+    binding name: ptsl
+    driver name: ptsl
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=ttyp0, dev=(26/0), spectype=char, nodetype=ddi_pseudo
+        name=ttyp1, dev=(26/1), spectype=char, nodetype=ddi_pseudo
+        name=ttyp2, dev=(26/2), spectype=char, nodetype=ddi_pseudo
+        name=ttyp3, dev=(26/3), spectype=char, nodetype=ddi_pseudo
+        name=ttyp4, dev=(26/4), spectype=char, nodetype=ddi_pseudo
+        name=ttyp5, dev=(26/5), spectype=char, nodetype=ddi_pseudo
+        name=ttyp6, dev=(26/6), spectype=char, nodetype=ddi_pseudo
+        name=ttyp7, dev=(26/7), spectype=char, nodetype=ddi_pseudo
+        name=ttyp8, dev=(26/8), spectype=char, nodetype=ddi_pseudo
+        name=ttyp9, dev=(26/9), spectype=char, nodetype=ddi_pseudo
+        name=ttypa, dev=(26/10), spectype=char, nodetype=ddi_pseudo
+        name=ttypb, dev=(26/11), spectype=char, nodetype=ddi_pseudo
+        name=ttypc, dev=(26/12), spectype=char, nodetype=ddi_pseudo
+        name=ttypd, dev=(26/13), spectype=char, nodetype=ddi_pseudo
+        name=ttype, dev=(26/14), spectype=char, nodetype=ddi_pseudo
+        name=ttypf, dev=(26/15), spectype=char, nodetype=ddi_pseudo
+        name=ttyq0, dev=(26/16), spectype=char, nodetype=ddi_pseudo
+        name=ttyq1, dev=(26/17), spectype=char, nodetype=ddi_pseudo
+        name=ttyq2, dev=(26/18), spectype=char, nodetype=ddi_pseudo
+        name=ttyq3, dev=(26/19), spectype=char, nodetype=ddi_pseudo
+        name=ttyq4, dev=(26/20), spectype=char, nodetype=ddi_pseudo
+        name=ttyq5, dev=(26/21), spectype=char, nodetype=ddi_pseudo
+        name=ttyq6, dev=(26/22), spectype=char, nodetype=ddi_pseudo
+        name=ttyq7, dev=(26/23), spectype=char, nodetype=ddi_pseudo
+        name=ttyq8, dev=(26/24), spectype=char, nodetype=ddi_pseudo
+        name=ttyq9, dev=(26/25), spectype=char, nodetype=ddi_pseudo
+        name=ttyqa, dev=(26/26), spectype=char, nodetype=ddi_pseudo
+        name=ttyqb, dev=(26/27), spectype=char, nodetype=ddi_pseudo
+        name=ttyqc, dev=(26/28), spectype=char, nodetype=ddi_pseudo
+        name=ttyqd, dev=(26/29), spectype=char, nodetype=ddi_pseudo
+        name=ttyqe, dev=(26/30), spectype=char, nodetype=ddi_pseudo
+        name=ttyqf, dev=(26/31), spectype=char, nodetype=ddi_pseudo
+        name=ttyr0, dev=(26/32), spectype=char, nodetype=ddi_pseudo
+        name=ttyr1, dev=(26/33), spectype=char, nodetype=ddi_pseudo
+        name=ttyr2, dev=(26/34), spectype=char, nodetype=ddi_pseudo
+        name=ttyr3, dev=(26/35), spectype=char, nodetype=ddi_pseudo
+        name=ttyr4, dev=(26/36), spectype=char, nodetype=ddi_pseudo
+        name=ttyr5, dev=(26/37), spectype=char, nodetype=ddi_pseudo
+        name=ttyr6, dev=(26/38), spectype=char, nodetype=ddi_pseudo
+        name=ttyr7, dev=(26/39), spectype=char, nodetype=ddi_pseudo
+        name=ttyr8, dev=(26/40), spectype=char, nodetype=ddi_pseudo
+        name=ttyr9, dev=(26/41), spectype=char, nodetype=ddi_pseudo
+        name=ttyra, dev=(26/42), spectype=char, nodetype=ddi_pseudo
+        name=ttyrb, dev=(26/43), spectype=char, nodetype=ddi_pseudo
+        name=ttyrc, dev=(26/44), spectype=char, nodetype=ddi_pseudo
+        name=ttyrd, dev=(26/45), spectype=char, nodetype=ddi_pseudo
+        name=ttyre, dev=(26/46), spectype=char, nodetype=ddi_pseudo
+        name=ttyrf, dev=(26/47), spectype=char, nodetype=ddi_pseudo
+/pseudo/ipnet@0
+    compatible names: none
+    binding name: ipnet
+    driver name: ipnet
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/udp@0
+    compatible names: none
+    binding name: udp
+    driver name: udp
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=udp, dev=(41/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/tcp@0
+    compatible names: none
+    binding name: tcp
+    driver name: tcp
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=tcp, dev=(42/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/rts@0
+    compatible names: none
+    binding name: rts
+    driver name: rts
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/arp@0
+    compatible names: none
+    binding name: arp
+    driver name: arp
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=arp, dev=(44/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/fcip@0
+    compatible names: none
+    binding name: fcip
+    driver name: fcip
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/fcp@0
+    compatible names: none
+    binding name: fcp
+    driver name: fcp
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/fm@0
+    compatible names: none
+    binding name: fm
+    driver name: fm
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/ramdisk@1024
+    compatible names: none
+    binding name: ramdisk
+    driver name: ramdisk
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 1024
+    Minor nodes:
+        none
+/pseudo/fcsm@0
+    compatible names: none
+    binding name: fcsm
+    driver name: fcsm
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/md@0
+    compatible names: none
+    binding name: md
+    driver name: md
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=md_nsets, dev=NONE, type=INT
+        value= 4
+        name=nmd, dev=NONE, type=INT
+        value= 128
+    Minor nodes:
+        none
+/pseudo/devinfo@0
+    compatible names: none
+    binding name: devinfo
+    driver name: devinfo
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=devinfo, dev=(88/0), spectype=char, nodetype=ddi_pseudo
+        name=devinfo,ro, dev=(88/1), spectype=char, nodetype=ddi_pseudo
+/pseudo/lockstat@0
+    compatible names: none
+    binding name: lockstat
+    driver name: lockstat
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/cpc@0
+    compatible names: none
+    binding name: cpc
+    driver name: cpc
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=shared, dev=(95/262143), spectype=char, nodetype=ddi_pseudo
+/pseudo/sysmsg@0
+    compatible names: none
+    binding name: sysmsg
+    driver name: sysmsg
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=sysmsg, dev=(97/0), spectype=char, nodetype=ddi_pseudo
+        name=msglog, dev=(97/1), spectype=char, nodetype=ddi_pseudo
+/pseudo/conskbd@0
+    compatible names: none
+    binding name: conskbd
+    driver name: conskbd
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=kbd, dev=(103/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/sdp@0
+    compatible names: none
+    binding name: sdp
+    driver name: sdp
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/poll@0
+    compatible names: none
+    binding name: poll
+    driver name: poll
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/keysock@0
+    compatible names: none
+    binding name: keysock
+    driver name: keysock
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=keysock, dev=(136/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/ipsecah@0
+    compatible names: none
+    binding name: ipsecah
+    driver name: ipsecah
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/ipsecesp@0
+    compatible names: none
+    binding name: ipsecesp
+    driver name: ipsecesp
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/ip6@0
+    compatible names: none
+    binding name: ip6
+    driver name: ip6
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=ip6, dev=(139/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/icmp6@0
+    compatible names: none
+    binding name: icmp6
+    driver name: icmp6
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=icmp6, dev=(140/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/udp6@0
+    compatible names: none
+    binding name: udp6
+    driver name: udp6
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=udp6, dev=(141/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/tcp6@0
+    compatible names: none
+    binding name: tcp6
+    driver name: tcp6
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=tcp6, dev=(142/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/consms@0
+    compatible names: none
+    binding name: consms
+    driver name: consms
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=ddi-no-autodetach, dev=NONE, type=INT
+        value= 1
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=mouse, dev=(143/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/lofi@0
+    compatible names: none
+    binding name: lofi
+    driver name: lofi
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/random@0
+    compatible names: none
+    binding name: random
+    driver name: random
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=random, dev=(149/0), spectype=char, nodetype=ddi_pseudo
+        name=urandom, dev=(149/1), spectype=char, nodetype=ddi_pseudo
+/pseudo/spdsock@0
+    compatible names: none
+    binding name: spdsock
+    driver name: spdsock
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=spdsock, dev=(150/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/ippctl@0
+    compatible names: none
+    binding name: ippctl
+    driver name: ippctl
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/sysevent@0
+    compatible names: none
+    binding name: sysevent
+    driver name: sysevent
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=sysevent, dev=(152/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/crypto@0
+    compatible names: none
+    binding name: crypto
+    driver name: crypto
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/cryptoadm@0
+    compatible names: none
+    binding name: cryptoadm
+    driver name: cryptoadm
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=cryptoadm, dev=(154/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/dtrace@0
+    compatible names: none
+    binding name: dtrace
+    driver name: dtrace
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=dtrace, dev=(155/0), spectype=char, nodetype=ddi_pseudo
+        name=helper, dev=(155/1), spectype=char, nodetype=ddi_pseudo
+/pseudo/profile@0
+    compatible names: none
+    binding name: profile
+    driver name: profile
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/systrace@0
+    compatible names: none
+    binding name: systrace
+    driver name: systrace
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/fbt@0
+    compatible names: none
+    binding name: fbt
+    driver name: fbt
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/sdt@0
+    compatible names: none
+    binding name: sdt
+    driver name: sdt
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/fasttrap@0
+    compatible names: none
+    binding name: fasttrap
+    driver name: fasttrap
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=fasttrap, dev=(167/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/bl@0
+    compatible names: none
+    binding name: bl
+    driver name: bl
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/kmdb@0
+    compatible names: none
+    binding name: kmdb
+    driver name: kmdb
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=kmdb-auto-entry, dev=NONE, type=INT
+        value= 1
+        name=kmdb-driver-debug, dev=NONE, type=INT
+        value= 0
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/sctp@0
+    compatible names: none
+    binding name: sctp
+    driver name: sctp
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=sctp, dev=(172/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/sctp6@0
+    compatible names: none
+    binding name: sctp6
+    driver name: sctp6
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=sctp6, dev=(173/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/dlpistub@0
+    compatible names: none
+    binding name: dlpistub
+    driver name: dlpistub
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/cpuid@0
+    compatible names: none
+    binding name: cpuid
+    driver name: cpuid
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/smbios@0
+    compatible names: none
+    binding name: smbios
+    driver name: smbios
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/power@0
+    compatible names: none
+    binding name: power
+    driver name: power
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+        name=button, dev=NONE, type=INT
+        value= 1
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=power_button, dev=(181/0), spectype=char, nodetype=ddi_power_button
+/pseudo/zfs@0
+    compatible names: none
+    binding name: zfs
+    driver name: zfs
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=Nblocks, dev=(182/2), type=UNKNOW
+
+        value=
+        name=Size, dev=(182/2), type=UNKNOW
+
+        value=
+        name=name, dev=(182/2), type=STRING
+        value= rpool/swap
+        name=Nblocks, dev=(182/1), type=UNKNOW
+
+        value=
+        name=Size, dev=(182/1), type=UNKNOW
+
+        value=
+        name=name, dev=(182/1), type=STRING
+        value= rpool/dump
+    Minor nodes:
+        name=zfs, dev=(182/0), spectype=char, nodetype=ddi_pseudo
+        name=1c,raw, dev=(182/1), spectype=char, nodetype=ddi_pseudo
+        name=1c, dev=(182/1), spectype=block, nodetype=ddi_pseudo
+        name=2c,raw, dev=(182/2), spectype=char, nodetype=ddi_pseudo
+        name=2c, dev=(182/2), spectype=block, nodetype=ddi_pseudo
+/pseudo/kssl@0
+    compatible names: none
+    binding name: kssl
+    driver name: kssl
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=kssl, dev=(185/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/acpippm@0
+    compatible names: none
+    binding name: acpippm
+    driver name: acpippm
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=ddi-kernel-ioctl, dev=NONE, type=BOOL
+        value= true.
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=acpi-ppm, dev=(202/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/srn@0
+    compatible names: none
+    binding name: srn
+    driver name: srn
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=srn, dev=(203/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/dcpc@0
+    compatible names: none
+    binding name: dcpc
+    driver name: dcpc
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/physmem@0
+    compatible names: none
+    binding name: physmem
+    driver name: physmem
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/acpi_drv@0
+    compatible names: none
+    binding name: acpi_drv
+    driver name: acpi_drv
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+        name=ddi-forceattach, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=hotkey, dev=(244/1280), spectype=char, nodetype=ddi_pseudo
+        name=lid, dev=(244/768), spectype=char, nodetype=ddi_pseudo
+        name=ac0, dev=(244/512), spectype=char, nodetype=ddi_pseudo
+/pseudo/ucode@0
+    compatible names: none
+    binding name: ucode
+    driver name: ucode
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/ppm@0
+    compatible names: none
+    binding name: ppm
+    driver name: ppm
+    driver ops: DI_BUS_OPS DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+        name=ppm-domains, dev=NONE, type=STRING
+        value= domain_cpu domain_estar
+        name=domain_cpu-devices, dev=NONE, type=STRING
+        value= /cpus/cpu@*
+        name=domain_cpu-model, dev=NONE, type=STRING
+        value= CPU
+        name=domain_estar-devices, dev=NONE, type=STRING
+        value= /
+        name=domain_estar-model, dev=NONE, type=STRING
+        value= SX
+        name=domain_estar-control, dev=NONE, type=STRING
+        value= cmd=ENTER_S3 path=/pseudo/acpippm@0:acpi-ppm method=KIO iowr=0x4101 cmd=EXIT_S3 path=/pseudo/acpippm@0:acpi-ppm method=KIO iowr=0x4102
+        name=S3-support-enable, dev=NONE, type=STRING
+        value= TOSHIBA TECRA M8 TOSHIBA TECRA M9 TOSHIBA TECRA M10 TOSHIBA TECRA A9 TOSHIBA Satellite A205 TOSHIBA PORTEGE R500 TOSHIBA PORTEGE R600 LENOVO 64608VU LENOVO 889703U Sony Corporation VGN-CR490N Dell Inc. Latitude X1                      Dell Inc. Latitude D630                    Dell Inc. Precision M4300                  Sun Microsystems Ultra 24 Sun Microsystems Sun Ultra 40 Workstation Sun Microsystems Sun Ultra 20 Workstation
+        name=S3-support-disable, dev=NONE, type=STRING
+        value= Sun Microsystems Sun Blade x8400 Server Module Sun Microsystems Sun Fire*
+        name=S3-autoenable, dev=NONE, type=STRING
+        value= TOSHIBA TECRA M8 TOSHIBA TECRA M9 TOSHIBA TECRA M10 TOSHIBA TECRA A9 TOSHIBA Satellite A205 TOSHIBA PORTEGE R500 TOSHIBA PORTEGE R600 LENOVO 64608VU LENOVO 889703U Sony Corporation VGN-CR490N Dell Inc. Latitude X1                      Dell Inc. Latitude D630                    Dell Inc. Precision M4300                  Sun Microsystems Ultra 24 Sun Microsystems Sun Ultra 40 Workstation Sun Microsystems Sun Ultra 20 Workstation
+        name=S3-autodisable, dev=NONE, type=STRING
+        value= Sun Microsystems Sun Blade x8400 Server Module Sun Microsystems Sun Fire*
+        name=autopm-enable, dev=NONE, type=STRING
+        value= TOSHIBA TECRA M8 TOSHIBA TECRA M9 TOSHIBA TECRA M10 TOSHIBA TECRA A9 TOSHIBA Satellite A205 TOSHIBA PORTEGE R500 TOSHIBA PORTEGE R600 LENOVO 64608VU LENOVO 889703U Sony Corporation VGN-CR490N Dell Inc. Latitude X1                      Dell Inc. Latitude D630                    Dell Inc. Precision M4300                  Sun Microsystems Ultra 24 Sun Microsystems Sun Ultra 40 Workstation Sun Microsystems Sun Ultra 20 Workstation
+        name=autopm-disable, dev=NONE, type=STRING
+        value= Sun Microsystems Sun Blade x8400 Server Module Sun Microsystems Sun Fire*
+    Minor nodes:
+        name=ppm, dev=(246/0), spectype=char, nodetype=ddi_ppm
+/pseudo/nvidia@255
+    compatible names: none
+    binding name: nvidia
+    driver name: nvidia
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 255
+        name=AllowMSI, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/logindmux@0
+    compatible names: none
+    binding name: logindmux
+    driver name: logindmux
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+/pseudo/ptm@0
+    compatible names: none
+    binding name: ptm
+    driver name: ptm
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=ptmajor, dev=(8/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/dump@0
+    compatible names: none
+    binding name: dump
+    driver name: dump
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/pts@0
+    compatible names: none
+    binding name: pts
+    driver name: pts
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/fssnap@0
+    compatible names: none
+    binding name: fssnap
+    driver name: fssnap
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/ksyms@0
+    compatible names: none
+    binding name: ksyms
+    driver name: ksyms
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/winlock@0
+    compatible names: none
+    binding name: winlock
+    driver name: winlock
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/kstat@0
+    compatible names: none
+    binding name: kstat
+    driver name: kstat
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=kstat, dev=(90/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/pm@0
+    compatible names: none
+    binding name: pm
+    driver name: pm
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=pm, dev=(131/0), spectype=char, nodetype=ddi_pseudo
+/pseudo/nsmb@0
+    compatible names: none
+    binding name: nsmb
+    driver name: nsmb
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        none
+    Minor nodes:
+        none
+/pseudo/sppp@0
+    compatible names: none
+    binding name: sppp
+    driver name: sppp
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+/pseudo/sppptun@0
+    compatible names: none
+    binding name: sppptun
+    driver name: sppptun
+    driver ops: DI_CB_OPS DI_STREAM_OPS
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+/pseudo/pool@0
+    compatible names: none
+    binding name: pool
+    driver name: pool
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+        name=ddi-no-autodetach, dev=NONE, type=INT
+        value= 1
+    Minor nodes:
+        name=poolctl, dev=(163/0), spectype=char, nodetype=ddi_pseudo
+        name=pool, dev=(163/1), spectype=char, nodetype=ddi_pseudo
+/pseudo/ipf@0
+    compatible names: none
+    binding name: ipf
+    driver name: ipf
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=ddi-no-autodetach, dev=NONE, type=INT
+        value= 1
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        name=ipf, dev=(165/0), spectype=char, nodetype=ddi_pseudo
+        name=ipnat, dev=(165/1), spectype=char, nodetype=ddi_pseudo
+        name=ipstate, dev=(165/2), spectype=char, nodetype=ddi_pseudo
+        name=ipauth, dev=(165/3), spectype=char, nodetype=ddi_pseudo
+        name=ipsync, dev=(165/4), spectype=char, nodetype=ddi_pseudo
+        name=ipscan, dev=(165/5), spectype=char, nodetype=ddi_pseudo
+        name=iplookup, dev=(165/6), spectype=char, nodetype=ddi_pseudo
+/pseudo/lx_ptm@0
+    compatible names: none
+    binding name: lx_ptm
+    driver name: lx_ptm
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/lx_systrace@0
+    compatible names: none
+    binding name: lx_systrace
+    driver name: lx_systrace
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/pseudo/lx_audio@0
+    compatible names: none
+    binding name: lx_audio
+    driver name: lx_audio
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=instance, dev=NONE, type=INT
+        value= 0
+    Minor nodes:
+        none
+/xsvc@0,0
+    compatible names: none
+    binding name: xsvc
+    driver name: xsvc
+    driver ops: DI_CB_OPS 
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=reg, dev=NONE, type=INT
+        value= 0 0 -1
+        name=class, dev=NONE, type=STRING
+        value= root
+        name=maxallocmem, dev=NONE, type=INT
+        value= 10240
+    Minor nodes:
+        name=xsvc, dev=(28/0), spectype=char, nodetype=ddi_pseudo
+/options
+    compatible names: none
+    binding name: options
+    driver name: options
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=ttymodes, dev=NONE, type=BYTE
+        value=0x0225000005180000bd0000003b8a0000031c7f150400000011131a19120f171600000000
+        name=class, dev=NONE, type=STRING
+        value= root
+    Minor nodes:
+        none
+/agpgart
+    compatible names: none
+    binding name: agpgart
+    driver name: agpgart
+    driver ops: none
+    nodeid: DI_PSEUDO_NODEID
+    device id: none
+    Properties:
+        name=class, dev=NONE, type=STRING
+        value= root
+    Minor nodes:
+        none
+/used-resources
+    compatible names: none
+    binding name: used-resources
+    driver name: none
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=io-space, dev=NONE, type=INT
+        value= 0 16 16 16 32 2 36 2 40 2 44 2 46 2 48 2 52 2 56 2 60 2 64 4 80 4 96 1 97 1 100 1 112 2 114 6 128 1 129 15 144 16 160 2 164 2 168 2 172 2 176 6 184 2 188 2 192 32 760 8 888 8 1008 6 1015 1 1016 8 1232 2 3312 2 3320 8 4096 64 4160 16 4192 32
+        name=device-memory, dev=NONE, type=INT
+        value= -616562688 2097152 -536870912 268435456
+        name=dma-channels, dev=NONE, type=INT
+        value= 2 4
+        name=interrupts, dev=NONE, type=INT
+        value= 0 1 2 3 4 6 7 8 12
+    Minor nodes:
+        none
+/cpus
+    compatible names: none
+    binding name: cpus
+    driver name: cpunex
+    driver ops: DI_BUS_OPS 
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        none
+    Minor nodes:
+        none
+/cpus/cpu
+    compatible names: none
+    binding name: cpu
+    driver name: cpudrv
+    driver ops: none
+    nodeid: DI_SID_NODEID
+    device id: none
+    Properties:
+        name=l2-cache-size, dev=NONE, type=INT
+        value= 524288
+        name=l2-cache-line-size, dev=NONE, type=INT
+        value= 64
+        name=l2-cache-lines-per-tag, dev=NONE, type=INT
+        value= 1
+        name=l2-cache-associativity, dev=NONE, type=INT
+        value= 16
+        name=l2-dtlb-4K-size, dev=NONE, type=INT
+        value= 128
+        name=l2-dtlb-4K-associativity, dev=NONE, type=INT
+        value= 2
+        name=l2-dtlb-2M-size, dev=NONE, type=INT
+        value= 128
+        name=l2-dtlb-2M-associativity, dev=NONE, type=INT
+        value= 2
+        name=l1-icache-size, dev=NONE, type=INT
+        value= 65536
+        name=l1-icache-line-size, dev=NONE, type=INT
+        value= 64
+        name=l1-icache-lines-per-tag, dev=NONE, type=INT
+        value= 1
+        name=l1-icache-associativity, dev=NONE, type=INT
+        value= 2
+        name=l1-dcache-size, dev=NONE, type=INT
+        value= 65536
+        name=l1-dcache-line-size, dev=NONE, type=INT
+        value= 64
+        name=l1-dcache-lines-per-tag, dev=NONE, type=INT
+        value= 1
+        name=l1-dcache-associativity, dev=NONE, type=INT
+        value= 2
+        name=dtlb-4K-fully-associative?, dev=NONE, type=INT
+        value= 1
+        name=dtlb-4K-size, dev=NONE, type=INT
+        value= 32
+        name=itlb-4K-fully-associative?, dev=NONE, type=INT
+        value= 1
+        name=itlb-4K-size, dev=NONE, type=INT
+        value= 48
+        name=itlb-2M-fully-associative?, dev=NONE, type=INT
+        value= 1
+        name=itlb-2M-size, dev=NONE, type=INT
+        value= 16
+        name=dtlb-2M-fully-associative?, dev=NONE, type=INT
+        value= 1
+        name=dtlb-2M-size, dev=NONE, type=INT
+        value= 48
+        name=brand-string, dev=NONE, type=STRING
+        value= AMD Phenom(tm) 8450 Triple-Core Processor
+        name=ext-cpuid-features-ecx, dev=NONE, type=INT
+        value= 489
+        name=ext-cpuid-features, dev=NONE, type=INT
+        value= -338445313
+        name=cpuid-features, dev=NONE, type=INT
+        value= 126598143
+        name=apic-id, dev=NONE, type=INT
+        value= 0
+        name=chunks, dev=NONE, type=INT
+        value= 16
+        name=generation, dev=NONE, type=INT
+        value= 15
+        name=ext-model, dev=NONE, type=INT
+        value= 0
+        name=ext-family, dev=NONE, type=INT
+        value= 1
+        name=stepping-id, dev=NONE, type=INT
+        value= 3
+        name=cpu-model, dev=NONE, type=INT
+        value= 2
+        name=family, dev=NONE, type=INT
+        value= 15
+        name=vendor-id, dev=NONE, type=STRING
+        value= AuthenticAMD
+        name=clock-frequency, dev=NONE, type=INT
+        value= 2100000000
+        name=cpu-mhz, dev=NONE, type=INT
+        value= 2100
+        name=reg, dev=NONE, type=INT
+        value= 0
+        name=device_type, dev=NONE, type=STRING
+        value= cpu
+    Minor nodes:
+        none
