@@ -1,20 +1,16 @@
-#summary One-sentence summary of this page.
+#About Loading Modules (device driver)
 
 = Introduction =
+In C program, #include </sys/modctl.h>
+view modctl() and mod.c for more detail
+or have a reference to see.c
 
-Add your content here.
-
-
+not installed -> installed : load
+installed -> not installed : unload
+unloaddrvconf
 = Details =
-_italic_
-About *module*:
-#include </sys/modctl.h>
-modctl()
-
-_driver attached_:
-modload
-modunload
-_device instance_:
-add_drv
-rem_drv
-update_drv
+_how to help recognize device driver and device instance?_
+*TO BE TESTED*
+add_drv : load_drv() config_drv()
+rem_drv -c : unload? unloaddrvconf
+update_drv :
