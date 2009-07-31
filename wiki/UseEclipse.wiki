@@ -1,0 +1,10 @@
+= Step =
+  * Download and install Eclipse Ganymede 3.4 or Galilo 3.5
+  * Install Pydev plugin, using Update Manager ... / Install Software ... by filling in the update website (), and choose yes
+  * Install Subclipse plugin
+  * create a pydev project and configure python path and some other things, like indent, code completion, recommend use python 2.6
+  * *Notice* : Under Solaris, you may need install GEF Plugin
+  * File -> Import... -> SVN -> import from svn -> Next -> New Location -> Next -> fill in https://devices......... -> Choose *temporarily*, not "permanently" or "reject" -> enter username and keys -> Create a new Project -> Pydev project -> Enter name -> ...
+
+= Any problem ? = 
+  * Search keywords in www.google.com
