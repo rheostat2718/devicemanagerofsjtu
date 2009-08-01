@@ -1,35 +1,38 @@
 #!/bin/env python
-# find driver's absolute path & return a list of possible location
+import os
+import sys
+
+# Find driver's location by its name, also return whether its configure file location
 def findDrvConf(drivername):
-    import os,sys,glob
+    uname_i = os.popen('uname -i').readline()[:-1]
+    uname_m = os.popen('uname -m').readline()[:-1]
+    #TODO: find out platform information SPARC/AMD64/32
+    #eg, subdir = 'amd64'
+    subdir = ''
     ret = []
-    platform = os.popen('uname -m').readline()[:-1] # or obtain it from struct utsname in C?
+
     KERNEL_DRV = '/kernel/drv'
     USR_KERNEL_DRV = '/usr/kernel/drv'
-    PLATFORM_XXX_KERNEL_DRV = '/platform/'+platform+'/kernel/drv'
-#    PLATFORM_XXX_KERNEL_DRV = '/platform/*/kernel/drv'
-
-    for currdir in [KERNEL_DRV,USR_KERNEL_DRV,PLATFORM_XXX_KERNEL_DRV]:
-        #search in the directory
-        drvname = currdir + '/' + drivername
+    PLATFORM_KERNEL_DRV_I = '/platform/'+uname_i+'/kernel/drv'
+    PLATFORM_KERNEL_DRV_M = '/platform/'+uname_m+'/kernel/drv'
+    dirlist = [KERNEL_DRV,USR_KERNEL_DRV,PLATFORM_KERNEL_DRV_I]
+    if uname_i != uname_m:
+        dirlist.append(PLATFORM_KERNEL_DRV_M)
+    for currdir in dirlist:
+        #search for driver itself
+        if subdir != '':
+            drvname = currdir + '/' + subdir + '/' + drivername
+        else:
+            drvname = currdir + '/' + drivername
         if os.path.isfile(drvname):
-            confname = drvname + '.conf'
+            # it is said the driver.conf is always in .../drv
+            confname = currdir + '/' + drivername +'.conf'
             if os.path.isfile(confname):
                 ret.append((drvname,confname))
-#   according to modload's script, driver with out .conf are not included
-#   FIXME :
-#            else:
-#                ret.append((drvname,None))
+            # TODO: find out whether should we return None
+            else:
+                ret.append((drvname,None))
 
-    for currdir in [KERNEL_DRV,USR_KERNEL_DRV,PLATFORM_XXX_KERNEL_DRV]:
-        #search in the subdirectory
-        for drvname in glob.glob(currdir + '/*/'+drivername):
-            confname = drvname + '.conf'
-            if os.path.isfile(confname):
-                ret.append((drvname,confname))
-#            else:
-#                ret.append((drvname,None))
-                   
     return ret
 
 # return the first result in the list
@@ -55,7 +58,9 @@ def findFirstDrv(drivername):
         return l[0][0]
 
 def loadModule(modname,quiet):
-    import os,sys
+    #it is said we should remove old ones
+    #TODO: unloadModule
+    #unloadModuel(modname,True)
     opt = ''
     if (not quiet):
         opt = ' 2>/dev/null'
