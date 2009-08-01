@@ -11,8 +11,6 @@ int check_name_to_major(int mode)
 int create_reconfigure_file
 	return fopen("/reconfigure","a");
 #define	MOD_SEP	" :"
-#define	KERNEL_DRV	"/kernel/drv"
-#define	USR_KERNEL_DRV	"/usr/kernel/drv"
 #define	DEVFSADM_PATH	"/usr/sbin/devfsadm"
 #define	DEVFSADM	"devfsadm"
 #define	DEVFS_ROOT	"/devices"
@@ -24,8 +22,8 @@ int create_reconfigure_file
 #define	DEV_POLICY	"/etc/security/device_policy"
 #define	EXTRA_PRIVS	"/etc/security/extra_privs"
 
-1 print priv_getbynum()
-2 print priv_getbyname()
+1 printf priv_getbynum()
+2 printf priv_getbyname()
 3 char* c = priv_gettext()
-   print c
+   printf c
    free(c)
