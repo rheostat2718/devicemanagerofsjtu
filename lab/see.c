@@ -8,14 +8,7 @@ void load_driver(char *driver_name, int verbose_flag)
 	devfsadm [-v] -i driver_name
 int check_name_to_major(int mode)
 	error = (access(name_to_major,mode) != 0)
-int create_reconfigure_file
-	return fopen("/reconfigure","a");
 #define	MOD_SEP	" :"
-#define	DEVFSADM_PATH	"/usr/sbin/devfsadm"
-#define	DEVFSADM	"devfsadm"
-#define	DEVFS_ROOT	"/devices"
-#define	RECONFIGURE	"/reconfigure"
-#define	MODUNLOAD_PATH	"/usr/sbin/modunload"
 #define	DRIVER_ALIAS	"/etc/driver_aliases"
 #define	DRIVER_CLASSES	"/etc/driver_classes"
 #define	NAM_TO_MAJ	"/etc/name_to_major"
