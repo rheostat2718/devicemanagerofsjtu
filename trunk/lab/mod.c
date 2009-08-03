@@ -2,13 +2,6 @@
 #include <sys/errno.h>
 #include <stdio.h>
 //what return value represents an error?
-void modload(char *modpath) {//never use_path
-	if (modctl(MODLOAD,0,modpath, &id) != 0) perror("modctl : MODLOAD")
-	else return id
-}
-void modunload(int id) {
-	if (modctl(MODUNLOAD,id) < 0) perror("modctl : MODUNLOAD")
-}
 struct ? modinfo(int id) {
 	int n=0;
 	struct modinfo mi;
@@ -52,11 +45,12 @@ int modreserve(void) {
 	if (modctl(MODRESERVED, NULL, &max_dev) < 0) perror("modctl: MODRESERVED");
 	return max_dev;
 }
+
 void modgetpath(char *path) {
 	if (modctl(MODGETPATH, NULL, path) != 0) perror("modctl: MODGETPATH");
 }
 
-//following file from add_rem
+//from add_rem, get mod id from its name
 void get_modid(char *driver_name, int *mod)
 {
 	struct modinfo	modinfo;
@@ -70,4 +64,3 @@ void get_modid(char *driver_name, int *mod)
 		*mod = modinfo.mi_id;
 	} while (strcmp(driver_name, modinfo.mi_name) != 0);
 }
-
