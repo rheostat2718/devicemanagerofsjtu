@@ -2,7 +2,7 @@
 created @ 09.07.27 by 韩志超'''
 
 from class_Device import Device
-from class_DeviceManagerGUI import DeviceManagerGUI
+from class_DeviceManagerGUI import *
 from class_Daemon import Daemon
 
 class DeviceManager(object):
@@ -12,19 +12,25 @@ class DeviceManager(object):
         '''init of DeviceManager'''
         cls.__devices={}
         cls.__daemon=Daemon(cls)
-        for device in __devices:
-            device.printDetails()
-        cls.__gui=DeviceManagerGUI(cls)
 
+        for k,v in cls.__devices.items():
+            v.printDetails()
+
+        #cls.__gui=DeviceManagerGUI(cls)
+
+    def appendDeviceList(cls, device):
+        cls.__devices[device.getUDI()]=device
+    def updateDeviceList(cls, device):
+        cls.__devices[device.getUDI()]=device
     def getDeviceObj(cls, udi):
         return cls.__devices[udi]
     def loop(cls):
         '''loop threads and itself'''
         import threading
         cls.__threads=[]
-        cls.__threads.append(threading.Thread(target=cls.__gui.loop))
+        #cls.__threads.append(threading.Thread(target=cls.__gui.loop))
         cls.__threads.append(threading.Thread(target=cls.__daemon.loop))
-        for t in threads:
+        for t in cls.__threads:
             t.start()
         cls.__threads[0].join()
 

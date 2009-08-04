@@ -2,8 +2,10 @@
 
 import dbus
 import dbus.glib
-from dbus.mainloop.glip import DBusGMainLoop
+from dbus.mainloop.glib import DBusGMainLoop
 import gobject
+import sys
+from class_Device import Device
 
 class Daemon(object):
     '''daemon of device manager listening to HAL signal'''
@@ -13,8 +15,8 @@ class Daemon(object):
 
         DBusGMainLoop(set_as_default=True)
         cls.__bus=dbus.SystemBus()
-        obj=bus.get_object('org.freedesktop.Hal','/org/freedesktop/Hal/Manager')
-        cls.__hal_manager=cls.__dbus.Interface(obj, 'org.freedesktop.Hal.Manager')
+        obj=cls.__bus.get_object('org.freedesktop.Hal','/org/freedesktop/Hal/Manager')
+        cls.__hal_manager=dbus.Interface(obj, 'org.freedesktop.Hal.Manager')
 
         # handle will be invoked when global device list is changed
         cls.__hal_manager.connect_to_signal('DeviceAdded', lambda *args: handle('DeviceAdded',*args))
@@ -22,16 +24,17 @@ class Daemon(object):
         cls.__hal_manager.connect_to_signal('NewCapability', lambda *args: handle('NewCapability', *args))
 
         # add listenerso for all devices
-        try:
-            deviceNames=cls.__manager.GetAllDevices()
-        except:
-            print "ERROR: MAKE SURE HALD IS RUNNING"
-            sys.exit(1)
+        deviceNames=cls.__hal_manager.GetAllDevices()
 
         for name in deviceNames:
+            print "#",name
             cls.addDevSigRecv(name)
+            device_dbus_obj=cls.__bus.get_object("org.freedesktop.Hal",name)
+            properties=device_dbus_obj.GetAllProperties(dbus_interface="org.freedesktop.Hal.Device")
+            cls.__manager.appendDeviceList(Device(name, properties))
+
     def addDevSigRecv(cls, udi):
-        cls.__bus.add_signal_reveiver(lambda *args: cls.propertyModified(udi, *args),
+        cls.__bus.add_signal_receiver(lambda *args: cls.propertyModified(udi, *args),
                                       "PropertyModified",
 				      "org.freedesktop.Hal.Device",
 				      "org.freedesktop.Hal",
@@ -55,23 +58,23 @@ class Daemon(object):
                 device=cls.__manager.getDeviceObj(udi)
 
                 if udi_obj.PropertyExists(name, dbus_interface="org.freedesktop.Hal.Device"):
-                    device.getProperty(name)=udi_obj.GetProperty(name, dbus_interface="org.freedesktop.Hal.Device")
+                    device.setProperty(name,udi_obj.GetProperty(name, dbus_interface="org.freedesktop.Hal.Device"))
                 else:
                     device.remProperty(name)
-        
+
     def loop(cls):
-        cls.__loop=gobject.Mainloop()
+        cls.__loop=gobject.MainLoop()
         cls.__loop.run()
-    
+
     def handle(cls, signal, udi, *args):
         '''handle of the signals'''
         if signal=='DeviceAdded':
-            #cls.__manager.update(udi)
+            pass#cls.__manager.update(udi)
             #cls.panel(signal, udi)
         elif signal=='DeviceRemoved':
-            #cls.__manager.update(udi)
+            pass#cls.__manager.update(udi)
             #cls.panel(signal, udi)
         elif signal=='NewCapability':
-            #cls.__manager.update(udi)
+            pass#cls.__manager.update(udi)
             #[cap]=args
             #cls.panel(signal, udi, cap)
