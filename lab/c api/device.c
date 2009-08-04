@@ -7,6 +7,7 @@
  * define of getDeviceNodeName(node)
  * return a name of a node
  */
+/*
 static PyObject *
 getDeviceNodeName(PyObject *self, PyObject *args)
 {
