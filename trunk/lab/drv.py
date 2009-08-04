@@ -32,8 +32,8 @@ def findDrvConf( drivername ):
             if os.path.isfile( confname ):
                 ret.append( ( drvname, confname ) )
             # TODO: find out whether return None or deprecate it
-            # else:
-            #     ret.append((drvname,None))
+            else:
+                ret.append( ( drvname, None ) )
 
     return ret
 
@@ -82,7 +82,7 @@ def loadModule( modname, verbose = True ):
 
     #TODO: should we just load the first one, normally there is only one
     drvlist = findDrv( modname )
-    if verbose & drvlist == []:
+    if verbose & ( drvlist == [] ):
         print "Module %s not found" % modname
         return
 
@@ -115,7 +115,7 @@ def findMidByModname( modname ):
     text = os.popen( 'modinfo | grep ' + modname ).readlines()
     for line in text:
         i = line.split( ' ', 1 )[0]
-        line.append( string.atoi( i ) )
+        l.append( string.atoi( i ) )
     return l
 
 def unloadMid( idno, verbose = True ):
@@ -151,8 +151,6 @@ def installDrv( drvname, installFromPackage = True, verbose = True ):
         ret = pkg.installPackage( pkgname , verbose )
         if ret < 0:
             return
-        else:
-            return ret
     else:
         """
         install without pkgadd, the driver and its configure file must be in the same directory
@@ -173,15 +171,27 @@ def installDrv( drvname, installFromPackage = True, verbose = True ):
         #Read Doc "816-4855" & reference to man page on
         #sad
         #autopush
-        ret = os.system( "add_drv " + filename )
-        if ret != 0:
+    if verbose:
+        print 'Add Module', filename
+    ret = os.system( "add_drv " + filename )
+    if ret < 0:
+        if verbose:
             print ' Add_drv failed!'
-            return
-        #loadModule(drvname)
-        return 0
+        return
+    loadModule( filename )
+    return 0
 
 def uninstallDrv( drvname, removeFromPackage = True, verbose = True ):
-#    unloadModule(drvname)
+    if verbose:
+        print "Unload Module ", drvname
+    unloadModule( drvname )
+    if verbose:
+        print "Remove Module ", drvname
+    ret = os.system( "rem_drv -C " + drvname )
+    if ret < 0:
+        if verbose:
+            print 'Operation failed!'
+        return
     ( path, filename ) = os.path.split( drvname )
     if removeFromPackage:
         import pkg
@@ -196,8 +206,7 @@ def uninstallDrv( drvname, removeFromPackage = True, verbose = True ):
             return
         else:
             return ret
-    else:
-        os.system( "rem_drv -C " + drvname )
+#    else:
 #        os.system( " rm -f drvname" )
 #        os.system( ' rm -f ' + drvname + '.conf' )
 
