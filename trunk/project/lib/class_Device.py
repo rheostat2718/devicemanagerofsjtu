@@ -17,22 +17,29 @@ class Device(object):
     SERVICE='org.freedesktop.Hal'
     INTERFACE='org.freedesktop.Hal.Device'
 
-    def __init__(cls, bus, hal, udi):
-        cls.__hal=hal
+    def __init__(cls, udi, property_=None):
         cls.__udi=udi
-        cls.__bus=bus
-        cls.__property={}
+        if property_==None:
+            cls.__property={}
+        else:
+            print udi, property_
+            cls.__property=property_
 
+    def updateProperty(cls, p):
+        cls.__priperty=p
+
+    def setProperty(cls, p, value):
+        cls.__property[p]=value
     def getProperty(cls, p):
         return cls.__property[p]
-    def remProperty(cls, p): 
+    def remProperty(cls, p):
         try:
             del cls.property[p]
         except:
             pass
     def printDetails(cls):
         print "udi=%s"%cls.__udi
-        for k,v in cls.__property:
+        for k,v in cls.__property.items():
             print "  %s : %s"%(k,v)
         print "done!"
 
@@ -40,8 +47,8 @@ class Device(object):
         return cls.__vendor
     def getType(cls):
         return cls.__type
-    def getPath(cls):
-        return cls.__path
+    def getUDI(cls):
+        return cls.__udi
     def getDriver(cls):
         return cls.__driver
     def getSon(cls):
