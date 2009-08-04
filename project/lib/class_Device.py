@@ -13,8 +13,29 @@ class Device(object):
     driver_major # libdevinfo
     properties
     '''
-    def __init__(cls):
-        pass
+
+    SERVICE='org.freedesktop.Hal'
+    INTERFACE='org.freedesktop.Hal.Device'
+
+    def __init__(cls, bus, hal, udi):
+        cls.__hal=hal
+        cls.__udi=udi
+        cls.__bus=bus
+        cls.__property={}
+
+    def getProperty(cls, p):
+        return cls.__property[p]
+    def remProperty(cls, p): 
+        try:
+            del cls.property[p]
+        except:
+            pass
+    def printDetails(cls):
+        print "udi=%s"%cls.__udi
+        for k,v in cls.__property:
+            print "  %s : %s"%(k,v)
+        print "done!"
+
     def getVendor(cls):
         return cls.__vendor
     def getType(cls):
