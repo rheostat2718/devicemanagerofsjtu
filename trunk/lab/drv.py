@@ -4,16 +4,12 @@
 
 import os
 import sys
+
 uname_i = os.popen( 'uname -i' ).readline()[:-1]
 uname_m = os.popen( 'uname -m' ).readline()[:-1]
-uname_p = os.popen( 'uname -p' ).readline()[:-1]
-#TODO: test uname_p
-if uname_p.find( "amd64" ) != -1:
-    subdir = 'amd64/'
-elif uname_p.find( "sparcv9" ) != -1:
-    subdir = 'sparcv9/'
-else:
-    subdir = ''
+isainfo = os.popen( 'isainfo -k' ).readline()[:-1]
+subdir = {'amd64':'amd64/', 'sparcv9':'sparcv9/', 'i386':''}.get( isainfo, '' )
+
 USR_KERNEL_DRV = '/usr/kernel/drv'
 KERNEL_DRV = '/kernel/drv'
 PLATFORM_KERNEL_DRV_I = '/platform/' + uname_i + '/kernel/drv'
@@ -31,11 +27,11 @@ def findDrvConf( drivername ):
     for currdir in dirlist:
         drvname = currdir + '/' + subdir + drivername
         if os.path.isfile( drvname ):
-            # it is said the driver.conf is always in .../drv
+            # driver.conf is always in .../drv
             confname = currdir + '/' + drivername + '.conf'
             if os.path.isfile( confname ):
                 ret.append( ( drvname, confname ) )
-            # TODO: find out whether we should return None or deprecate it
+            # TODO: find out whether return None or deprecate it
             # else:
             #     ret.append((drvname,None))
 
@@ -69,13 +65,14 @@ def findFirstDrv( drivername ):
     except:
         pass
 
+#LOADMODULE & UNLOADMODULE are not necessary, but it may be a useful tool in debug?
 def loadModule( modname, verbose = True ):
     """
     Remove all old modules before we load new ones,
     try to load all driver
     """
     try:
-        unloadModuel( modname, quiet )
+        unloadModule( modname, verbose )
     except:
         pass
     if verbose:
@@ -102,7 +99,7 @@ def unloadModule( modname, verbose = True ):
     """
     Try to remove the module we can find
     """
-    midlist = findMidByName( modname )
+    midlist = findMidByModname( modname )
     if midlist == []:
         print 'Module %s not found' % modname
         return
@@ -112,10 +109,13 @@ def unloadModule( modname, verbose = True ):
     for mid in midlist:
         unloadMid( mid, verbose )
 
-def findIdByName( modname ):
+def findMidByModname( modname ):
+    import string
     l = []
-    #TODO: decide implementation of findIdByName
-    # invoke a C function or `modinfo | grep xxx`
+    text = os.popen( 'modinfo | grep ' + modname ).readlines()
+    for line in text:
+        i = line.split( ' ', 1 )[0]
+        line.append( string.atoi( i ) )
     return l
 
 def unloadMid( idno, verbose = True ):
@@ -127,40 +127,96 @@ def unloadMid( idno, verbose = True ):
         if ret != 0:
             print "Failed!"
 
-#FIXME: add_drv & rem_drv automatically do this by
-#judge whether / when we need it?
-#fopen("/reconfigure","a")
 def touchReconf( modname ):
+    """
+    just tell the system to find new hardware in the next boot,
+    execute it to setup it manually
+    """
     ret = os.system( 'touch /reconfigure' )
     return ret
 
-#Doc "819-7057"
-def Install( drvname, installFromPackage = False ):
-#TODO: use pkgadd to install driver automatically
-# support "pkgadd"
-    os.system( "cp " + drvname + ' ' + USR_KERNEL_DRV + '/' + subdir )
-    os.system( "cp " + drvname + '.conf ' + USR_KERNEL_DRV + '/' )
-#POSTINSTALL
-#TODO: add_drv cannot used on STREAM devices
-#Read Doc "816-4855" & reference to man page on
-#sad
-#autopush
-    os.system( "add_drv " + drvname )
-#    loadModule(drvname)
+def installDrv( drvname, installFromPackage = True, verbose = True ):
+    """
+    Install driver in pkg or use commandline, read document 819-7057
+    """
+    ( path, filename ) = os.path.split( drvname )
+    if installFromPackage:
+        import pkg
+        pkgname = pkg.findPkg( filename, verbose )
+        if pkgname == None:
+            print 'No package found'
+            return
+        else:
+            print 'Package ', pkgname, ' found, now installing...'
+        ret = pkg.installPackage( pkgname , verbose )
+        if ret < 0:
+            return
+        else:
+            return ret
+    else:
+        """
+        install without pkgadd, the driver and its configure file must be in the same directory
+        """
+        if verbose:
+            print ' Copy ', drvname, ' to ', USR_KERNEL_DRV, '/', subdir
+        ret = os.system( "cp " + drvname + ' ' + USR_KERNEL_DRV + '/' + subdir )
+        if ret != 0:
+            print ' Driver ', drvname, ' cannot be installed !'
+            return
+        if verbose:
+            print ' Copy ', drvname, ' to ', USR_KERNEL_DRV, '/'
+        ret = os.system( "cp " + drvname + '.conf ' + USR_KERNEL_DRV + '/' )
+        if ret != 0:
+            print ' Configure file cannot be installed !'
+            return
+        #TODO: add_drv cannot used on STREAM devices
+        #Read Doc "816-4855" & reference to man page on
+        #sad
+        #autopush
+        ret = os.system( "add_drv " + filename )
+        if ret != 0:
+            print ' Add_drv failed!'
+            return
+        #loadModule(drvname)
+        return 0
 
-def Uninstall( drvname, cleanUpPackage = False ):
+def uninstallDrv( drvname, removeFromPackage = True, verbose = True ):
 #    unloadModule(drvname)
-    os.system( "rem_drv -C " + drvname )
-#TODO: use pkg??? to uninstall driver do not needd
+    ( path, filename ) = os.path.split( drvname )
+    if removeFromPackage:
+        import pkg
+        pkgname = pkg.findPkg( filename, verbose )
+        if pkgname == None:
+            print 'No package found'
+            return
+        else:
+            print 'Package ', pkgname, ' found, now uninstalling...'
+        ret = pkg.uninstallPackage( pkgname , verbose )
+        if ret < 0:
+            return
+        else:
+            return ret
+    else:
+        os.system( "rem_drv -C " + drvname )
+#        os.system( " rm -f drvname" )
+#        os.system( ' rm -f ' + drvname + '.conf' )
 
 def PrintModInfo( drvname ):
 #TODO: implement PrintModInfo In C & Python
 #or invoke modinfo ... you need to be root
     return
 
-#A few test on finddrv
+def BackupDrvConf():
+    return
+
+def RestoreDrvConf():
+    return
+
 if __name__ == '__main__':
-    print findFirstDrvConf( 'sd' ) #/kernel/drv/
-    print findFirstDrv( 'pm' )     #/usr/kernel/drv
-    print findDrvConf( 'cpc' )     #/platform/i86pc/kernel/drv
-    print findDrv( 'nosuchdriver' )
+    if len( sys.argv ) < 2:
+        print "Usage: python drv.py [install | uninstall] drvname [-q | -v]"
+    else:
+        if sys.argv[1] == 'install':
+            installDrv( sys.argv[2], True, ( sys.argv[3] == '-v' ) )
+        if sys.argv[1] == 'uninstall':
+            uninstallDrv( sys.argv[2], True, ( sys.argv[3] == '-v' ) )
