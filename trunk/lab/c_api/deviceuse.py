@@ -1,6 +1,3 @@
-from os import *
 import device
-
-
-list=device.getDeviceNodeName(0)
+list = device.getDeviceList()
 print list
