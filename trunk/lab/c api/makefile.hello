@@ -1,4 +1,0 @@
-hello.so: hello.c
-	cc hello.c -I/usr/include/python2.4 -shared -L/usr/bin -lpython2.4 -o hello.o
-	ld -G hello.o -o hello.so
-	rm -f  hello.o core

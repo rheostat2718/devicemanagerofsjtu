@@ -1,4 +1,0 @@
-device.so: device.c
-	gcc device.c -c -I/usr/include/python2.4 -shared -L/usr/lib/python2.4 -lpython2.4 -ldevinfo -o device.o
-	ld -G device.o -o device.so
-	rm -f  device.o core
