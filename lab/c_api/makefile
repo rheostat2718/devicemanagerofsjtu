@@ -1,11 +1,17 @@
-COMPILER = gcc
-PYLIB = /usr/bin
-PYINC = /usr/include/python2.4
-PYOPT = -I$(PYINC) -shared -L$(PYLIB) -lpython2.4
+CC=gcc
+LD=ld
+PYINC=/usr/include/python2.6
+COMPOPT=-g -c -I$(PYINC) 
+LINKOPT=-fpic -g
 
-hello.so: hello.c
-	$(COMPILER) hello.c $(PYOPT) -g -o hello.so
-device.so: device.c
-	$(COMPILER) device.c -ldevinfo $(PYOPT) -g -o device.so
+TODO: device.so
+
+device.so:device.o
+	$(LD) hello.o $(LINKOPT) -ldevinfo -o hello.so
+device.o:device.c
+	$(CC) hello.c $(COMPOPT)
+
 clean:
-	rm -f core *.o	
+	rm -f core *.o
+cleanall:
+	rm -f *.so
