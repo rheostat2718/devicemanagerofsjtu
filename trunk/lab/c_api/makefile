@@ -1,17 +1,17 @@
 CC=gcc
 LD=ld
 PYINC=/usr/include/python2.6
-COMPOPT=-g -c -I$(PYINC) 
-LINKOPT=-fpic -g
+COMPOPT=-g -c -I$(PYINC) -fpic
+LINKOPT=-shared -g
 
-TODO: device.so
+TODO:device.so;
 
 device.so:device.o
-	$(LD) hello.o $(LINKOPT) -ldevinfo -o hello.so
+	$(LD) device.o -ldevinfo $(LINKOPT) -o device.so
 device.o:device.c
-	$(CC) hello.c $(COMPOPT)
+	$(CC) device.c $(COMPOPT)
 
 clean:
 	rm -f core *.o
-cleanall:
+cleanall:clean
 	rm -f *.so
