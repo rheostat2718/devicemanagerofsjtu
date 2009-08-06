@@ -27,6 +27,6 @@ static struct PyMethodDef device_methods[]= {
   {NULL, NULL}
 };
 
-void initgetDeviceList() {
+void initdevice() {
   (void) Py_InitModule("device", device_methods);
 }
