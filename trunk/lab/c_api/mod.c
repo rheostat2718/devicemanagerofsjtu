@@ -1,9 +1,9 @@
-#define	MODGETMAJBIND		8
 #define	MODSIZEOF_DEVID		10
 #define	MODGETDEVID		11
+devid2paths xx
 #define	MODSIZEOF_MINORNAME	12
 #define	MODGETMINORNAME		13
-#define	MODGETFBNAME		16
+
 #define	MODGETDEVFSPATH_LEN	22
 #define	MODGETDEVFSPATH		23
 #define	MODGETDEVPOLICY		27
@@ -12,5 +12,9 @@
 #define	MODGETDEVFSPATH_MI	39
 
 #define	MODRETIRE		40
+di_retire_device()
+
 #define	MODUNRETIRE		41
+di_unretire_Device()
+di_retire_T
 #define	MODISRETIRED		42
