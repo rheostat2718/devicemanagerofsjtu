@@ -27,7 +27,6 @@ class Daemon(object):
         deviceNames=cls.__hal_manager.GetAllDevices()
 
         for name in deviceNames:
-            print "#",name
             cls.addDevSigRecv(name)
             device_dbus_obj=cls.__bus.get_object("org.freedesktop.Hal",name)
             properties=device_dbus_obj.GetAllProperties(dbus_interface="org.freedesktop.Hal.Device")
@@ -39,6 +38,7 @@ class Daemon(object):
 				      "org.freedesktop.Hal.Device",
 				      "org.freedesktop.Hal",
 				      udi)
+
     def propertyModified(cls, udi, num_changed, change_list):
         '''this method is called when signals on the Device interface is received'''
         n=num_changes #alias
