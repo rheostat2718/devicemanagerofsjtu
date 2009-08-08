@@ -19,32 +19,34 @@ class DeviceManager(object):
             #d.printBrief()
             #d.printDetails()
         cls.__devices["root"].printTree('')
-        
-        #cls.__gui=DeviceManagerGUI(cls)
+
+        cls.__gui=DeviceManagerGUI(cls)
 
     def buildDeviceTree(cls):
         '''the method is defined to build device tree'''
         for k,device in cls.__devices.items():
-            if device.getParent()=='/':
+            if device.getParent()=='':
                 cls.__devices["root"]=device
             else:
                 cls.__devices[device.getParent()].appendChildren(device)
-
+        for k,device in cls.__devices.items():
+            device.orderChildren()
     def appendDeviceList(cls, device):
         cls.__devices[device.getUDI()]=device
     def updateDeviceList(cls, device):
         cls.__devices[device.getUDI()]=device
     def getDeviceObj(cls, udi):
         return cls.__devices[udi]
+    def getAllDevices(cls):
+        return cls.__devices
     def loop(cls):
         '''loop threads and itself'''
         import threading
         cls.__threads=[]
-        #cls.__threads.append(threading.Thread(target=cls.__gui.loop))
         cls.__threads.append(threading.Thread(target=cls.__daemon.loop))
         for t in cls.__threads:
             t.start()
-        cls.__threads[0].join()
+        cls.__gui.loop()
 
     def update(cls, dev=None, from_=None):
         '''update all device'''
