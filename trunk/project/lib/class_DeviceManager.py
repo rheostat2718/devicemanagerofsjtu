@@ -12,8 +12,23 @@ class DeviceManager(object):
         '''init of DeviceManager'''
         cls.__devices={}
         cls.__daemon=Daemon(cls)
+        cls.buildDeviceTree()
 
+        #test
+        #for k,d in cls.__devices.items():
+            #d.printBrief()
+            #d.printDetails()
+        cls.__devices["root"].printTree('')
+        
         #cls.__gui=DeviceManagerGUI(cls)
+
+    def buildDeviceTree(cls):
+        '''the method is defined to build device tree'''
+        for k,device in cls.__devices.items():
+            if device.getParent()=='/':
+                cls.__devices["root"]=device
+            else:
+                cls.__devices[device.getParent()].appendChildren(device)
 
     def appendDeviceList(cls, device):
         cls.__devices[device.getUDI()]=device

@@ -26,11 +26,19 @@ class Daemon(object):
         # add listenerso for all devices
         deviceNames=cls.__hal_manager.GetAllDevices()
 
+        # redirect error message
+        #error=sys.stderr
+        #errfile=file('../log/err','w+')
+        #sys.stderr=errfile # eception to do
+
         for name in deviceNames:
             cls.addDevSigRecv(name)
             device_dbus_obj=cls.__bus.get_object("org.freedesktop.Hal",name)
             properties=device_dbus_obj.GetAllProperties(dbus_interface="org.freedesktop.Hal.Device")
             cls.__manager.appendDeviceList(Device(name, properties))
+            
+        #sys.stderr=error
+        #errfile.close()
 
     def addDevSigRecv(cls, udi):
         cls.__bus.add_signal_receiver(lambda *args: cls.propertyModified(udi, *args),
@@ -56,7 +64,6 @@ class Daemon(object):
             else:
                 udi_obj=cls.__bus.get_object("org.freedesktop.Hal", udi)
                 device=cls.__manager.getDeviceObj(udi)
-
                 if udi_obj.PropertyExists(name, dbus_interface="org.freedesktop.Hal.Device"):
                     device.setProperty(name,udi_obj.GetProperty(name, dbus_interface="org.freedesktop.Hal.Device"))
                 else:
