@@ -22,8 +22,19 @@ class Device(object):
         if property_==None:
             cls.__property={}
         else:
-            print udi, property_
             cls.__property=property_
+        if property_.has_key("info.product"):
+            cls.__type=property_["info.product"]
+            print "  [TYPE]",cls.__type
+        if property_.has_key("info.udi"):
+            cls.__udi=property_["info.udi"]
+            print "  [UDI]",cls.__udi
+        if property_.has_key("info.vendor"):
+            cls.__vendor=property_["info.vendor"]
+        else:
+            cls.translateID()
+        print "  [VENDOR]",cls.__vendor
+        
 
     def updateProperty(cls, p):
         cls.__priperty=p
@@ -41,7 +52,6 @@ class Device(object):
         print "udi=%s"%cls.__udi
         for k,v in cls.__property.items():
             print "  %s : %s"%(k,v)
-        print "done!"
 
     def getVendor(cls):
         return cls.__vendor
@@ -59,4 +69,7 @@ class Device(object):
         return cls.__properties
     def translateID(cls):
         '''translate vendor & device id number into string'''
-        pass
+        if cls.__property.has_key("vendor_id"):
+            cls.__vendor=cls.__property["pci.vendor_id"]
+        else:
+            cls.__vendor="UNKNOWN"

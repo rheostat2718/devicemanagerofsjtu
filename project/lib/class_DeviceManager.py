@@ -13,9 +13,6 @@ class DeviceManager(object):
         cls.__devices={}
         cls.__daemon=Daemon(cls)
 
-        for k,v in cls.__devices.items():
-            v.printDetails()
-
         #cls.__gui=DeviceManagerGUI(cls)
 
     def appendDeviceList(cls, device):
