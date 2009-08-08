@@ -33,7 +33,6 @@ static PyObject * getModuleInfo(PyObject * self, PyObject *id) {
     PyDict_SetItem(msinfo,Py_BuildValue("s","p0"),Py_BuildValue("i",mi.mi_msinfo[k].msi_p0));
     PyList_Append(sp_info,msinfo);
   }
-  k--;
   PyDict_SetItem(info,Py_BuildValue("s","infocnt"),Py_BuildValue("i",k));
   PyDict_SetItem(info,Py_BuildValue("s","specific_info"),sp_info);
   return info;

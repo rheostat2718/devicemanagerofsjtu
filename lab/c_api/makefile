@@ -17,6 +17,6 @@ modulec.o:modulec.c
 
 
 clean:
-	rm -f core *.o
+	rm -f core *.o *.pyc
 cleanall:clean
 	rm -f *.so
