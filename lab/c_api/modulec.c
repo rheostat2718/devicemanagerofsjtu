@@ -76,20 +76,31 @@ static PyObject * getMajorName(PyObject *self, PyObject *arg) {
 
 //Return the last major number in the range of permissible major numbers.
 static PyObject * getModReserve(PyObject *self, PyObject *arg) {
-//FIXME:
   long max_dev = -1,id;
   if (!PyArg_Parse(arg,"(i)",&id)) return NULL;
-  if (modctl(MODRESERVED, id, &max_dev) < 0) return NULL;
-  return Py_BuildValue("l",max_dev);
+  if (modctl(MODRESERVED, NULL, &max_dev) < 0) return NULL;
+  return Py_BuildValue("i",max_dev);
 }
 
+/*Return the sizeof of the device id.*/
+static PyObject * getDevicePath(PyObject *self,PyObject *arg) {
+}
+
+static PyObject * getFrameBufferName(PyObject *self,PyObject *arg) {
+  char path[MAXPATHLEN];
+  if (!PyArg_Parse(arg,"")) return NULL;
+  if (modctl(MODGETFBNAME,path) < 0) return NULL;
+  return Py_BuildValue("s",path);
+}
 static struct PyMethodDef modulec_methods[] = {
     {"getModuleInfo",getModuleInfo,1},
     {"getModuleId",getModuleId,1},
-//TODO:FIXME    {"getModReserve",getModReserve,1},
+//TODO:FIXME    {"getModReserve",getModReserve,1},//why always failed?
     {"getModPath",getModPath,0},
     {"getModPathLen",getModPathLen,0},
 //TODO:TEST IT    {"getMajorName",getMajorName,1},
+//TODO:FIGURE IT OUT {"getDevicePath",getDevicePath,1}, //device related, mayport to device.c
+//TODO:TEST IT    {"getFrameBufferName",getFrameBufferName,0},
     {NULL,NULL}
 };
 
