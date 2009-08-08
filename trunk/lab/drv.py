@@ -6,26 +6,28 @@ import os
 import sys
 import module
 
-ModDrvList = module.getModPath().split()
-isainfo = os.popen( 'isainfo -k' ).readline()[:-1]
-subdir = {'amd64':'amd64/', 'sparcv9':'sparcv9/', 'i386':''}.get( isainfo, '' )
 
 def findDrvConf( drivername ):
     """
     this function find driver's location by its name,
     and locate its configure file at the same time
     """
+    subdirlist = []
+    mapdict = {'amd64':'amd64', 'sparcv9':'sparcv9', 'i386':'.'}
+    for name in os.popen( 'isainfo -k' ).readline().split():
+        subdirlist.append( mapdict[name] )
     ret = []
-    for currdir in ModDrvList:
-        drvname = currdir + '/' + subdir + drivername
-        if os.path.isfile( drvname ):
+    for currdir in module.getPathList():
+        for subdir in subdirlist:
+            drvname = currdir + os.path.sep + 'drv' + os.path.sep + subdir + os.path.sep + drivername
+            if os.path.isfile( drvname ):
             # driver.conf is always in .../drv
-            confname = currdir + '/' + drivername + '.conf'
-            if os.path.isfile( confname ):
-                ret.append( ( drvname, confname ) )
+                confname = currdir + os.path.sep + 'drv' + os.path.sep + drivername + '.conf'
+                if os.path.isfile( confname ):
+                    ret.append( ( drvname, confname ) )
             # TODO: find out whether return None or deprecate it
-            else:
-                ret.append( ( drvname, None ) )
+                else:
+                    ret.append( ( drvname, None ) )
 
     return ret
 
@@ -100,15 +102,6 @@ def unloadModule( modname, verbose = True ):
         print "Module ", modname
     for mid in midlist:
         unloadMid( mid, verbose )
-
-def findMidByModname( modname ):
-    import string
-    l = []
-    text = os.popen( 'modinfo | grep ' + modname ).readlines()
-    for line in text:
-        i = line.split( ' ', 1 )[0]
-        l.append( string.atoi( i ) )
-    return l
 
 def unloadMid( idno, verbose = True ):
     if verbose:
@@ -221,3 +214,5 @@ if __name__ == '__main__':
             installDrv( sys.argv[2], True, ( sys.argv[3] == '-v' ) )
         if sys.argv[1] == 'uninstall':
             uninstallDrv( sys.argv[2], True, ( sys.argv[3] == '-v' ) )
+        if sys.argv[1] == 'find':
+            print findDrvConf( sys.argv[2] )
