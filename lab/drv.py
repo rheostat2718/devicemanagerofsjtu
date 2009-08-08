@@ -4,16 +4,11 @@
 
 import os
 import sys
+import module
 
-uname_i = os.popen( 'uname -i' ).readline()[:-1]
-uname_m = os.popen( 'uname -m' ).readline()[:-1]
+ModDrvList = module.getModPath().split()
 isainfo = os.popen( 'isainfo -k' ).readline()[:-1]
 subdir = {'amd64':'amd64/', 'sparcv9':'sparcv9/', 'i386':''}.get( isainfo, '' )
-
-USR_KERNEL_DRV = '/usr/kernel/drv'
-KERNEL_DRV = '/kernel/drv'
-PLATFORM_KERNEL_DRV_I = '/platform/' + uname_i + '/kernel/drv'
-PLATFORM_KERNEL_DRV_M = '/platform/' + uname_m + '/kernel/drv'
 
 def findDrvConf( drivername ):
     """
@@ -21,10 +16,7 @@ def findDrvConf( drivername ):
     and locate its configure file at the same time
     """
     ret = []
-    dirlist = [KERNEL_DRV, USR_KERNEL_DRV, PLATFORM_KERNEL_DRV_I]
-    if uname_i != uname_m:
-        dirlist.append( PLATFORM_KERNEL_DRV_M )
-    for currdir in dirlist:
+    for currdir in ModDrvList:
         drvname = currdir + '/' + subdir + drivername
         if os.path.isfile( drvname ):
             # driver.conf is always in .../drv
