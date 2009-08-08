@@ -19,7 +19,7 @@ class Device(object):
     def __init__(cls, udi, property_=None):
         cls.__udi=udi
         cls.__children=[]
-        
+
         if property_==None:
             cls.__property={}
         else:
@@ -37,7 +37,7 @@ class Device(object):
         if property_.has_key("info.parent"):
             cls.__parent=property_["info.parent"]
         elif property_["info.product"]=='Computer':
-            cls.__parent="/"
+            cls.__parent=""
 
         if property_.has_key("info.product"):
             cls.__product=property_["info.product"]
@@ -51,7 +51,7 @@ class Device(object):
             cls.__vendor=property_["info.vendor"]
         else:
             cls.__vendor="UNKNOWN"
-        
+
 
     def updateProperty(cls, p):
         cls.__priperty=p
@@ -74,6 +74,9 @@ class Device(object):
         print "    product",cls.__product
         print "    vendor",cls.__vendor
 
+    def getParent(cls):
+        return cls.__parent
+
     def getVendor(cls):
         return cls.__vendor
 
@@ -92,9 +95,12 @@ class Device(object):
     def getChildren(cls):
         return cls.__children
 
+    def hasChildren(cls):
+        return cls.__children!=[]
+
     def appendChildren(cls, child):
         cls.__children.append(child)
-        
+
     def getParent(cls):
         return cls.__parent
     def getProperties(cls):
@@ -104,6 +110,7 @@ class Device(object):
         print space,
         print "[%s]"%(cls.__product)
 
-        cls.__children.sort()
         for d in cls.__children:
             d.printTree("    "+space)
+    def orderChildren(cls):
+        print cls.__children.__class__
