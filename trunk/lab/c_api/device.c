@@ -8,7 +8,7 @@
  * return device list
  */
 
-static int addToList(di_node_t node, PyObject *list) {
+int addToList(di_node_t node, PyObject *list) {
   PyList_Append(list, Py_BuildValue("s",di_node_name(node)));
   return (DI_WALK_CONTINUE);
 }
