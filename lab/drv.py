@@ -1,124 +1,159 @@
-#!/bin/env python
-
-# This script should be run under root priviledge
-
+#!/bin/env python2.6
 import os
 import sys
-import module
+from c_api.modulec import *
+import package
+class Driver():
+    def __init__( self, drvname ):
+        self.drvname = drvname
+        try:
+            self.defaultdrvpath, self.defaultconfpath = getFirstDriverPathConf()
+        except:
+            self.defaultdrvpath = ''
+            self.defaultconfpath = ''
+        self.updateInfo()
+    def dbg_setDefaultDrvPath( self, path ):
+        self.defaultdrvpath = path
+    def dbg_setDefaultConfPath( self, path ):
+        self.defaultconfpath = path
+    def updateInfo( self ):
+        info = self.getInfo()
+        self.isdrv = ( info['INSTALLED'] != 0 )
+        self.isload = ( info['LOADED'] != 0 )
 
+    def getAllDriverPath( self ):
+        ret = []
+        for ( a, b ) in findDrvConf( self.drvname ):
+            ret.append( a )
+        return ret
 
-def findDrvConf( drivername ):
-    """
-    this function find driver's location by its name,
-    and locate its configure file at the same time
-    """
-    subdirlist = []
-    mapdict = {'amd64':'amd64', 'sparcv9':'sparcv9', 'i386':'.'}
-    for name in os.popen( 'isainfo -k' ).readline().split():
-        subdirlist.append( mapdict[name] )
-    ret = []
-    for currdir in module.getPathList():
-        for subdir in subdirlist:
-            drvname = currdir + os.path.sep + 'drv' + os.path.sep + subdir + os.path.sep + drivername
-            if os.path.isfile( drvname ):
-            # driver.conf is always in .../drv
-                confname = currdir + os.path.sep + 'drv' + os.path.sep + drivername + '.conf'
-                if os.path.isfile( confname ):
-                    ret.append( ( drvname, confname ) )
-            # TODO: find out whether return None or deprecate it
-                else:
-                    ret.append( ( drvname, None ) )
+    def getFirstDriverConfPath( self ):
+        return self.getAllDriverConfPath()[0]
 
-    return ret
+    def getFirstDriverPath( self ):
+        return self.getAllDriverPath()[0]
 
-def findFirstDrvConf( drivername ):
-    """
-    return first result in the list or None
-    """
-    try:
-        return findDrvConf( drivername )[0]
-    except:
-        pass
+    def getAllDriverConfPath( self ):
+        """
+        This function finds driver's locations, and also locate driver.conf at the same time
+        """
+        import module
+        #Having more than 2 subdir is completely possible, e.g. some on 32b system and others on 64b system
+        subdirlist = []
+        mapdict = {'amd64':'amd64', 'sparcv9':'sparcv9', 'i386':'.'}
+        for name in os.popen( 'isainfo -k' ).readline().split():
+            subdirlist.append( mapdict[name] )
+        ret = []
+        for currdir in getModPath().split:
+            for subdir in subdirlist:
+                drvname = currdir + os.path.sep + 'drv' + os.path.sep + subdir + os.path.sep + self.drvname
+                if os.path.isfile( drvname ):
+                    # driver.conf is always in something..../drv
+                    confname = currdir + os.path.sep + 'drv' + os.path.sep + self.drvname + '.conf'
+                    if os.path.isfile( confname ):
+                        ret.append( ( drvname, confname ) )
+#FIXME: I don't know whether should return None or deprecate it
+                    else:
+                        ret.append( ( drvname, None ) )
+        return ret
 
-def findDrv( drivername ):
-    """
-    return driver's path
-    """
-    ret = []
-    for ( a, b ) in findDrvConf( drivername ):
-        ret.append( a )
-    return ret
-
-def findFirstDrv( drivername ):
-    """
-    return first driver path
-    """
-    try:
-        ( a, b ) = findDrvConf( drivername )[0]
-        return a
-    except:
-        pass
-
-#LOADMODULE & UNLOADMODULE are not necessary, but it may be a useful tool in debug?
-def loadModule( modname, verbose = True ):
-    """
-    Remove all old modules before we load new ones,
-    try to load all driver
-    """
-    try:
-        unloadModule( modname, verbose )
-    except:
-        pass
-    if verbose:
-        opt = ''
-    else:
-        opt = ' 2>/dev/null'
-
-    #TODO: should we just load the first one, normally there is only one
-    drvlist = findDrv( modname )
-    if verbose & ( drvlist == [] ):
-        print "Module %s not found" % modname
-        return
-
-    if verbose:
-        print "Module ", modname
-    for drv in drvlist:
+    def dbg_loadModule( self, verbose = True ):
+        """
+        First try to remove old modules before we proceed, then we load it
+        """
+        self.updateInfo()
+        if not self.isdrv:
+            if verbose:
+                print "Module %s not found" % self.drvname
+            return
+        if self.isload:
+            try:
+                ret = self.dbg_unloadModule( verbose )
+            except:
+                if verbose:
+                    print 'Cannot unload old module : ', self.drvname
+        self.updateinfo()
+        if  self.isload:
+            if verbose:
+                print 'Cannot unload old module : ', self.drvname
+                return
         if verbose:
-            print "Path :", drv
-        ret = os.popen( 'modinst ' + drv + opt )
-        if ret != 0:
-            print "Failed!"
+            print "Module ", self.drvname, ':', self.defaultdrvpath, ':'
+            opt = ''
+        else:
+            opt = ' 2>/dev/null'
 
-def unloadModule( modname, verbose = True ):
-    """
-    Try to remove the module we can find
-    """
-    midlist = findMidByModname( modname )
-    if midlist == []:
-        print 'Module %s not found' % modname
+        ret = os.popen( 'modinst ' + self.defaultdrvpath + opt )
+        if verbose:
+            if ret != 0:
+                print 'Failed'
+            else:
+                print 'Succeed'
+        self.updateInfo()
+        return ret
+
+    def dbg_unloadModule( self, verbose = True ):
+        self.updateInfo()
+        if not self.isdrv:
+            if verbose:
+                print "Module %s not found" % self.drvname
+            return
+        if not self.isload:
+            print 'Module %s not loaded' % self.drvname
+            return
+        else:
+            idno = self.getId()
+        if idno == None:
+            print 'Module %s not loaded' % self.drvname
+            return
+        if verbose:
+            print "Module :", self.drvname, ': Id', idno
+        ret = os.system( 'modunload -i ' + str( idno ) )
+        if verbose:
+            if ret != 0:
+                print 'Failed'
+            else:
+                print 'Succeed'
+        self.updateInfo()
+        return ret
+
+    def dbg_touchReconf():
+        """
+        just tell the system to find new hardware in the next boot,
+        execute it to setup it manually
+        """
+        return os.system( 'touch /reconfigure' )
+
+    def Backup( self ):
         return
+    def Restore( self ):
+        return
+    def isBackup( self ):
+        return False
 
-    if verbose:
-        print "Module ", modname
-    for mid in midlist:
-        unloadMid( mid, verbose )
+    def getInfo( self ):
+        id = self.getId()
+        if id == None:
+            return
+        try:
+            return getModuleInfo( id )
+        except:
+            pass
 
-def unloadMid( idno, verbose = True ):
-    if verbose:
-        print "Module No :", idno
+    def getId( self ):
+        try:
+            return getModuleId( self.drvname )
+        except:
+            return None
 
-    ret = os.system( 'modunload -i ' + str( idno ) )
-    if verbose:
-        if ret != 0:
-            print "Failed!"
-
-def touchReconf( modname ):
-    """
-    just tell the system to find new hardware in the next boot,
-    execute it to setup it manually
-    """
-    ret = os.system( 'touch /reconfigure' )
-    return ret
+    def Install( self, verbose = True, InstallFromPackage = True, arg = None ):
+        try:
+            if InstallFromPackage:
+                Install_Pkg( verbose, arg )
+            else:
+                Install_Cpy( verbose, arg )
+        except:
+            pass
 
 def installDrv( drvname, installFromPackage = True, verbose = True ):
     """
@@ -195,24 +230,13 @@ def uninstallDrv( drvname, removeFromPackage = True, verbose = True ):
 #        os.system( " rm -f drvname" )
 #        os.system( ' rm -f ' + drvname + '.conf' )
 
-def PrintModInfo( drvname ):
-#TODO: implement PrintModInfo In C & Python
-#or invoke modinfo ... you need to be root
-    return
-
-def BackupDrvConf():
-    return
-
-def RestoreDrvConf():
-    return
-
 if __name__ == '__main__':
     if len( sys.argv ) < 2:
-        print "Usage: python drv.py [install | uninstall] drvname [-q | -v]"
+        print "Usage: python drv.py [install | uninstall | info] drvname [-q | -v]"
     else:
         if sys.argv[1] == 'install':
             installDrv( sys.argv[2], True, ( sys.argv[3] == '-v' ) )
         if sys.argv[1] == 'uninstall':
             uninstallDrv( sys.argv[2], True, ( sys.argv[3] == '-v' ) )
-        if sys.argv[1] == 'find':
-            print findDrvConf( sys.argv[2] )
+        if sys.argv[1] == 'info':
+            print( Driver( sys.argv[2] ).getInfo() )

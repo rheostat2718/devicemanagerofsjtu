@@ -21,9 +21,8 @@ static PyObject * getModuleInfo(PyObject * self, PyObject *id) {
   PyDict_SetItem(info,Py_BuildValue("s","name"),Py_BuildValue("s",mi.mi_name));
   PyDict_SetItem(info,Py_BuildValue("s","size"),Py_BuildValue("l",mi.mi_size));
   PyDict_SetItem(info,Py_BuildValue("s","rev"),Py_BuildValue("i",mi.mi_rev));
-/*FIXME: we do not need mi_base at all
+/*FIXME: mi_base corrupts modctl(), we usually do not need it...
   PyDict_SetItem(info,Py_BuildValue("s","addr"),Py_BuildValue("l",mi.mi_base));
-  caddr_t addr;
  */
   for (;k<MODMAXLINK;k++) {
     if (mi.mi_msinfo[k].msi_linkinfo[0] == '\0') break;
