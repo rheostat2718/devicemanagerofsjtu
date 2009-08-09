@@ -2,43 +2,41 @@
 import os
 import sys
 from c_api.modulec import *
-import package
 
 class Driver():
     def __init__( self, drvname ):
-        self.drvname = drvname
+        self.drvname = drvname #设备名/驱动名
         try:
             self.defaultdrvpath, self.defaultconfpath = getFirstDriverPathConf()
         except:
-            self.defaultdrvpath = ''
-            self.defaultconfpath = ''
-        self.updateInfo()
+            self.defaultdrvpath = '' #驱动程序路径
+            self.defaultconfpath = '' #驱动程序配置路径
+
     def dbg_setDefaultDrvPath( self, path ):
         self.defaultdrvpath = path
+
     def dbg_setDefaultConfPath( self, path ):
         self.defaultconfpath = path
 
-    def updateInfo( self ):
-        info = self.getInfo()
-        self.isdrv = ( info['INSTALLED'] != 0 )
-        self.isload = ( info['LOADED'] != 0 )
+    def isInstalled( self ): #驱动是否安装
+        return ( self.getInfo()['INSTALLED'] != 0 )
 
-    def getAllDriverPath( self ):
+    def isLoaded( self ): #驱动是否加载
+        return ( self.getInfo()['LOADED'] != 0 )
+
+    def getAllDriverPath( self ): #返回所有相关驱动程序的路径
         ret = []
         for ( a, b ) in findDrvConf( self.drvname ):
             ret.append( a )
         return ret
 
-    def getFirstDriverConfPath( self ):
+    def getFirstDriverConfPath( self ): #返回默认的驱动程序与配置
         return self.getAllDriverConfPath()[0]
 
-    def getFirstDriverPath( self ):
+    def getFirstDriverPath( self ): #返回默认的驱动程序
         return self.getAllDriverPath()[0]
 
-    def getAllDriverConfPath( self ):
-        """
-        This function finds driver's locations, and also locate driver.conf at the same time
-        """
+    def getAllDriverConfPath( self ): #获得所有相关驱动程序与配置的路径
         import module
         #Having more than 2 subdir is completely possible, e.g. some on 32b system and others on 64b system
         subdirlist = []
@@ -50,7 +48,7 @@ class Driver():
             for subdir in subdirlist:
                 drvname = currdir + os.path.sep + 'drv' + os.path.sep + subdir + os.path.sep + self.drvname
                 if os.path.isfile( drvname ):
-                    # driver.conf is always in something..../drv
+                    # driver.conf 始终在 .../drv 下
                     confname = currdir + os.path.sep + 'drv' + os.path.sep + self.drvname + '.conf'
                     if os.path.isfile( confname ):
                         ret.append( ( drvname, confname ) )
@@ -59,23 +57,21 @@ class Driver():
                         ret.append( ( drvname, None ) )
         return ret
 
-    def dbg_loadModule( self, verbose = True ):
+    def dbg_loadModule( self, verbose = True ): #手动加载模块
         """
         First try to remove old modules before we proceed, then we load it
         """
-        self.updateInfo()
-        if not self.isdrv:
+        if not self.isInstalled():
             if verbose:
                 print "Module %s not found" % self.drvname
             return
-        if self.isload:
+        if self.isLoaded():
             try:
                 ret = self.dbg_unloadModule( verbose )
             except:
                 if verbose:
                     print 'Cannot unload old module : ', self.drvname
-        self.updateinfo()
-        if  self.isload:
+        if  self.isLoaded():
             if verbose:
                 print 'Cannot unload old module : ', self.drvname
                 return
@@ -91,16 +87,14 @@ class Driver():
                 print 'Failed'
             else:
                 print 'Succeed'
-        self.updateInfo()
         return ret
 
-    def dbg_unloadModule( self, verbose = True ):
-        self.updateInfo()
-        if not self.isdrv:
+    def dbg_unloadModule( self, verbose = True ): #手动卸载模块
+        if not self.isInstalled():
             if verbose:
                 print "Module %s not found" % self.drvname
             return
-        if not self.isload:
+        if not self.isLoaded():
             print 'Module %s not loaded' % self.drvname
             return
         else:
@@ -116,24 +110,25 @@ class Driver():
                 print 'Failed'
             else:
                 print 'Succeed'
-        self.updateInfo()
         return ret
 
-    def dbg_touchReconf():
+    def dbg_touchReconf(): #重新启动后检测硬件变化？
         """
         just tell the system to find new hardware in the next boot,
         execute it to setup it manually
         """
         return os.system( 'touch /reconfigure' )
 
-    def Backup( self ):
+    def Backup( self ): #备份
         return
-    def Restore( self ):
+
+    def Restore( self ): #还原
         return
-    def isBackup( self ):
+
+    def isBackup( self ): #是否有备份
         return False
 
-    def getInfo( self ):
+    def getInfo( self ): #获取模块的信息
         id = self.getId()
         if id == None:
             return
@@ -142,7 +137,7 @@ class Driver():
         except:
             pass
 
-    def getId( self ):
+    def getId( self ): #获得模块的id，未加载则返回None
         try:
             return getModuleId( self.drvname )
         except:
@@ -173,12 +168,11 @@ class Driver():
                         print 'You need to specify two or more files, or an package.'
                         return
                 else:
-#TODO: check input file
                     Install_Cpy( verbose, arg )
         except:
             pass
 
-    def Install_Pkg( self, verbose, pkgname ):
+    def Install_Pkg( self, verbose, pkgname ): #安装.pkg文件
         if os.path.isfile( pkgname ):
             if verbose:
                 print 'Install from ', pkgname
@@ -192,7 +186,7 @@ class Driver():
             print 'Cannot find ', pkgname
             return
 
-    def Install_Cpy( self, verbose, args ):
+    def Install_Cpy( self, verbose, args ): #将args中文件复制到驱动目录
         """
         install without pkgadd, the driver and its configure file must be in the same directory
         """
@@ -200,6 +194,10 @@ class Driver():
         drvlist = []
         conflist = []
         fname.split()
+        if verbose:
+            opt = ''
+        else:
+            opt = ' /dev/null'
         for fname in args:
             if not os.path.exists( fname ):
                 if verbose:
@@ -217,9 +215,13 @@ class Driver():
                     return
                 else:
                     path, name = os.path.split( fname )
+                    if name in conflist:
+                        continue
                     conflist.append( name )
             else:
                 path, name = os.path.split( fname )
+                if name in drvlist:
+                    continue
                 drvlist.append( name )
         for name in drvlist:
             if not ( ( name + '.conf' ) in conflist ):
@@ -232,45 +234,43 @@ class Driver():
             if name in drvlist:
                 if verbose:
                     print ' to ', USR_KERNEL_DRV + os.path.sep, subdir, os.path.sep
-                ret = os.system( "cp " + fname + ' ' + USR_KERNEL_DRV + os.path.sep + subdir + os.path.sep )
+                ret = os.system( "cp " + fname + ' ' + USR_KERNEL_DRV + os.path.sep + subdir + os.path.sep + opt )
             else:
                 if verbose:
                     print ' to ', USR_KERNEL_DRV + os.path.sep
-                ret = os.system( "cp " + fname + ' ' + USR_KERNEL_DRV + os.path.sep )
+                ret = os.system( "cp " + fname + ' ' + USR_KERNEL_DRV + os.path.sep + opt )
             if ret != 0:
                 if verbose:
                     print 'Operation Failed.'
                 return
-        #TODO: add_drv cannot be used upon STREAM devices
-        #(from 816-4855.pdf)
-        #sad
-        #autopush
+        for name in drvlist:
+            if verbose:
+                print 'add_drv :', name,
+            ret = os.system( 'add_drv ' + name + opt )
+            if verbose:
+                if ret < 0:
+                    print 'Failed'
+                    #If this one fails, go on ...
+                else:
+                    print 'Succeed'
+#TODO: add_drv does not support STREAM devices
+#(816-4855.pdf) reference : sad, autopush
         self.dbg_touchReconf()
         if verbose:
-            print 'It may take effect during your reboot computer'
+            print 'Changes will take effect during your next reboot'
+        return 0
 
-def installDrv( drvname, installFromPackage = True, verbose = True ):
-    ( path, filename ) = os.path.split( drvname )
-    if installFromPackage:
-        import pkg
-        pkgname = pkg.findPkg( filename, verbose )
-        if pkgname == None:
-            print 'No package found'
+    def Install_Search( self, verbose ):
+        import package
+        driverPkg = Package( self.drvname, search = True, verbose )
+        if driverPkg.name == None:
+            if verbose:
+                print 'Cannot find related package'
             return
-        else:
-            print 'Package ', pkgname, ' found, now installing...'
-        ret = pkg.installPackage( pkgname , verbose )
-        if ret < 0:
-            return
-    if verbose:
-        print 'Add Module', filename
-    ret = os.system( "add_drv " + filename )
-    if ret < 0:
-        if verbose:
-            print ' Add_drv failed!'
-        return
-    loadModule( filename )
-    return 0
+        try:
+            return driverPkg.Install( verbose )
+        except:
+            pass
 
 def uninstallDrv( drvname, removeFromPackage = True, verbose = True ):
     if verbose:
