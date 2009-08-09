@@ -4,8 +4,10 @@
 #define	DEV_POLICY	"/etc/security/device_policy"
 #define	EXTRA_PRIVS	"/etc/security/extra_privs"
 
-1 printf priv_getbynum()
-2 printf priv_getbyname()
-3  char* c = priv_gettext()
-   printf c
-   free(c)
+useful commands:
+'isainfo -b'
+'uname -a'
+'%s/dmi_info -C' % bindir
+'/usr/sbin/prtconf -pv'
+'/usr/sbin/prtdiag'
+'%s/dmi_info' % bindir

@@ -3,6 +3,7 @@ import os
 import sys
 from c_api.modulec import *
 import package
+
 class Driver():
     def __init__( self, drvname ):
         self.drvname = drvname
@@ -16,6 +17,7 @@ class Driver():
         self.defaultdrvpath = path
     def dbg_setDefaultConfPath( self, path ):
         self.defaultconfpath = path
+
     def updateInfo( self ):
         info = self.getInfo()
         self.isdrv = ( info['INSTALLED'] != 0 )
@@ -144,21 +146,110 @@ class Driver():
         try:
             return getModuleId( self.drvname )
         except:
-            return None
+            pass
 
     def Install( self, verbose = True, InstallFromPackage = True, arg = None ):
+        """
+        We can use pkg install / pkgadd to install drivers,
+        and we may use shell command, as written in Solaris document 819-7057.pdf
+        """
         try:
             if InstallFromPackage:
-                Install_Pkg( verbose, arg )
+                """
+                Install from file pkgname, if pkgname is None, then we search in PKG's database and choose the latest package
+                """
+                if arg != None:
+                    Install_Pkg( verbose, arg )
+                else:
+                    Install_Search( verbose )
             else:
-                Install_Cpy( verbose, arg )
+                if arg == None:
+                    print 'You need to specify files to install'
+                    return
+                elif len( arg ) == 1:
+                    if arg[0][-4:] == '.pkg' :
+                        Install_Pkg( verbose, arg[0] )
+                    else:
+                        print 'You need to specify two or more files, or an package.'
+                        return
+                else:
+#TODO: check input file
+                    Install_Cpy( verbose, arg )
         except:
             pass
 
+    def Install_Pkg( self, verbose, pkgname ):
+        if os.path.isfile( pkgname ):
+            if verbose:
+                print 'Install from ', pkgname
+                opt = ''
+            else:
+                opt = ' 2>/dev/null'
+#TODO: find out the cmd
+#            ret = os.system('pfexec pkgadd '+pkgname+opt)
+            return ret
+        else:
+            print 'Cannot find ', pkgname
+            return
+
+    def Install_Cpy( self, verbose, args ):
+        """
+        install without pkgadd, the driver and its configure file must be in the same directory
+        """
+        USR_KERNEL_DRV = r'/usr/kernel/drv'
+        drvlist = []
+        conflist = []
+        fname.split()
+        for fname in args:
+            if not os.path.exists( fname ):
+                if verbose:
+                    print 'File ', fname, ' does not exist'
+                    return
+            #TODO: more restruction on fname, only 26 lower alphabetic, 10 digit _
+            if fname.find( '.' ) != None:
+                if fname[-5:] != '.conf':
+                    if verbose:
+                        print fname, ' is neither a driver or driver.conf, installion abort'
+                    return
+                elif fname[:-5].find( '.' ) != None:
+                    if verbose:
+                        print fname, ' is neither a driver or driver.conf, installion abort'
+                    return
+                else:
+                    path, name = os.path.split( fname )
+                    conflist.append( name )
+            else:
+                path, name = os.path.split( fname )
+                drvlist.append( name )
+        for name in drvlist:
+            if not ( ( name + '.conf' ) in conflist ):
+                print "driver and configure doesn't match :", name, ' .conf not found.'
+                return
+        for fname in args:
+            if verbose:
+                print 'cp ', fname,
+            path, name = os.path.split( fname )
+            if name in drvlist:
+                if verbose:
+                    print ' to ', USR_KERNEL_DRV + os.path.sep, subdir, os.path.sep
+                ret = os.system( "cp " + fname + ' ' + USR_KERNEL_DRV + os.path.sep + subdir + os.path.sep )
+            else:
+                if verbose:
+                    print ' to ', USR_KERNEL_DRV + os.path.sep
+                ret = os.system( "cp " + fname + ' ' + USR_KERNEL_DRV + os.path.sep )
+            if ret != 0:
+                if verbose:
+                    print 'Operation Failed.'
+                return
+        #TODO: add_drv cannot be used upon STREAM devices
+        #(from 816-4855.pdf)
+        #sad
+        #autopush
+        self.dbg_touchReconf()
+        if verbose:
+            print 'It may take effect during your reboot computer'
+
 def installDrv( drvname, installFromPackage = True, verbose = True ):
-    """
-    Install driver in pkg or use commandline, read document 819-7057
-    """
     ( path, filename ) = os.path.split( drvname )
     if installFromPackage:
         import pkg
@@ -171,26 +262,6 @@ def installDrv( drvname, installFromPackage = True, verbose = True ):
         ret = pkg.installPackage( pkgname , verbose )
         if ret < 0:
             return
-    else:
-        """
-        install without pkgadd, the driver and its configure file must be in the same directory
-        """
-        if verbose:
-            print ' Copy ', drvname, ' to ', USR_KERNEL_DRV, '/', subdir
-        ret = os.system( "cp " + drvname + ' ' + USR_KERNEL_DRV + '/' + subdir )
-        if ret != 0:
-            print ' Driver ', drvname, ' cannot be installed !'
-            return
-        if verbose:
-            print ' Copy ', drvname, ' to ', USR_KERNEL_DRV, '/'
-        ret = os.system( "cp " + drvname + '.conf ' + USR_KERNEL_DRV + '/' )
-        if ret != 0:
-            print ' Configure file cannot be installed !'
-            return
-        #TODO: add_drv cannot used on STREAM devices
-        #Read Doc "816-4855" & reference to man page on
-        #sad
-        #autopush
     if verbose:
         print 'Add Module', filename
     ret = os.system( "add_drv " + filename )
