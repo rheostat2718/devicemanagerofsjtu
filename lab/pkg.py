@@ -106,3 +106,14 @@ if __name__ == '__main__':
     s = findPkg( 'pci-ide' )
     if s != None:
         printPackageInfo( s )
+"""
+安装驱动程序。
+# pkgadd [-d] device package-name
+-d device 用于标识包含软件包的设备路径名。
+package-name 用于标识包含设备驱动程序的软件包名称
+
+检验软件包是否已正确添加。
+# pkgchk package-name
+#
+如果正确安装了软件包，则系统提示不会返回任何响应
+"""
