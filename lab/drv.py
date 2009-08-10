@@ -154,21 +154,23 @@ class Driver():
                 Install from file pkgname, if pkgname is None, then we search in PKG's database and choose the latest package
                 """
                 if arg != None:
-                    Install_Pkg( verbose, arg )
+                    self.Install_Pkg( verbose, arg )
                 else:
-                    Install_Search( verbose )
+                    self.Install_Search( verbose )
             else:
                 if arg == None:
-                    print 'You need to specify files to install'
+                    if verbose:
+                        print 'You need to specify files to install'
                     return
                 elif len( arg ) == 1:
                     if arg[0][-4:] == '.pkg' :
-                        Install_Pkg( verbose, arg[0] )
+                        self.Install_Pkg( verbose, arg[0] )
                     else:
-                        print 'You need to specify two or more files, or an package.'
+                        if verbose:
+                            print 'You need to specify two or more files, or an package.'
                         return
                 else:
-                    Install_Cpy( verbose, arg )
+                    self.Install_Cpy( verbose, arg )
         except:
             pass
 
@@ -272,10 +274,26 @@ class Driver():
         except:
             pass
 
-def uninstallDrv( drvname, removeFromPackage = True, verbose = True ):
-    if verbose:
-        print "Unload Module ", drvname
-    unloadModule( drvname )
+    def Update( self ):
+        return
+
+    def Uninstall( self, removeFromPackage = True, verbose = True, arg = None ):
+        try:
+            if removeFromPackage:
+                if arg != None:
+                    self.Uninstall_Pkg( verbose, arg )
+                else:
+                    self.Uninstall_Search( verbose )
+            else:
+                if arg == None:
+                    if verbose:
+                        print 'You need to specify files to install'
+                    return
+                else:
+                    self.Uninstall_Cpy( verbose, arg )
+        except:
+            pass
+'''
     if verbose:
         print "Remove Module ", drvname
     ret = os.system( "rem_drv -C " + drvname )
@@ -300,6 +318,7 @@ def uninstallDrv( drvname, removeFromPackage = True, verbose = True ):
 #    else:
 #        os.system( " rm -f drvname" )
 #        os.system( ' rm -f ' + drvname + '.conf' )
+'''
 
 if __name__ == '__main__':
     if len( sys.argv ) < 2:

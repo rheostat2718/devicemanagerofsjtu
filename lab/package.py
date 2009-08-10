@@ -54,11 +54,47 @@ class Package():
         except:
             return
 
-    def Install( self ):
-        return
+    def Install( self , verbose = True ):
+#FIXME:    if cannot install : return, print error message
+        if verbose:
+            arg = ''
+            opt = ' 2>/dev/null'
+        else:
+            arg = '-q '
+            opt = ''
+        try:
+            if verbose:
+                print 'Install package ', self.name, ' :'
+            ret = os.system( 'pkg install ' + arg + self.name + opt )
+            if verbose:
+                if ret < 0:
+                    print 'Failed!'
+                else:
+                    print 'Succeed!'
+            return ret
+        except:
+            pass
 
-    def Uninstall( self ):
-        return
+    def Uninstall( self, verbose = True ):
+#FIXME:    if cannot uninstall : return, print error message
+        if verbose:
+            arg = '-r '
+            opt = ''
+        else:
+            arg = '-rq '
+            opt = ' 2>/dev/null'
+        try:
+            if verbose:
+                print 'Unnstall package ', self.name, ' :'
+            ret = os.system( 'pkg uninstall ' + arg + self.name + opt )
+            if verbose:
+                if ret < 0:
+                    print 'Failed'
+                else:
+                    print 'Succeed'
+            return ret
+        except:
+            pass
 
     def getInfo( self ):
         try:
@@ -99,32 +135,15 @@ class Package():
         except:
             pass
 
-def installPackage( pkgname, verbose = True ):
-    import os
-    if not verbose:
-        option = '-q '
-    else:
-        option = ' '
-    ret = os.system( 'pkg install ' + option + pkgname )
-    if ret < 0 & verbose:
-            print 'Installion Failed'
-    return ret
-
-def uninstallPackage( pkgname, verbose = True ):
-    import os
-    if not verbose:
-        option = '-rq '
-    else:
-        option = '-r '
-    ret = os.system( 'pkg uninstall ' + option + pkgname )
-    if ret < 0 & verbose:
-        print 'Uninstallion Failed'
-    return ret
-
 if __name__ == '__main__':
     s = Package( 'pci-ide', True, True )
     print s.getInfo()
+
 """
+-----------------------------
+extract from solaris document
+-----------------------------
+
 安装驱动程序。
 # pkgadd [-d] device package-name
 -d device 用于标识包含软件包的设备路径名。
