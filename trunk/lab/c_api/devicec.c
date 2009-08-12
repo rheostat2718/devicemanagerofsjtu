@@ -16,6 +16,8 @@ void di_fini(di_node_t root);
 flag:
 DI_WALK_CLDFIRST	depth first(default)
 DI_WALK_SIBFIRST		breadth first
+DI_WALK_LINKGEN
+DI_WALK_MASK
 node_callback() return value:
 DI_WALK_CONTINUE	Continue walking
 DI_WALK_PRUNESIB	Continue walking, but skip siblings and their child nodes
@@ -91,7 +93,12 @@ DI_PATH_STATE_STANDBY	not ready for I/O operation
 
 6
 int di_walk_minor(di_node_t root,const char* minor_nodetype,uint_t flag, void *arg, int(*minor_callback)(di_node_t node,di_minor_t minor, void *arg));
-flag:		0
+flag:
+default:		0
+DI_CHECK_ALIAS	0x10
+DI_CHECK_INTERNAL_PATHS 0x20
+DI_CHECK_MASK	0xf0
+
 minor_nodetype:
 DDI_NT_SERIAL			For serial ports
 DDI_NT_SERAL_MB		For on board serial ports
@@ -139,11 +146,70 @@ DI_PROP_TYPE_STRING				Use di_prop_strings()
 DI_PROP_TYPE_BYTE					Use di_prop_bytes()
 DI_PROP_TYPE_UNKNOWN			Use di_prop_bytes()
 DI_PROP_TYPE_UNDEF_IT			No data available
-
+DI_PROP_UNDEF_IT?
 9
 int di_prop_lookup_bytes(dev_t dev,di_node_t node,const char *prop_name,uchar_t **prop_data);
 int di_prop_lookup_ints(dev_t dev,di_node_t node,const char *prop_name,int **prop_data);
 int di_prop_lookup_int64(dev_t dev,di_node_t node,const char *prop_name,int64_t **prop_data);
 int di_prop_lookup_strings(dev_t dev,di_node_t node,const char *prop_name,char **prop_data);
 
+10
+di_prom_handle_t di_prom_init(void);
+void di_prom_fini(di_prom_handle_t ph);
+
+di_prop_prop_t di_prom_prop_next(di_prom_handle_t ph, di_node_t node,di_prom_prop_t prom_prop);
+char *di_prom_prop_name(di_prom_prop_t prom_prop)
+int di_prom_prop_data(di_prom_prop_t prom_prop,uchar_t **prop_data);
+
+/dev/openprom    :   read / change these prop
+
+int di_prom_prop_lookup_bytes(di_prom_handle_t ph, di_node_t node,const char *prop_name,uchar_t **prop_data);
+int di_prom_prop_lookup_ints(di_prom_handle_t ph, di_node_t node,const char *prop_name,int **prop_data);
+int di_prom_prop_lookup_strings(di_prom_handle_t ph, di_node_t node,const char *prop_name,char **prop_data);
+
+11 error in manual page
+di_path_prop_t di_path_prop_next(di_path_t path,di_path_prop_t prop);
+char *di_path_prop_name(di_path_prop_t prop);
+int di_path_prop_type(di_path_prop_t prop);
+int di_path_prop_len(di_path_prop_t prop); // does not exist in manual
+int di_path_prop_bytes(di_path_prop_t prop,uchar_t **prop_data);
+int di_path_prop_ints(di_path_prop_t prop,int **prop_data);
+int di_path_prop_int64(di_path_prop_t prop,int64_t **prop_data);
+int di_path_prop_strings(di_path_prop_t prop,char **prop_data);
+
+12
+int di_walk_link(di_node_t root,uint_t flag,uint_t endpoint, void*arg,int (*link_callback)(di_link_t link,void *arg));
+endpoint:
+DI_LINK_SRC
+DI_LINK_TARGET
+flag:		0
+link_callback return value:
+DI_WALK_CONTINUE
+DI_WALK_TERMINATE
+
+int di_walk_lnode(di_node_t root,uint_t flag,void* arg, int (*lnode_callback)(di_lnode_t link,void *arg));
+flag:		0
+lnode_callback return value:
+DI_WALK_CONTINUE
+DI_WALK_TERMINATE
+
+//error in manual page
+di_link_t di_link_next_by_node(di_node_t node,,di_link_t link, uint_t endpoint);
+di_link_t di_link_next_by_lnode(di_lnode_t lnode,,di_link_t link, uint_t endpoint);
+link:
+handle of current link
+DI_LINK_NIL
+endpoint:
+DI_LINK_TGT
+DI_LINK_SRC
+
+13
+di_lnode_t di_lnode_next(di_node_t node,di_lnode_t lnode);
+char * di_lnode_name(di_lnode_t lnode);
+di_node_t di_lnode_devinfo(di_lnode_t lnode);
+int di_lnode_devt(di_lnode_t,dev_t *devt);
+
+int di_link_spectype(di_link_t link);
+return:		S_IFCHR | S_IFBLK
+di_lnode_t di_link_to_lnode(di_link_t link,uint_t endpoint);
 */
