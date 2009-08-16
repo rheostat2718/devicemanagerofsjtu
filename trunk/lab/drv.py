@@ -181,8 +181,7 @@ class Driver():
                 opt = ''
             else:
                 opt = ' 2>/dev/null'
-#TODO: find out the cmd
-#            ret = os.system('pfexec pkgadd '+pkgname+opt)
+            ret = os.system( 'pkgadd -d ' + self.drvname + ' ' + pkgname + opt )
             return ret
         else:
             print 'Cannot find ', pkgname
@@ -265,6 +264,7 @@ class Driver():
     def Install_Search( self, verbose ):
         import package
         driverPkg = Package( self.drvname, search = True, verbose )
+#TODO: search = REMOTE
         if driverPkg.name == None:
             if verbose:
                 print 'Cannot find related package'
@@ -293,32 +293,58 @@ class Driver():
                     self.Uninstall_Cpy( verbose, arg )
         except:
             pass
-'''
-    if verbose:
-        print "Remove Module ", drvname
-    ret = os.system( "rem_drv -C " + drvname )
-    if ret < 0:
-        if verbose:
-            print 'Operation failed!'
-        return
-    ( path, filename ) = os.path.split( drvname )
-    if removeFromPackage:
-        import pkg
-        pkgname = pkg.findPkg( filename, verbose )
-        if pkgname == None:
-            print 'No package found'
-            return
-        else:
-            print 'Package ', pkgname, ' found, now uninstalling...'
-        ret = pkg.uninstallPackage( pkgname , verbose )
-        if ret < 0:
-            return
-        else:
+
+    def Uninstall_Pkg( self, verbose, pkgname ):
+        if os.path.isfile( pkgname ):
+            if verbose:
+                print 'Uninstall from ', pkgname
+                opt = ''
+            else:
+                opt = ' 2>/dev/null'
+#TODO: find out the cmd
+#            ret = os.system('pfexec pkgrem '+pkgname+opt)
             return ret
-#    else:
-#        os.system( " rm -f drvname" )
-#        os.system( ' rm -f ' + drvname + '.conf' )
-'''
+        else:
+            print 'Cannot find ', pkgname
+            return
+
+    def Uninstall_Cpy( self, verbose, arg ):
+        if verbose:
+            opt = ''
+        else:
+            opt = ' /dev/null'
+        if verbose:
+            print 'rem_drv :', self.drvname,
+        ret = os.system( 'rem_drv ' + self.drvname + opt )
+        if verbose:
+            if ret < 0:
+                print 'Failed'
+                #If this one fails, go on ...
+            else:
+                print 'Succeed'
+        for fname in args:
+            if verbose:
+                print 'rm ', fname
+            ret = os.system( "rm -f " + fname + opt )
+            if verbose:
+                if ret != 0:
+                    print 'Failed'
+                    #If this one fails, go on ...
+                else:
+                    print 'Succeed'
+
+    def Uninstall_Search( self, verbose ):
+        import package
+        driverPkg = Package( self.drvname, search = True, verbose )
+#TODO: search = LOCAL
+        if driverPkg.name == None:
+            if verbose:
+                print 'Cannot find related package'
+            return
+        try:
+            return driverPkg.Uninstall( verbose )
+        except:
+            pass
 
 if __name__ == '__main__':
     if len( sys.argv ) < 2:
