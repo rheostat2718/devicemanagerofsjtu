@@ -7,20 +7,25 @@ import string
 class Package():
     # A class that invokes pkg install / uninstall / list / search / info, managers pkg files
     def __init__( self, name, search, verbose ):
-        if not search:
+        if ( search == None ) | ( search == False ):
             self.name = name
         else:
-            self.name = self.Find( name, verbose )
+            if search == 'remote':
+                self.name = self.Find( name, verbose, '-r' )
+            elif search == 'local':
+                self.name = self.Find( name, verbose, '-l' )
+            else:
+                self.name = self.Find( name, verbose, '-lr' )
         self.Check()
 
-    def Find( self , match, verbose, filter = None ):
+    def Find( self , match, verbose, searcharg, filter = None ):
         if verbose:
             print 'Look for ' + match + ' in database'
             opt = ''
         else:
             opt = ' 2>/dev/null'
         try:
-            output = os.popen( 'pkg search -lr ' + match + opt ).readlines()
+            output = os.popen( 'pkg search ' + searcharg + ' ' + match + opt ).readlines()
             pkg = {}
             for line in output:
                 try:
@@ -154,4 +159,6 @@ if __name__ == '__main__':
 extract from solaris's document
 ----------------------------------
 # pkgchk package-name
+
+import pkg? from python.setuptools?
 """
