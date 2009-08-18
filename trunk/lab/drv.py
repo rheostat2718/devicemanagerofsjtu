@@ -38,7 +38,6 @@ class Driver():
         return self.getAllDriverPath()[0]
 
     def getAllDriverConfPath( self ):
-        import module
         #Having more than 2 subdir is completely possible, e.g. some on 32b system and others on 64b system
         subdirlist = []
         mapdict = {'amd64':'amd64', 'sparcv9':'sparcv9', 'i386':'.'}
@@ -264,8 +263,7 @@ class Driver():
 
     def Install_Search( self, verbose ):
         import package
-        driverPkg = package.Package( self.drvname, search = True, verbose = verbose )
-#TODO: search = REMOTE
+        driverPkg = package.Package( self.drvname, search = 'remote', verbose = verbose )
         if driverPkg.name == None:
             if verbose:
                 print 'Cannot find related package'
@@ -303,7 +301,7 @@ class Driver():
             else:
                 opt = ' 2>/dev/null'
 #TODO: find out the cmd
-#            ret = os.system('pfexec pkgrem '+pkgname+opt)
+#            ret = os.system('pkgrem '+pkgname+opt)
             return ret
         else:
             print 'Cannot find ', pkgname
@@ -336,8 +334,7 @@ class Driver():
 
     def Uninstall_Search( self, verbose ):
         import package
-        driverPkg = Package( self.drvname, search = True, verbose = verbose )
-#TODO: search = LOCAL
+        driverPkg = Package( self.drvname, search = 'local', verbose = verbose )
         if driverPkg.name == None:
             if verbose:
                 print 'Cannot find related package'
