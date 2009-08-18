@@ -1,4 +1,5 @@
 #!/bin/env python2.6
+
 import os
 import sys
 from c_api.modulec import *
@@ -348,11 +349,11 @@ class Driver():
 
 if __name__ == '__main__':
     if len( sys.argv ) < 2:
-        print "Usage: python drv.py [install | uninstall | info] drvname [-q | -v]"
+        print "Usage: drv.py [install | uninstall | info] drvname [-q | -v]"
     else:
         if sys.argv[1] == 'install':
             Driver( sys.argv[2] ).Install( ( sys.argv[3] == '-v' ), True )
         if sys.argv[1] == 'uninstall':
             Driver( sys.argv[2] ).Uninstall( ( sys.argv[3] == '-v' ), True )
         if sys.argv[1] == 'info':
-            print( Driver( sys.argv[2] ).getInfo() )
+            print Driver( sys.argv[2] ).getInfo()
