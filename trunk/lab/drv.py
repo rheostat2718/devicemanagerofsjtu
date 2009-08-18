@@ -5,12 +5,12 @@ from c_api.modulec import *
 
 class Driver():
     def __init__( self, drvname ):
-        self.drvname = drvname #设备名/驱动名
+        self.drvname = drvname
         try:
             self.defaultdrvpath, self.defaultconfpath = getFirstDriverPathConf()
         except:
-            self.defaultdrvpath = '' #驱动程序路径
-            self.defaultconfpath = '' #驱动程序配置路径
+            self.defaultdrvpath = ''
+            self.defaultconfpath = ''
 
     def dbg_setDefaultDrvPath( self, path ):
         self.defaultdrvpath = path
@@ -18,25 +18,25 @@ class Driver():
     def dbg_setDefaultConfPath( self, path ):
         self.defaultconfpath = path
 
-    def isInstalled( self ): #驱动是否安装
+    def isInstalled( self ):
         return ( self.getInfo()['INSTALLED'] != 0 )
 
-    def isLoaded( self ): #驱动是否加载
+    def isLoaded( self ):
         return ( self.getInfo()['LOADED'] != 0 )
 
-    def getAllDriverPath( self ): #返回所有相关驱动程序的路径
+    def getAllDriverPath( self ):
         ret = []
         for ( a, b ) in findDrvConf( self.drvname ):
             ret.append( a )
         return ret
 
-    def getFirstDriverConfPath( self ): #返回默认的驱动程序与配置
+    def getFirstDriverConfPath( self ):
         return self.getAllDriverConfPath()[0]
 
-    def getFirstDriverPath( self ): #返回默认的驱动程序
+    def getFirstDriverPath( self ):
         return self.getAllDriverPath()[0]
 
-    def getAllDriverConfPath( self ): #获得所有相关驱动程序与配置的路径
+    def getAllDriverConfPath( self ):
         import module
         #Having more than 2 subdir is completely possible, e.g. some on 32b system and others on 64b system
         subdirlist = []
@@ -48,7 +48,7 @@ class Driver():
             for subdir in subdirlist:
                 drvname = currdir + os.path.sep + 'drv' + os.path.sep + subdir + os.path.sep + self.drvname
                 if os.path.isfile( drvname ):
-                    # driver.conf 始终在 .../drv 下
+                    # driver.conf in .../drv
                     confname = currdir + os.path.sep + 'drv' + os.path.sep + self.drvname + '.conf'
                     if os.path.isfile( confname ):
                         ret.append( ( drvname, confname ) )
@@ -57,7 +57,7 @@ class Driver():
                         ret.append( ( drvname, None ) )
         return ret
 
-    def dbg_loadModule( self, verbose = True ): #手动加载模块
+    def dbg_loadModule( self, verbose = True ):
         """
         First try to remove old modules before we proceed, then we load it
         """
@@ -89,7 +89,7 @@ class Driver():
                 print 'Succeed'
         return ret
 
-    def dbg_unloadModule( self, verbose = True ): #手动卸载模块
+    def dbg_unloadModule( self, verbose = True ):
         if not self.isInstalled():
             if verbose:
                 print "Module %s not found" % self.drvname
@@ -112,23 +112,23 @@ class Driver():
                 print 'Succeed'
         return ret
 
-    def dbg_touchReconf(): #重新启动后检测硬件变化？
+    def dbg_touchReconf():
         """
         just tell the system to find new hardware in the next boot,
         execute it to setup it manually
         """
         return os.system( 'touch /reconfigure' )
 
-    def Backup( self ): #备份
+    def Backup( self ):
         return
 
-    def Restore( self ): #还原
+    def Restore( self ):
         return
 
-    def isBackup( self ): #是否有备份
+    def isBackup( self ):
         return False
 
-    def getInfo( self ): #获取模块的信息
+    def getInfo( self ):
         id = self.getId()
         if id == None:
             return
@@ -137,7 +137,7 @@ class Driver():
         except:
             pass
 
-    def getId( self ): #获得模块的id，未加载则返回None
+    def getId( self ):
         try:
             return getModuleId( self.drvname )
         except:
@@ -174,7 +174,7 @@ class Driver():
         except:
             pass
 
-    def Install_Pkg( self, verbose, pkgname ): #安装.pkg文件
+    def Install_Pkg( self, verbose, pkgname ):
         if os.path.isfile( pkgname ):
             if verbose:
                 print 'Install from ', pkgname
@@ -187,7 +187,7 @@ class Driver():
             print 'Cannot find ', pkgname
             return
 
-    def Install_Cpy( self, verbose, args ): #将args中文件复制到驱动目录
+    def Install_Cpy( self, verbose, args ):
         """
         install without pkgadd, the driver and its configure file must be in the same directory
         """
@@ -263,7 +263,7 @@ class Driver():
 
     def Install_Search( self, verbose ):
         import package
-        driverPkg = Package( self.drvname, search = True, verbose )
+        driverPkg = package.Package( self.drvname, search = True, verbose = verbose )
 #TODO: search = REMOTE
         if driverPkg.name == None:
             if verbose:
@@ -335,7 +335,7 @@ class Driver():
 
     def Uninstall_Search( self, verbose ):
         import package
-        driverPkg = Package( self.drvname, search = True, verbose )
+        driverPkg = Package( self.drvname, search = True, verbose = verbose )
 #TODO: search = LOCAL
         if driverPkg.name == None:
             if verbose:
@@ -351,8 +351,8 @@ if __name__ == '__main__':
         print "Usage: python drv.py [install | uninstall | info] drvname [-q | -v]"
     else:
         if sys.argv[1] == 'install':
-            installDrv( sys.argv[2], True, ( sys.argv[3] == '-v' ) )
+            Driver( sys.argv[2] ).Install( ( sys.argv[3] == '-v' ), True )
         if sys.argv[1] == 'uninstall':
-            uninstallDrv( sys.argv[2], True, ( sys.argv[3] == '-v' ) )
+            Driver( sys.argv[2] ).Uninstall( ( sys.argv[3] == '-v' ), True )
         if sys.argv[1] == 'info':
             print( Driver( sys.argv[2] ).getInfo() )

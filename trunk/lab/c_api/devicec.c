@@ -2,6 +2,10 @@
 #include <libdevinfo.h>
 #include <stdio.h>
 #include <string.h>
+
+static PyObject * getAllDeviceInfo(PyObject * self) {
+	return NULL;
+}
 /*
 1. di_node_t di_init(const char *phys-path,flags);
 flags:

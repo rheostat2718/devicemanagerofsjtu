@@ -15,27 +15,36 @@ class Package():
 
     def Find( self , match, verbose, filter = None ):
         if verbose:
-            print 'Look for ', match, ' in database'
+            print 'Look for ' + match + ' in database'
             opt = ''
         else:
             opt = ' 2>/dev/null'
         try:
             output = os.popen( 'pkg search -lr ' + match + opt ).readlines()
-            if verbose:
-                for line in output:
-                    print line
             pkg = {}
-            for line in output[1:]:
-                resulttype = line.split( ' ' )[0]
-                name = line.split( ' ' )[-1]
-                if ( filter != None ) & ( resulttype != filter ):
+            for line in output:
+                try:
+                    index, action, value, name = line.split()
+                    if verbose:
+                        print line,
+                    if action != 'file':
+                        continue
+                    if index == None:
+                        continue
+                    if ( filter != None ) & ( index != filter ):
+                        continue
+                    if ( name == '' ) | ( name == None ):
+                        continue
+                    if value.find( '/drv' ) == None:
+                        continue
+                    ( prefix, ver ) = name.split( '@', 1 )
+                    # always find latest packages
+                    if not ( prefix in pkg ):
+                        pkg[prefix] = ver
+                    elif self.dbg_compareVer( ver, pkg[prefix] ) > 0:
+                        pkg[prefix] = ver
+                except:
                     continue
-                ( prefix, ver ) = name.split( '@', 1 )
-                # always find latest packages
-                if not ( prefix in pkg ):
-                    pkg[prefix] = ver
-                elif self.dbg_compareVer( ver, pkg[prefix] ) > 0:
-                    pkg[prefix] = ver
 
             pkglist = []
             for prefix in pkg.keys():
@@ -43,7 +52,7 @@ class Package():
 
             if pkglist == []:
                 if verbose:
-                    print 'Package ', match, ' not found'
+                    print 'Package ' + match + ' not found'
                 return
             else:
                 if verbose:
@@ -63,15 +72,16 @@ class Package():
             arg = '-q '
             opt = ''
         try:
-            if verbose:
-                print 'Install package ', self.name, ' :'
-            ret = os.system( 'pkg install ' + arg + self.name + opt )
-            if verbose:
-                if ret < 0:
-                    print 'Failed!'
-                else:
-                    print 'Succeed!'
-            return ret
+            for pkgname in self.name:
+                if verbose:
+                    print 'Install package ', pkgname, ' :'
+                ret = os.system( 'pkg install ' + arg + pkgname + opt )
+                if verbose:
+                    if ret != 0:
+                        print 'Failed!'
+                    else:
+                        print 'Succeed!'
+            return 0
         except:
             pass
 
@@ -84,15 +94,16 @@ class Package():
             arg = '-rq '
             opt = ' 2>/dev/null'
         try:
-            if verbose:
-                print 'Unnstall package ', self.name, ' :'
-            ret = os.system( 'pkg uninstall ' + arg + self.name + opt )
-            if verbose:
-                if ret < 0:
-                    print 'Failed'
-                else:
-                    print 'Succeed'
-            return ret
+            for pkgname in self.name:
+                if verbose:
+                    print 'Unnstall package ', pkgname, ' :'
+                ret = os.system( 'pkg uninstall ' + arg + pkgname + opt )
+                if verbose:
+                    if ret != 0:
+                        print 'Failed'
+                    else:
+                        print 'Succeed'
+            return 0
         except:
             pass
 
@@ -140,9 +151,7 @@ if __name__ == '__main__':
     print s.getInfo()
 
 """
-an extract from solaris's document
+extract from solaris's document
 ----------------------------------
-检验软件包是否已正确添加。
 # pkgchk package-name
-如果正确安装了软件包，则系统提示不会返回任何响应
 """
