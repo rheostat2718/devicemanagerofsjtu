@@ -4,6 +4,10 @@ import os
 import sys
 import string
 
+def isPackage( pkgname ):
+    return ( os.system( 'pfexec pkginfo -q ' + pkgname ) == 0 )
+
+
 class Package():
     # A class that invokes pkg install / uninstall / list / search / info, managers pkg files
     def __init__( self, name, search, verbose ):
@@ -40,7 +44,7 @@ class Package():
                         continue
                     if ( name == '' ) | ( name == None ):
                         continue
-                    if value.find( '/drv' ) == None:
+                    if value.find( '/drv' ) == -1:
                         continue
                     ( prefix, ver ) = name.split( '@', 1 )
                     # always find latest packages
@@ -59,70 +63,90 @@ class Package():
                 if verbose:
                     print 'Package ' + match + ' not found'
                 return
-            else:
-                if verbose:
-                    print 'Found ', len( pkglist ), ' matches:'
-            for pkgname in pkglist:
-                print 'Package : ', pkgname
+            if verbose:
+                print 'Found ', len( pkglist ), ' matches:'
+                for pkgname in pkglist:
+                    print 'Package : ', pkgname
             return pkglist
         except:
             return
 
-    def Install( self , verbose = True ):
+    def TryInstall( self, verbose = True, EXarg = '' ):
+        self.Install( verbose, 'n' + EXarg )
+
+    def Install( self , verbose = True, EXarg = '' ):
 #FIXME:    if cannot install : return, print error message
         if verbose:
-            arg = ''
+            arg = ' -v'
             opt = ' 2>/dev/null'
         else:
-            arg = '-q '
+            arg = ' -q'
             opt = ''
-        try:
-            for pkgname in self.name:
+        count = 0
+        for pkgname in self.name:
+            ret = -1
+            if verbose:
+                print 'Install package ', pkgname, ' :'
+            try:
+                ret = os.system( 'pkg install' + arg + EXarg + ' ' + pkgname + opt )
+            except:
+                pass
+            if ret == 0:
+                count = count + 1
                 if verbose:
-                    print 'Install package ', pkgname, ' :'
-                ret = os.system( 'pkg install ' + arg + pkgname + opt )
+                    print 'Succeed!'
+            else:
                 if verbose:
-                    if ret != 0:
-                        print 'Failed!'
-                    else:
-                        print 'Succeed!'
-            return 0
-        except:
-            pass
+                    print 'Failed!'
+        return count
 
-    def Uninstall( self, verbose = True ):
-#FIXME:    if cannot uninstall : return, print error message
+    def TryUninstall( self, verbose = True, EXarg = '' ):
+        self.Uninstall( verbose, ' -n' + EXarg )
+
+    def Uninstall( self, verbose = True, EXarg = '' ):
+#FIXME:    check if we need -r, -r is very dangerous
         if verbose:
-            arg = '-r '
+            arg = ' -v'
             opt = ''
         else:
-            arg = '-rq '
+            arg = ' -q'
             opt = ' 2>/dev/null'
-        try:
-            for pkgname in self.name:
+        count = 0
+        for pkgname in self.name:
+            ret = -1
+            if verbose:
+                print 'Uninstall package ', pkgname, ' :'
+            try:
+                ret = os.system( 'pkg uninstall' + arg + EXarg + ' ' + pkgname + opt )
+            except:
+                pass
+            if ret == 0:
+                count = count + 1
                 if verbose:
-                    print 'Unnstall package ', pkgname, ' :'
-                ret = os.system( 'pkg uninstall ' + arg + pkgname + opt )
+                    print 'Succeed!'
+            else:
                 if verbose:
-                    if ret != 0:
-                        print 'Failed'
-                    else:
-                        print 'Succeed'
-            return 0
-        except:
-            pass
+                    print 'Failed!'
+        return count
 
     def getInfo( self ):
-        try:
-            output = os.popen( 'pkg info ', self.name )
-#FIXME:attr and value are Language specific....
+        print self.name
+        ret = []
+        for name in self.name:
+            shortname = name[5:].split( '@' )[0]
             dict = {}
+            try:
+                output = os.popen( 'pfexec pkginfo -l ' + shortname )
+            except:
+                pass
             for line in output:
-                ( attr, value ) = line.split( ':' )
-                dict[attr] = value
-            return dict
-        except:
-            pass
+                try:
+                    attr, value = line.split( ':', 1 )
+                    dict[attr] = value
+                except:
+                    pass
+            ret.append( dict )
+        return ret
 
     def Check( self ):
         return
