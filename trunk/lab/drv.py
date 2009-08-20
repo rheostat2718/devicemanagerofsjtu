@@ -2,6 +2,7 @@
 
 import os
 import sys
+import traceback
 from c_api.modulec import *
 
 class Driver():
@@ -128,12 +129,16 @@ class Driver():
     def isBackup( self ):
         return False
 
-    def getInfo( self ):
+    def getInfo( self, pkg = False ):
         id = self.getId()
         if id == None:
             return
         try:
-            return getModuleInfo( id )
+            info = getModuleInfo( id )
+ #pkg search is really slow,disable it ...
+            if pkg == True:
+                info['package'] = self.getPackageInfo()
+            return info
         except:
             pass
 
@@ -262,24 +267,29 @@ class Driver():
         return 0
 
     def Install_Search( self, verbose ):
-        import package
-        driverPkg = package.Package( self.drvname, search = 'remote', verbose = verbose )
-        if driverPkg.name == None:
-            if verbose:
-                print 'Cannot find related package'
-            return
         try:
+            import package
+            driverPkg = package.Package( self.drvname, search = 'remote', verbose = verbose )
+            if driverPkg.name == None:
+                if verbose:
+                    print 'Cannot find related package'
+                    return
             return driverPkg.Install( verbose )
         except:
-            pass
+            if verbose:
+                exc_info = sys.exc_info()
+                print exc_info[0]
+                print exc_info[1]
+                traceback.print_tb( exc_info[2] )
+                return
 
     def Update( self ):
         return
 
-    def Uninstall( self, removeFromPackage = True, verbose = True, arg = None ):
+    def Uninstall( self, verbose = True, removeFromPackage = True, arg = None ):
         try:
             if removeFromPackage:
-                if arg != None:
+                if arg:
                     self.Uninstall_Pkg( verbose, arg )
                 else:
                     self.Uninstall_Search( verbose )
@@ -333,24 +343,56 @@ class Driver():
                     print 'Succeed'
 
     def Uninstall_Search( self, verbose ):
-        import package
-        driverPkg = Package( self.drvname, search = 'local', verbose = verbose )
-        if driverPkg.name == None:
-            if verbose:
-                print 'Cannot find related package'
-            return
         try:
+            import package
+            driverPkg = package.Package( self.drvname, search = 'local', verbose = verbose )
+            if driverPkg.name == None:
+                if verbose:
+                    print 'Cannot find related package'
+                return
             return driverPkg.Uninstall( verbose )
         except:
-            pass
+            if verbose:
+                exc_info = sys.exc_info()
+                print exc_info[0]
+                print exc_info[1]
+                traceback.print_tb( exc_info[2] )
+                return
+
+    def getPackageInfo( self ):
+        try:
+            import package
+#TODO: impove search
+            driverPkg = package.Package( self.drvname, search = True, verbose = False )
+            if driverPkg.name == None:
+                return
+            return driverPkg.getInfo()
+        except:
+            if verbose:
+                exc_info = sys.exc_info()
+                print exc_info[0]
+                print exc_info[1]
+                traceback.print_tb( exc_info[2] )
+                return
 
 if __name__ == '__main__':
-    if len( sys.argv ) < 2:
-        print "Usage: drv.py [install | uninstall | info] drvname [-q | -v]"
+    if len( sys.argv ) < 4:
+        print "Usage: [python2.6] drv.py {install | uninstall | info} drvname [-q | -v]"
     else:
         if sys.argv[1] == 'install':
             Driver( sys.argv[2] ).Install( ( sys.argv[3] == '-v' ), True )
         if sys.argv[1] == 'uninstall':
             Driver( sys.argv[2] ).Uninstall( ( sys.argv[3] == '-v' ), True )
         if sys.argv[1] == 'info':
-            print Driver( sys.argv[2] ).getInfo()
+            print Driver( sys.argv[2] ).getInfo( True )
+
+"""
+TESTED:
+drv.py install sppp -v
+drv.py install sppp -q
+drv.py uninstall sppp -v
+drv.py uninstall sppp -q
+drv.py info sppp
+TODO:
+2
+"""
