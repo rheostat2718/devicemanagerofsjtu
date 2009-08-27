@@ -11,10 +11,6 @@ mkfs newfs�����ļ�ϵͳ
 sysdef ��ʾ�豸������Ϣ������ϵͳӲ����α�豸����װ��ģ���Լ�ѡ�����ں˲���
 dmesg ��ʾϵͳ�����Ϣ�Լ����ϴ�ϵͳ������������ϵͳ���ӵ��豸���б?
 ��ʾ�й���ϵͳ���ӵ�ĳ���ض��豸����Ϣ��
-��ʾ�豸������Ϣ
-���磬SunBlade 1000 �ϵ�����prtconf �����ʾ��/dev/dsk/c0t1d0s0 ��ssd ʵ���š�
-# prtconf -v /dev/dsk/c0t1d0s0
-ssd, instance #1
 �� ��ʾ�豸ʹ����Ϣ��
 ���磬����fuser ������ʾ�����ڷ���/dev/console �豸�Ľ�̡�
 # fuser -d /dev/console
@@ -28,15 +24,7 @@ package-name ���ڱ�ʶ���豸�������������
 
 -------------------------------------------------
 list hardware configuration:
-prtconf -v
-/usr/platform/`uname -i`/
-sbin/prtdiag -v (sun4u and sun4d only)
-arch -k
-psrinfo -v
-isainfo -v
 dmesg
-iostat -En
-cfgadm -l
 /etc/path_to_inst
 
 unique id useful for licensing:  hostid

@@ -1,0 +1,9 @@
+c7d0             Soft Errors: 0 Hard Errors: 0 Transport Errors: 0 
+Model: VMware Virtual  Revision:  Serial No: 000000000000000 Size: 12.88GB <12884659200 bytes>
+Media Error: 0 Device Not Ready: 0 No Device: 0 Recoverable: 0 
+Illegal Request: 0 
+c8t0d0           Soft Errors: 0 Hard Errors: 10 Transport Errors: 0 
+Vendor: TSSTcorp Product: CDDVDW TS-L632H  Revision: AS02 Serial No:  
+Size: 0.00GB <0 bytes>
+Media Error: 0 Device Not Ready: 10 No Device: 0 Recoverable: 0 
+Illegal Request: 0 Predictive Failure Analysis: 0 
