@@ -1,0 +1,68 @@
+Ap_Id                          Receptacle   Occupant     Condition  Information
+When         Type         Busy     Phys_Id
+c9                             connected    unconfigured unknown
+不可用       scsi-bus     n        /devices/pci@0,0/pci15ad,1976@10:scsi
+pcie160                        empty        unconfigured unknown    Location: pcie160
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@15:pcie160
+pcie161                        empty        unconfigured unknown    Location: pcie161
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@15,1:pcie161
+pcie162                        empty        unconfigured unknown    Location: pcie162
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@15,2:pcie162
+pcie163                        empty        unconfigured unknown    Location: pcie163
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@15,3:pcie163
+pcie164                        empty        unconfigured unknown    Location: pcie164
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@15,4:pcie164
+pcie165                        empty        unconfigured unknown    Location: pcie165
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@15,5:pcie165
+pcie166                        empty        unconfigured unknown    Location: pcie166
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@15,6:pcie166
+pcie167                        empty        unconfigured unknown    Location: pcie167
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@15,7:pcie167
+pcie192                        empty        unconfigured unknown    Location: pcie192
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@16:pcie192
+pcie193                        empty        unconfigured unknown    Location: pcie193
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@16,1:pcie193
+pcie194                        empty        unconfigured unknown    Location: pcie194
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@16,2:pcie194
+pcie195                        empty        unconfigured unknown    Location: pcie195
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@16,3:pcie195
+pcie196                        empty        unconfigured unknown    Location: pcie196
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@16,4:pcie196
+pcie197                        empty        unconfigured unknown    Location: pcie197
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@16,5:pcie197
+pcie198                        empty        unconfigured unknown    Location: pcie198
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@16,6:pcie198
+pcie199                        empty        unconfigured unknown    Location: pcie199
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@16,7:pcie199
+pcie224                        empty        unconfigured unknown    Location: pcie224
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@17:pcie224
+pcie225                        empty        unconfigured unknown    Location: pcie225
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@17,1:pcie225
+pcie226                        empty        unconfigured unknown    Location: pcie226
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@17,2:pcie226
+pcie227                        empty        unconfigured unknown    Location: pcie227
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@17,3:pcie227
+pcie228                        empty        unconfigured unknown    Location: pcie228
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@17,4:pcie228
+pcie229                        empty        unconfigured unknown    Location: pcie229
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@17,5:pcie229
+pcie230                        empty        unconfigured unknown    Location: pcie230
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@17,6:pcie230
+pcie231                        empty        unconfigured unknown    Location: pcie231
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@17,7:pcie231
+pcie256                        empty        unconfigured unknown    Location: pcie256
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@18:pcie256
+pcie257                        empty        unconfigured unknown    Location: pcie257
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@18,1:pcie257
+pcie258                        empty        unconfigured unknown    Location: pcie258
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@18,2:pcie258
+pcie259                        empty        unconfigured unknown    Location: pcie259
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@18,3:pcie259
+pcie260                        empty        unconfigured unknown    Location: pcie260
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@18,4:pcie260
+pcie261                        empty        unconfigured unknown    Location: pcie261
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@18,5:pcie261
+pcie262                        empty        unconfigured unknown    Location: pcie262
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@18,6:pcie262
+pcie263                        empty        unconfigured unknown    Location: pcie263
+ 8月 27日 18:35 unknown      n        /devices/pci@0,0/pci15ad,7a0@18,7:pcie263

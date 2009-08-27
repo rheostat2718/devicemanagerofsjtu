@@ -42,7 +42,7 @@ class Driver():
         #Having more than 2 subdir is completely possible, e.g. some on 32b system and others on 64b system
         subdirlist = []
         mapdict = {'amd64':'amd64', 'sparcv9':'sparcv9', 'i386':'.'}
-        for name in os.popen( 'isainfo -k' ).readline().split():
+        for name in os.popen( 'arch -k' ).readline().split():
             subdirlist.append( mapdict[name] )
         ret = []
         for currdir in getModPath().split:
