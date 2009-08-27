@@ -1,38 +1,33 @@
-rmformat ÁĞ³ö¿ÉÒÆ¶¯Éè±¸µÄĞÅÏ¢ ÑéÖ¤-p£¬ĞŞ¸Ä-W / R   enable/disableĞ´±£»¤ ĞŞ¸´»µ¿é -c ÑéÖ¤½éÖÊ-V read	
-volcheck -v ¼ì²â½éÖÊÊÇ·ñ´æÔÚ
-eject µ¯³ö¿ÉÒÆ¶¯½éÖÊ
+rmformat ï¿½Ğ³ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½Ï¢ ï¿½ï¿½Ö¤-pï¿½ï¿½ï¿½Ş¸ï¿½-W / R   enable/disableĞ´ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ -c ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½-V read
+volcheck -v ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
+eject ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½
 
-fsck ¼ì²éÎÄ¼şÏµÍ³
-mkfs newfs´´½¨ÎÄ¼şÏµÍ³
+fsck ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ÏµÍ³
+mkfs newfsï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ÏµÍ³
 
-È·¶¨ÕıÔÚ·ÃÎÊ½éÖÊµÄ½ø³Ì¡£
+È·ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½Ê½ï¿½ï¿½ÊµÄ½ï¿½Ì¡ï¿½
 # fuser -u /media
 
-sysdef ÏÔÊ¾Éè±¸ÅäÖÃĞÅÏ¢£¬°üÀ¨ÏµÍ³Ó²¼ş¡¢Î±Éè±¸¡¢¿É×°ÈëÄ£¿éÒÔ¼°Ñ¡¶¨µÄÄÚºË²ÎÊı¡£
-dmesg ÏÔÊ¾ÏµÍ³Õï¶ÏÏûÏ¢ÒÔ¼°´ÓÉÏ´ÎÏµÍ³ÖØĞÂÒıµ¼ÒÔÀ´ÓëÏµÍ³Á¬½ÓµÄÉè±¸µÄÁĞ±í¡£
-ÏÔÊ¾ÓĞ¹ØÓëÏµÍ³Á¬½ÓµÄÄ³¸öÌØ¶¨Éè±¸µÄĞÅÏ¢¡£
-ÏÔÊ¾Éè±¸ÅäÖÃĞÅÏ¢
-ÀıÈç£¬SunBlade 1000 ÉÏµÄÒÔÏÂprtconf Êä³öÏÔÊ¾ÁË/dev/dsk/c0t1d0s0 µÄssd ÊµÀı±àºÅ¡£
+sysdef ï¿½ï¿½Ê¾ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³Ó²ï¿½ï¿½ï¿½ï¿½Î±ï¿½è±¸ï¿½ï¿½ï¿½ï¿½×°ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ô¼ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ÚºË²ï¿½ï¿½ï¿½
+dmesg ï¿½ï¿½Ê¾ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½Óµï¿½ï¿½è±¸ï¿½ï¿½ï¿½Ğ±?
+ï¿½ï¿½Ê¾ï¿½Ğ¹ï¿½ï¿½ï¿½ÏµÍ³ï¿½ï¿½ï¿½Óµï¿½Ä³ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
+ï¿½ï¿½Ê¾ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+ï¿½ï¿½ï¿½ç£¬SunBlade 1000 ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½prtconf ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½/dev/dsk/c0t1d0s0 ï¿½ï¿½ssd Êµï¿½ï¿½ï¿½Å¡ï¿½
 # prtconf -v /dev/dsk/c0t1d0s0
 ssd, instance #1
-¡ö ÏÔÊ¾Éè±¸Ê¹ÓÃĞÅÏ¢¡£
-ÀıÈç£¬ÒÔÏÂfuser ÃüÁîÏÔÊ¾ÁËÕıÔÚ·ÃÎÊ/dev/console Éè±¸µÄ½ø³Ì¡£
+ï¿½ï¿½ ï¿½ï¿½Ê¾ï¿½è±¸Ê¹ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
+ï¿½ï¿½ï¿½ç£¬ï¿½ï¿½ï¿½ï¿½fuser ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½/dev/console ï¿½è±¸ï¿½Ä½ï¿½Ì¡ï¿½
 # fuser -d /dev/console
 /dev/console: 346o 323o
 #
 
-°²×°Çı¶¯³ÌĞò¡£
+ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½
 # pkgadd [-d] device package-name
--d device ÓÃÓÚ±êÊ¶°üº¬Èí¼ş°üµÄÉè±¸Â·¾¶Ãû¡£
-package-name ÓÃÓÚ±êÊ¶°üº¬Éè±¸Çı¶¯³ÌĞòµÄÈí¼ş°üÃû³Æ
+-d device ï¿½ï¿½ï¿½Ú±ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±¸Â·ï¿½ï¿½ï¿½ï¿½
+package-name ï¿½ï¿½ï¿½Ú±ï¿½Ê¶ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-¼ìÑéÈí¼ş°üÊÇ·ñÒÑÕıÈ·Ìí¼Ó¡£
-# pkgchk package-name
-#
-Èç¹ûÕıÈ·°²×°ÁËÈí¼ş°ü£¬ÔòÏµÍ³ÌáÊ¾²»»á·µ»ØÈÎºÎÏìÓ¦
-
+-------------------------------------------------
 list hardware configuration:
-
 prtconf -v
 /usr/platform/`uname -i`/
 sbin/prtdiag -v (sun4u and sun4d only)
@@ -42,45 +37,31 @@ isainfo -v
 dmesg
 iostat -En
 cfgadm -l
-/etc/path_to_inst 
+/etc/path_to_inst
 
 unique id useful for licensing:  hostid
 show/set EEPROM/NVRAM values: eeprom
 
-add device without reboot
-
-devfsadm. pre-Solaris 7 HW 11/99, use:
-drvconfig; devlinks; {disks, tapes, ports}
-
+add device without reboot : devfsadm. pre-Solaris 7 HW 11/99, use: drvconfig; devlinks; {disks, tapes, ports}
 remove device: devfsadm
-
-tape device /dev/rmt/0
+tape device: /dev/rmt/0
 stdin,out,err:  	/dev/fd/[012]
 
-X kvm config:  	kdmconfig (x86)
-fbconfig; m64config; (etc.)
- 
 read disk label: prtvtoc
-
- label a disk : format
-prtvtoc
-(x86) fdisk
-
-partition a disk: format
-fmthard
+label a disk : format / prtvtoc / (x86) fdisk
+partition a disk: format / fmthard
 
 show/set kernel parameters:
 sysdef
 getconf
 cat /etc/system
 ndd
-adb -k
+mdb -k
 
 loaded kernel modules :modinfo
 load module :modload
 unload module:modunload
-make disk bootable: 	installboot /usr/platform/
-`uname -i`
+make disk bootable: 	installboot /usr/platform/`uname -i`
 /lib/fs/ufs/bootblk raw_device_file
 
 startup scripts :/etc/rc*
@@ -88,7 +69,7 @@ startup scripts :/etc/rc*
 (10+) svcadm
 (10+) svcs
 
-shutdown (& power off if possible)  	shutdown -y -g0 -i5 
+shutdown (& power off if possible)  	shutdown -y -g0 -i5
 run levels 1 *=normal states
 0: firmware monitor
 s,S: single-user
@@ -101,19 +82,8 @@ s,S: single-user
 
 time zone info: 	/usr/share/lib/zoneinfo/
 
-file system
-description /etc/vfstab (local)
-volume manipulation:zpool (10+)
-
-meta*
-(Solstice DiskSuite;
-Solaris Volume Mgr (9+))
-(7-, found in
-/usr/opt/SUNWmd/
- sbin/)
-
-/opt/VRTSvxva/bin/vxva
-(Veritas Volume Mgr) ($)
+file system description /etc/vfstab (local)
+volume manipulation:zpool (10+) meta*(Solstice DiskSuite;Solaris Volume Mgr (9+))
 
 show installed software :
 pkginfo
@@ -121,20 +91,10 @@ prodreg
 admintool
 /var/sadm/install/contents
 
-file is in which package:
-pkgchk -l -p binaryToCheck
-
+file is in which package: pkgchk -l -p binaryToCheck
 add software: pkgadd
 
- show patch level
-and/or patches :	showrev -p
+show patch level and/or patches :	showrev -p
 prodreg (2.6+)
 patchadd -p
 cat /etc/release
-
-vendor:sun.com/solaris
-sun.com/bigadmin
-sun.com/developers/support
-soldc.sun.com
-access1.sun.com
-opensolaris.org
