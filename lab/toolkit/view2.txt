@@ -1,0 +1,140 @@
+rmformat 列出可移动设备的信息 验证-p，修改-W / R   enable/disable写保护 修复坏块 -c 验证介质-V read	
+volcheck -v 检测介质是否存在
+eject 弹出可移动介质
+
+fsck 检查文件系统
+mkfs newfs创建文件系统
+
+确定正在访问介质的进程。
+# fuser -u /media
+
+sysdef 显示设备配置信息，包括系统硬件、伪设备、可装入模块以及选定的内核参数。
+dmesg 显示系统诊断消息以及从上次系统重新引导以来与系统连接的设备的列表。
+显示有关与系统连接的某个特定设备的信息。
+显示设备配置信息
+例如，SunBlade 1000 上的以下prtconf 输出显示了/dev/dsk/c0t1d0s0 的ssd 实例编号。
+# prtconf -v /dev/dsk/c0t1d0s0
+ssd, instance #1
+■ 显示设备使用信息。
+例如，以下fuser 命令显示了正在访问/dev/console 设备的进程。
+# fuser -d /dev/console
+/dev/console: 346o 323o
+#
+
+安装驱动程序。
+# pkgadd [-d] device package-name
+-d device 用于标识包含软件包的设备路径名。
+package-name 用于标识包含设备驱动程序的软件包名称
+
+检验软件包是否已正确添加。
+# pkgchk package-name
+#
+如果正确安装了软件包，则系统提示不会返回任何响应
+
+list hardware configuration:
+
+prtconf -v
+/usr/platform/`uname -i`/
+sbin/prtdiag -v (sun4u and sun4d only)
+arch -k
+psrinfo -v
+isainfo -v
+dmesg
+iostat -En
+cfgadm -l
+/etc/path_to_inst 
+
+unique id useful for licensing:  hostid
+show/set EEPROM/NVRAM values: eeprom
+
+add device without reboot
+
+devfsadm. pre-Solaris 7 HW 11/99, use:
+drvconfig; devlinks; {disks, tapes, ports}
+
+remove device: devfsadm
+
+tape device /dev/rmt/0
+stdin,out,err:  	/dev/fd/[012]
+
+X kvm config:  	kdmconfig (x86)
+fbconfig; m64config; (etc.)
+ 
+read disk label: prtvtoc
+
+ label a disk : format
+prtvtoc
+(x86) fdisk
+
+partition a disk: format
+fmthard
+
+show/set kernel parameters:
+sysdef
+getconf
+cat /etc/system
+ndd
+adb -k
+
+loaded kernel modules :modinfo
+load module :modload
+unload module:modunload
+make disk bootable: 	installboot /usr/platform/
+`uname -i`
+/lib/fs/ufs/bootblk raw_device_file
+
+startup scripts :/etc/rc*
+/etc/init.d/
+(10+) svcadm
+(10+) svcs
+
+shutdown (& power off if possible)  	shutdown -y -g0 -i5 
+run levels 1 *=normal states
+0: firmware monitor
+s,S: single-user
+1: sys admin
+2: multiuser
+3*: share NFS
+4*: user-defined
+5: power-down if possible
+6: reboot
+
+time zone info: 	/usr/share/lib/zoneinfo/
+
+file system
+description /etc/vfstab (local)
+volume manipulation:zpool (10+)
+
+meta*
+(Solstice DiskSuite;
+Solaris Volume Mgr (9+))
+(7-, found in
+/usr/opt/SUNWmd/
+ sbin/)
+
+/opt/VRTSvxva/bin/vxva
+(Veritas Volume Mgr) ($)
+
+show installed software :
+pkginfo
+prodreg
+admintool
+/var/sadm/install/contents
+
+file is in which package:
+pkgchk -l -p binaryToCheck
+
+add software: pkgadd
+
+ show patch level
+and/or patches :	showrev -p
+prodreg (2.6+)
+patchadd -p
+cat /etc/release
+
+vendor:sun.com/solaris
+sun.com/bigadmin
+sun.com/developers/support
+soldc.sun.com
+access1.sun.com
+opensolaris.org
