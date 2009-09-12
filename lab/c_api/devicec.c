@@ -3,62 +3,69 @@
 #include <stdio.h>
 #include <string.h>
 
-static PyObject * getAllDeviceInfo(PyObject * self) {
-	return NULL;
+int walker_addtolist(di_node_t node, void *list) {
+	PyObject * dict = PyDict_New();
+	PyObject * compat = PyList_New(0);
+	char * name = NULL;
+	int count = di_compatible_names(node,&name);
+	int id = di_nodeid(node);
+	int state = di_node_state(node);
+	int ops = di_driver_ops(node);
+	PyDict_SetItem(dict, Py_BuildValue("s","name"),Py_BuildValue("s",di_node_name(node)));
+	PyDict_SetItem(dict, Py_BuildValue("s","addr"),Py_BuildValue("s",di_bus_addr(node)));
+	PyDict_SetItem(dict, Py_BuildValue("s","binding_name"),Py_BuildValue("s",di_binding_name(node)));
+	PyDict_SetItem(dict, Py_BuildValue("s","compatible_names_no"),Py_BuildValue("i",count));
+	while (count > 0) {
+		PyList_Append(compat,Py_BuildValue("s",name));
+		name = name+strlen(name)+1;
+		count -= 1;
+	}
+	PyDict_SetItem(dict, Py_BuildValue("s","compatible names"),compat);
+	PyDict_SetItem(dict,Py_BuildValue("s","instance"),Py_BuildValue("i",di_instance(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","id"),Py_BuildValue("i",id));
+	PyDict_SetItem(dict,Py_BuildValue("s","pseudo"),Py_BuildValue("i",(id & DI_PSEUDO_NODEID)));
+	PyDict_SetItem(dict,Py_BuildValue("s","prom"),Py_BuildValue("i",(id & DI_PROM_NODEID)));
+	//have additional properties : di_prom_prop_data di_prom_prop_lookup_bytes
+	PyDict_SetItem(dict,Py_BuildValue("s","sid"),Py_BuildValue("i",(id & DI_SID_NODEID)));
+	PyDict_SetItem(dict,Py_BuildValue("s","driver_major"),Py_BuildValue("i",di_driver_major(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","state"),Py_BuildValue("l",di_state(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","node_state"),Py_BuildValue("l",state));
+	PyDict_SetItem(dict,Py_BuildValue("s","driver_detached"),Py_BuildValue("i",(state & DI_DRIVER_DETACHED)));
+	PyDict_SetItem(dict,Py_BuildValue("s","device_offline"),Py_BuildValue("i",(state & DI_DEVICE_OFFLINE)));
+	PyDict_SetItem(dict,Py_BuildValue("s","device_down"),Py_BuildValue("i",(state & DI_DEVICE_DOWN)));
+	PyDict_SetItem(dict,Py_BuildValue("s","device_degraded"),Py_BuildValue("i",(state & DI_DEVICE_DEGRADED)));
+	PyDict_SetItem(dict,Py_BuildValue("s","bus_quiesced"),Py_BuildValue("i",(state & DI_BUS_QUIESCED)));
+	PyDict_SetItem(dict,Py_BuildValue("s","bus_down"),Py_BuildValue("i",(state & DI_BUS_DOWN)));
+	PyDict_SetItem(dict,Py_BuildValue("s","devid"),Py_BuildValue("l",di_devid(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","driver_name"),Py_BuildValue("s",di_driver_name(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","driver_ops"),Py_BuildValue("l",ops));
+	PyDict_SetItem(dict,Py_BuildValue("s","cb_ops"),Py_BuildValue("l",(ops & DI_CB_OPS)));
+	PyDict_SetItem(dict,Py_BuildValue("s","bus_ops"),Py_BuildValue("l",(ops & DI_BUS_OPS)));
+	PyDict_SetItem(dict,Py_BuildValue("s","stream_ops"),Py_BuildValue("l",(ops & DI_STREAM_OPS)));
+	PyList_Append((PyObject *)list,dict);
+	return (DI_WALK_CONTINUE);
 }
-/*
-1. di_node_t di_init(const char *phys-path,flags);
-flags:
-DINFOSUBTREE 	Include subtree
-DINFOPROP		Include properties
-DINFOMINOR		Include minor node data
-DINFOPATH		Include multipath path node
-DINFOLYR			Include device layering data
-void di_fini(di_node_t root);
 
-2. int di_walk_node(di_node_t root,uint_t flag,void *arg, int (*node_callaback)(di_node_t node,void *arg));
-flag:
-DI_WALK_CLDFIRST	depth first(default)
-DI_WALK_SIBFIRST		breadth first
-DI_WALK_LINKGEN
-DI_WALK_MASK
-node_callback() return value:
-DI_WALK_CONTINUE	Continue walking
-DI_WALK_PRUNESIB	Continue walking, but skip siblings and their child nodes
-DI_WALK_PRUNECHILD	Continue walking,but skip subtree rooted at current node
-DI_WALK_TERMINATE	Terminate the walk immediately.
+static PyObject * get_device_info(PyObject *self) {
+	di_node_t root_node;
+	if ((root_node = di_init("/",DINFOSUBTREE)) == DI_NODE_NIL)
+		return NULL;
+	PyObject *devlist = PyList_New(0);
+	(void) di_walk_node(root_node, DI_WALK_CLDFIRST,(void *)devlist,walker_addtolist);
+	di_fini(root_node);
+//addToList
+	return devlist;
+}
 
-di_node_t di_drv_first_node(const char* drv_name,di_node_t root)
-di_node_t di_drv_next_node(di_node_t node)
-di_node_t di_child_node(di_node_t node)
-di_node_t di_parent_node(di_node_t node)
-di_node_t di_sibling_node(di_node_t node)
+static struct PyMethodDef devicec_methods[] = {
+		{"get_device_info",get_device_info,0},
+		{NULL,NULL}};
 
-char * di_node_name(di_node_t node);
-char * di_bus_addr(di_node_t node);
-char * di_binding_name(di_node_t node);
-int di_compatible_names(di_node_t,char **name);
-int di_instance(di_node_t node);
-int di_nodeid(di_node_t node);
-return value:
-DI_PSEUDO_NODEID
-DI_PROM_NODEID		have additional properties : di_prom_prop_data di_prom_prop_lookup_bytes
-DI_SID_NODEID
-int di_driver_major(di_node_t node);
-uint_t di_state(di_node_t node);
-ddi_node_state_t di_node_state(di_node_t node);
-ddi_node_state_t:
-DI_DRIVER_DETACHED	0x8000
-DI_DEVICE_OFFLINE		0x1
-DI_DEVICE_DOWN			0x2
-DI_DEVICE_DEGRADED	0x4
-DI_BUS_QUIESCED			0x100
-DI_BUS_DOWN				0x200
-ddi_devid_t di_devid(di_node_t node);
-char * di_driver_name(di_node_t node);
-uint_t di_driver_ops(di_node_t node);
+void initdevicec() {
+	(void) Py_InitModule("devicec",devicec_methods);
+}
 
-3
+/*3
 void di_node_private_set(di_node_t node,void *data);
 void *di_node_private_get(di_node_t node);
 void di_path_private_set(di_path_t path,void *data);
