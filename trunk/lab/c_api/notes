@@ -1,0 +1,51 @@
+(1)
+di_node_t di_init(const char *phys-path,flags);
+void di_fini(di_node_t root);
+flags:
+DINFOSUBTREE 	Include subtree
+DINFOPROP		Include properties
+DINFOMINOR		Include minor node data
+DINFOPATH		Include multipath path node
+DINFOLYR		Include device layering data
+
+int di_walk_node(di_node_t root,uint_t flag,void *arg, int (*node_callaback)(di_node_t node,void *arg));
+di_node_t di_drv_first_node(const char* drv_name,di_node_t root)
+di_node_t di_drv_next_node(di_node_t node)
+di_node_t di_child_node(di_node_t node)
+di_node_t di_parent_node(di_node_t node)
+di_node_t di_sibling_node(di_node_t node)
+flag:
+DI_WALK_CLDFIRST	depth first(default)
+DI_WALK_SIBFIRST		breadth first
+DI_WALK_LINKGEN
+DI_WALK_MASK
+node_callback() return value:
+DI_WALK_CONTINUE	Continue walking
+DI_WALK_PRUNESIB	Continue walking, but skip siblings and their child nodes
+DI_WALK_PRUNECHILD	Continue walking,but skip subtree rooted at current node
+DI_WALK_TERMINATE	Terminate the walk immediately.
+
+(2)
+char * di_node_name(di_node_t node);
+char * di_bus_addr(di_node_t node);
+char * di_binding_name(di_node_t node);
+int di_compatible_names(di_node_t,char **name);
+int di_instance(di_node_t node);
+int di_nodeid(di_node_t node);
+return value:
+DI_PSEUDO_NODEID
+DI_PROM_NODEID		have additional properties : di_prom_prop_data di_prom_prop_lookup_bytes
+DI_SID_NODEID
+int di_driver_major(di_node_t node);
+uint_t di_state(di_node_t node);
+ddi_node_state_t di_node_state(di_node_t node);
+ddi_node_state_t:
+DI_DRIVER_DETACHED	0x8000
+DI_DEVICE_OFFLINE		0x1
+DI_DEVICE_DOWN			0x2
+DI_DEVICE_DEGRADED	0x4
+DI_BUS_QUIESCED			0x100
+DI_BUS_DOWN				0x200
+ddi_devid_t di_devid(di_node_t node);
+char * di_driver_name(di_node_t node);
+uint_t di_driver_ops(di_node_t node);

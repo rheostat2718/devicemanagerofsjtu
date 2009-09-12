@@ -4,12 +4,12 @@ PYINC=/usr/include/python2.6
 COMPOPT=-g -c -I$(PYINC) -fpic
 LINKOPT=-shared -g
 
-TODO:device.so modulec.so;
+TODO:devicec.so modulec.so;
 
-device.so:device.o
-	$(LD) device.o -ldevinfo $(LINKOPT) -o device.so
-device.o:device.c
-	$(CC) device.c $(COMPOPT)
+devicec.so:devicec.o
+	$(LD) devicec.o -ldevinfo $(LINKOPT) -o devicec.so
+devicec.o:devicec.c
+	$(CC) devicec.c $(COMPOPT)
 modulec.so:modulec.o
 	$(LD) modulec.o $(LINKOPT) -o modulec.so
 modulec.o:modulec.c
@@ -17,6 +17,6 @@ modulec.o:modulec.c
 
 
 clean:
-	rm -f core *.o *.pyc
+	rm -f core *.o *.pyc *.c~ *.py~
 cleanall:clean
 	rm -f *.so
