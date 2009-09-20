@@ -39,7 +39,9 @@ class Driver():
         return self.getAllDriverPath()[0]
 
     def getAllDriverConfPath( self ):
-        #Having more than 2 subdir is completely possible, e.g. some on 32b system and others on 64b system
+        """
+            Having more than 2 subdir is completely possible, e.g. some on 32b system and others on 64b system
+        """
         subdirlist = []
         mapdict = {'amd64':'amd64', 'sparcv9':'sparcv9', 'i386':'.'}
         for name in os.popen( 'arch -k' ).readline().split():
@@ -53,7 +55,7 @@ class Driver():
                     confname = currdir + os.path.sep + 'drv' + os.path.sep + self.drvname + '.conf'
                     if os.path.isfile( confname ):
                         ret.append( ( drvname, confname ) )
-#FIXME: I don't know whether should return None or deprecate it
+                        #FIXME: I don't know whether should return None or deprecate it
                     else:
                         ret.append( ( drvname, None ) )
         return ret
@@ -135,9 +137,11 @@ class Driver():
             return
         try:
             info = getModuleInfo( id )
- #pkg search is really slow,disable it ...
+            #pkg search is really slow,disable it ...
             if pkg == True:
                 info['package'] = self.getPackageInfo()
+            else:
+                info['package'] = 'Unknown'
             return info
         except:
             pass
