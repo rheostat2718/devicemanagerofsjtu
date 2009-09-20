@@ -49,7 +49,7 @@ class Daemon(object):
 
     def propertyModified(cls, udi, num_changed, change_list):
         '''this method is called when signals on the Device interface is received'''
-        n=num_changes #alias
+        n=num_changed #alias
         list=change_list #alias
 
         #print "PropertiesModified, device = %s"%udi

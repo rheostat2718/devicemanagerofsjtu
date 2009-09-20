@@ -14,11 +14,7 @@ class DeviceManager(object):
         cls.__daemon=Daemon(cls)
         cls.buildDeviceTree()
 
-        #test
-        #for k,d in cls.__devices.items():
-            #d.printBrief()
-            #d.printDetails()
-        cls.__devices["root"].printTree('')
+        #cls.__devices["root"].printTree('')
 
         cls.__gui=DeviceManagerGUI(cls)
 
@@ -29,8 +25,7 @@ class DeviceManager(object):
                 cls.__devices["root"]=device
             else:
                 cls.__devices[device.getParent()].appendChildren(device)
-        for k,device in cls.__devices.items():
-            device.orderChildren()
+            
     def appendDeviceList(cls, device):
         cls.__devices[device.getUDI()]=device
     def updateDeviceList(cls, device):
@@ -66,3 +61,5 @@ class DeviceManager(object):
     def unmount(cls, dev):
         '''unmount device'''
         pass#cls.__devices[dev.getPath()].mount()
+    def quit(cls):
+        pass
