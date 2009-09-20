@@ -2,9 +2,11 @@
 
 import os
 import sys
-import string
 
 def isPackage( pkgname ):
+    """
+    pfexec is sudo in solaris
+    """
     return ( os.system( 'pfexec pkginfo -q ' + pkgname ) == 0 )
 
 
@@ -88,7 +90,7 @@ class Package():
             if verbose:
                 print 'Install package ', pkgname, ' :'
             try:
-                ret = os.system( 'pkg install' + arg + EXarg + ' ' + pkgname + opt )
+                ret = os.system( 'pfexec pkg install' + arg + EXarg + ' ' + pkgname + opt )
             except:
                 pass
             if ret == 0:
@@ -117,7 +119,7 @@ class Package():
             if verbose:
                 print 'Uninstall package ', pkgname, ' :'
             try:
-                ret = os.system( 'pkg uninstall' + arg + EXarg + ' ' + pkgname + opt )
+                ret = os.system( 'pfexec pkg uninstall' + arg + EXarg + ' ' + pkgname + opt )
             except:
                 pass
             if ret == 0:
@@ -157,8 +159,8 @@ class Package():
         vstr1 = ver1.split( '.' )[-1]
         vstr2 = ver2.split( '.' )[-1]
         try:
-            v1 = string.atoi( vstr1 )
-            v2 = string.atoi( vstr2 )
+            v1 = int( vstr1 )
+            v2 = int( vstr2 )
             if v1 > v2 :
                 return 1
             return - 1
@@ -170,7 +172,7 @@ class Package():
     def dbg_rebuildIndex( self ):
         # sometimes pkg asks you to rebuild its index, we just invoke it
         try:
-            ret = os.system( 'pkg rebuild-index' )
+            ret = os.system( 'pfexec pkg rebuild-index' )
             return ret
         except:
             pass
