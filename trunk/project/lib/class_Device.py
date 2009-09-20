@@ -35,13 +35,15 @@ class Device(object):
             pass
 
         if property_.has_key("info.parent"):
-            cls.__parent=property_["info.parent"]
+            cls.__parent=str(property_["info.parent"])
         elif property_["info.product"]=='Computer':
             cls.__parent=""
 
         if property_.has_key("info.product"):
-            cls.__product=property_["info.product"]
+            cls.__product=str(property_["info.product"])
             #print "  [PRODUCT]",cls.__product
+	else:
+	    cls.__product="UNKNOWN"
 
         if property_.has_key("info.udi"):
             cls.__udi=property_["info.udi"]
@@ -104,7 +106,7 @@ class Device(object):
     def getParent(cls):
         return cls.__parent
     def getProperties(cls):
-        return cls.__properties
+        return cls.__property
 
     def printTree(cls, space):
         print space,
@@ -112,5 +114,3 @@ class Device(object):
 
         for d in cls.__children:
             d.printTree("    "+space)
-    def orderChildren(cls):
-        print cls.__children.__class__
