@@ -25,7 +25,7 @@ class DeviceManager(object):
                 cls.__devices["root"]=device
             else:
                 cls.__devices[device.getParent()].appendChildren(device)
-            
+
     def appendDeviceList(cls, device):
         cls.__devices[device.getUDI()]=device
     def updateDeviceList(cls, device):

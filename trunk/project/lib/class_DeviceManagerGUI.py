@@ -29,7 +29,7 @@ class DeviceManagerGUI:
 class DeviceDetailTable:
     def __init__(self, device):
         self.device=device
-        self.top=gtk.Dialog(gtk.WINDOW_TOPLEVEL)
+        self.top=gtk.Window(gtk.WINDOW_TOPLEVEL)
         self.top.set_title("detail")
         self.update(device)
 
@@ -97,28 +97,24 @@ class DeviceTree:
         #self.selection.set_select_function(self.selectedCallback)
 
 
-    def selectedCallback(self, p1):
+    def selectedCallback(self, tree):
         selection=self.tree_view.get_selection()
-        (store, itr)=selection.get_selected()
-        try:
-            print self.tree_store.get_value(itr,0)
-        except:
-            pass
-        finally:
-            print '!'
-        #detail=DeviceDetailTable(self.gui.manager.getDeviceObj(device))
+        (model, itr) = selection.get_selected()
+        device=self.tree_store.get_value(itr,1)
+        DeviceDetailTable(self.gui.manager.getDeviceObj(device))
 
     def getFrame(self):
         return self.scrolled_window
 
     def make_tree(self, root):
-        self.tree_store=gtk.TreeStore(str)
-        itr=self.tree_store.append(None, [root.getProduct()])
+        self.tree_store=gtk.TreeStore(str, str)
+        itr=self.tree_store.append(None, [root.getProduct(), root.getUDI()])
         self.append_device(itr, root)
 
     def append_device(self, parent, device):
         for child in device.getChildren():
-            itr=self.tree_store.append(parent, [child.getProduct()])
+            itr=self.tree_store.append(parent, [child.getProduct(), child.getUDI()])
+            print self.tree_store.get_value(itr, 1)
             if child.hasChildren():
                 self.append_device(itr, child)
 
