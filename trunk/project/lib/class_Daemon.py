@@ -19,9 +19,9 @@ class Daemon(object):
         cls.__hal_manager=dbus.Interface(obj, 'org.freedesktop.Hal.Manager')
 
         # handle will be invoked when global device list is changed
-        cls.__hal_manager.connect_to_signal('DeviceAdded', lambda *args: handle('DeviceAdded',*args))
-        cls.__hal_manager.connect_to_signal('DeviceRemoved', lambda *args: handle('DeviceRemoved', *args))
-        cls.__hal_manager.connect_to_signal('NewCapability', lambda *args: handle('NewCapability', *args))
+        cls.__hal_manager.connect_to_signal('DeviceAdded', lambda *args: cls.handle('DeviceAdded',*args))
+        cls.__hal_manager.connect_to_signal('DeviceRemoved', lambda *args: cls.handle('DeviceRemoved', *args))
+        cls.__hal_manager.connect_to_signal('NewCapability', lambda *args: cls.handle('NewCapability', *args))
 
         # add listenerso for all devices
         deviceNames=cls.__hal_manager.GetAllDevices()
@@ -36,7 +36,7 @@ class Daemon(object):
             device_dbus_obj=cls.__bus.get_object("org.freedesktop.Hal",name)
             properties=device_dbus_obj.GetAllProperties(dbus_interface="org.freedesktop.Hal.Device")
             cls.__manager.appendDeviceList(Device(name, properties))
-            
+
         #sys.stderr=error
         #errfile.close()
 
@@ -78,10 +78,13 @@ class Daemon(object):
         if signal=='DeviceAdded':
             pass#cls.__manager.update(udi)
             #cls.panel(signal, udi)
+            print 'add',udi
         elif signal=='DeviceRemoved':
             pass#cls.__manager.update(udi)
             #cls.panel(signal, udi)
+            print 'remove',udi
         elif signal=='NewCapability':
             pass#cls.__manager.update(udi)
             #[cap]=args
             #cls.panel(signal, udi, cap)
+            print 'new',udi
