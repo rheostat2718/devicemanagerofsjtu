@@ -43,7 +43,7 @@ class Device(object):
             cls.__product=str(property_["info.product"])
             #print "  [PRODUCT]",cls.__product
 	else:
-	    cls.__product="UNKNOWN"
+	    cls.__product="unknown"
 
         if property_.has_key("info.udi"):
             cls.__udi=property_["info.udi"]
@@ -52,7 +52,7 @@ class Device(object):
         if property_.has_key("info.vendor"):
             cls.__vendor=property_["info.vendor"]
         else:
-            cls.__vendor="UNKNOWN"
+            cls.__vendor="unknown"
 
 
     def updateProperty(cls, p):
