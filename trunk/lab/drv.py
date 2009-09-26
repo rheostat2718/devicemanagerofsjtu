@@ -5,7 +5,7 @@ import sys
 import traceback
 from c_api.modulec import *
 
-class Driver():
+class Driver:
     def __init__( self, drvname ):
         self.drvname = drvname
         try:
