@@ -1,4 +1,0 @@
-device_simple.so: device_simple.c
-	cc -c device_simple.c -ldevinfo -I/usr/include/python2.4 -shared -L/usr/bin -lpython2.4 -o device_simple.o
-	ld -G device_simple.o -o device_simple.so
-	rm -f device_simple.o core
