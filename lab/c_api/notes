@@ -49,3 +49,26 @@ DI_BUS_DOWN				0x200
 ddi_devid_t di_devid(di_node_t node);
 char * di_driver_name(di_node_t node);
 uint_t di_driver_ops(di_node_t node);
+char * di_devfs_path(di_node_t node);
+
+(3) minor node
+di_minor_t di_minor_next(di_node_t node,di_minor_t minor);
+dev_t di_minor_devt(di_minor_t minor);
+char * di_minor_name(di_minor_t minor);
+char * di_minor_nodetype(di_minor_t minor);
+int di_minor_spectype(di_minor_t minor); return value : S_IFCHR or S_IFBLK
+char * di_devfs_minor_path(di_minor_t minor);
+minor_nodetype:
+DDI_NT_SERIAL			For serial ports
+DDI_NT_SERIAL_MB		For on board serial ports
+DDI_NT_SERIAL_DO	    For dial out ports
+DDI_NT_SERIAL_DO_MB	    For on board dial out ports
+DDI_NT_BLOCK			For hard disks
+DDI_NT_BLOCK_CHAN	For hard disks with channel or target numbers
+DDI_NT_CD				For CDROM drives
+DDI_NT_CD_CHAN		For CDROM drives with channel or target numbers
+DDI_NT_FD				For floppy disks
+DDI_NT_TAPE				For tape drives
+DDI_NT_NET				For DLPI style 1 or style 2 network devices
+DDI_NT_DISPLAY		For display devices
+DDI_PSEUDO				For pseudo devices
