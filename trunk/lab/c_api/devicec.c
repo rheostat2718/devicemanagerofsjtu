@@ -2,11 +2,39 @@
 #include <libdevinfo.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/mkdev.h>
 
-int walker_addtolist(di_node_t node, void *list) {
+void walker_minor_addtolist(di_minor_t minor,PyObject * list)
+{
 	PyObject * dict = PyDict_New();
+	dev_t dev = di_minor_devt(minor);
+	PyDict_SetItem(dict, Py_BuildValue("s","ifchr"),Py_BuildValue("i",(di_minor_spectype(minor) & S_IFCHR)));
+	PyDict_SetItem(dict, Py_BuildValue("s","ifblk"),Py_BuildValue("i",(di_minor_spectype(minor) & S_IFBLK)));
+	PyDict_SetItem(dict, Py_BuildValue("s","name"),Py_BuildValue("s",di_minor_name(minor)));
+	PyDict_SetItem(dict, Py_BuildValue("s","nodetype"),Py_BuildValue("s",di_minor_nodetype(minor)));
+	PyDict_SetItem(dict, Py_BuildValue("s","major"),Py_BuildValue("i",major(dev)));
+	PyDict_SetItem(dict, Py_BuildValue("s","minor"),Py_BuildValue("i",minor(dev)));
+	PyDict_SetItem(dict, Py_BuildValue("s","devfs_path"),Py_BuildValue("s",di_devfs_minor_path(minor)));
+
+	PyList_Append((PyObject *)list,dict);
+}
+
+PyObject * get_minor_info(di_node_t node) {
+	di_minor_t minor;
+	PyObject *minorlist = PyList_New(0);
+	minor = di_minor_next(node,NULL);
+	while (minor != DI_MINOR_NIL) {
+		walker_minor_addtolist(minor,minorlist);
+		minor = di_minor_next(node,minor);
+	}
+	return minorlist;
+}
+
+int walker_addtolist(di_node_t node, PyObject * list) {
 	PyObject * compat = PyList_New(0);
 	char * name = NULL;
+	PyObject * dict = PyDict_New();
 	int count = di_compatible_names(node,&name);
 	int id = di_nodeid(node);
 	int state = di_node_state(node);
@@ -42,27 +70,65 @@ int walker_addtolist(di_node_t node, void *list) {
 	PyDict_SetItem(dict,Py_BuildValue("s","cb_ops"),Py_BuildValue("l",(ops & DI_CB_OPS)));
 	PyDict_SetItem(dict,Py_BuildValue("s","bus_ops"),Py_BuildValue("l",(ops & DI_BUS_OPS)));
 	PyDict_SetItem(dict,Py_BuildValue("s","stream_ops"),Py_BuildValue("l",(ops & DI_STREAM_OPS)));
+	PyDict_SetItem(dict,Py_BuildValue("s","devfs_path"),Py_BuildValue("s",(di_devfs_path(node)))); /* omit /devices prefix */
+
+	PyDict_SetItem(dict,Py_BuildValue("s","minor"),Py_BuildValue("O",get_minor_info(node)));
+
 	PyList_Append((PyObject *)list,dict);
 	return (DI_WALK_CONTINUE);
 }
 
-static PyObject * get_device_info(PyObject *self) {
+static PyObject * get_device_info(PyObject *self,PyObject *arg) {
 	di_node_t root_node;
-	if ((root_node = di_init("/",DINFOSUBTREE)) == DI_NODE_NIL)
+	if (!PyArg_Parse(arg,"")) return NULL;
+	if ((root_node = di_init("/",DINFOSUBTREE | DINFOPROP | DINFOMINOR)) == DI_NODE_NIL)
 		return NULL;
 	PyObject *devlist = PyList_New(0);
-	(void) di_walk_node(root_node, DI_WALK_CLDFIRST,(void *)devlist,walker_addtolist);
+	(void) di_walk_node(root_node, DI_WALK_CLDFIRST,devlist,walker_addtolist);
 	di_fini(root_node);
-//addToList
+	return devlist;
+}
+
+static PyObject * is_device_bydrv(PyObject *self,PyObject *arg)
+{
+	di_node_t root_node;
+	char* name;
+	if (!PyArg_Parse(arg,"(s)",&name)) return NULL;
+	if ((root_node = di_init("/",DINFOSUBTREE | DINFOPROP | DINFOMINOR)) == DI_NODE_NIL) return NULL;
+	if ((root_node = di_drv_first_node(name,root_node)) == DI_NODE_NIL) {
+		if (errno == EINVAL) {
+			return Py_BuildValue("s","No such driver");
+		}
+		else {
+			return Py_BuildValue("s","No node associated with this driver");
+		}
+	}
+	return Py_BuildValue("s","There is such driver");
+}
+
+static PyObject * get_device_bydrv(PyObject *self,PyObject *arg)
+{
+	di_node_t root_node;
+	char* name;
+	PyObject *devlist = PyList_New(0);
+	if (!PyArg_Parse(arg,"(s)",&name)) return NULL;
+	if ((root_node = di_init("/",DINFOSUBTREE | DINFOPROP | DINFOMINOR)) == DI_NODE_NIL) return NULL;
+	root_node = di_drv_first_node(name,root_node);
+	while (root_node != DI_NODE_NIL) {
+		(void) walker_addtolist(root_node,devlist);
+		root_node = di_drv_next_node(root_node);
+	}
 	return devlist;
 }
 
 static struct PyMethodDef devicec_methods[] = {
-		{"get_device_info",get_device_info,0},
+		{"get_device_info",get_device_info,1}, /*method name, C func ptr, always tuple*/
+		{"is_device_bydrv",is_device_bydrv,1},
+		{"get_device_bydrv",get_device_bydrv,1},
 		{NULL,NULL}};
 
 void initdevicec() {
-	(void) Py_InitModule("devicec",devicec_methods);
+	(void) Py_InitModule("devicec",devicec_methods); /*module name,table ptr*/
 }
 
 /*3
@@ -78,8 +144,6 @@ void di_lnode_private_set(di_lnode_t lnode,void *data);
 void *di_lnode_private_get(di_lnode_t lnode);
 
 4
-char * di_devfs_path(di_node_t node);
-char * di_devfs_minor_path(di_minor_t minor);
 char * di_path_devfs_path(di_path_t path);
 char * di_path_client_devfs_path(di_path_t path);
 void * di_devfs_path_free(char *path_buf);
@@ -109,33 +173,11 @@ default:		0
 DI_CHECK_ALIAS	0x10
 DI_CHECK_INTERNAL_PATHS 0x20
 DI_CHECK_MASK	0xf0
-
-minor_nodetype:
-DDI_NT_SERIAL			For serial ports
-DDI_NT_SERAL_MB		For on board serial ports
-DDI_NT_SERIAL_DO	For dial out ports
-DDI_NT_SERAL_DO_MB	For on board dial out ports
-DDI_NT_BLOCK			For hard disks
-DDI_NT_BLOCK_CHAN	For hard disks with channel or target numbers
-DDI_NT_CD				For CDROM drives
-DDI_NT_CD_CHAN		For CDROM drives with channel or target numbers
-DDI_NT_FD				For floppy disks
-DDI_NT_TAPE				For tape drives
-DDI_NT_NET				For DLPI style 1 or style 2 network devices
-DDI_NT_DISPLAY		For display devices
-DDI_PSEUDO				For pseudo devices
 minor_callback:
 DI_WALK_CONTINUE	Continue to visit subsequent minor data nodes
 DI_WALK_TERMINATE	Terminate the walk immediately
-Notice	: for network device, it is not accurate... use libdlpi.h -> dlpi_walk()
+Notice : for network device, it is not accurate... use libdlpi.h -> dlpi_walk()
 di_minor_t di_minor_next(di_node_t node,di_minor_t minor);
-
-7
-dev_t di_minor_devt(di_minor_t minor);
-char * di_minor_name(di_minor_t minor);
-char * di_minor_nodetype(di_minor_t minor);
-int di_minor_spectype(di_minor_t minor);
-return:		S_IFCHR or S_IFBLK
 
 8
 di_prop_t di_prop_next(di_node_t node,di_prop_t prop);
