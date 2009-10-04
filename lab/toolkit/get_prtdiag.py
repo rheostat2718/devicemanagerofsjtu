@@ -9,14 +9,11 @@ def sepstr( key, seps ):
         key = key[( len( seps[i] ) + 1 ):]
     return ret
 
-def get_prtdiag( f = None ):
+def get_prtdiag():
+    return os.popen('prtdiag -v').readlines()
+    
+def read_prtdiag( lines ):
     ret = {}
-    if f == None:
-        try:
-            f = os.popen( 'prtdiag -v' )
-        except:
-            return ret
-    lines = f.readlines()
     key, value = lines[0].split( ':', 1 )
     ret[key] = value[:-1]
     key, value = lines[1].split( ':', 1 )
@@ -57,5 +54,5 @@ def get_prtdiag( f = None ):
     return ret
 
 if __name__ == '__main__':
-    f = open( 'prtdiag.txt', 'r' )
-    print get_prtdiag( f )
+    lines = open( 'prtdiag.txt', 'r' ).readlines()
+    print read_prtdiag( lines )
