@@ -36,27 +36,27 @@ class DriverInfoFrame(gtk.Frame):
         tview.show()
 
     def make_widgets(self):
-	btnname = ['Install','Uninstall','Refresh']
-	self.buttons = []
+        btnname = ['Install','Uninstall','Refresh']
+        self.buttons = []
         self.table = gtk.Table(2,len(btnname),False)
-	self.add(self.table)
-	count = 0
-	for name in btnname:
-	    btn = gtk.Button(name)
-	    self.table.attach(btn,count,count+1,1,2)
-	    count += 1
-	    self.buttons.append(btn)
-        self.scrolled_window = gtk.ScrolledWindow()
-        self.scrolled_window.set_border_width(10)
-        self.scrolled_window.set_policy(gtk.POLICY_AUTOMATIC,gtk.POLICY_AUTOMATIC)
-        d = drv.Driver(self.devicename)
-        l = d.getInfo(True)
-        print l
-        self.make_list(l)
-        self.table.attach(self.scrolled_window,0,len(btnname),0,1)
-	for btn in self.buttons:
-	    btn.show()
-	self.scrolled_window.show()
+        self.add(self.table)
+        count = 0
+        for name in btnname:
+            btn = gtk.Button(name)
+            self.table.attach(btn,count,count+1,1,2)
+            count += 1
+            self.buttons.append(btn)
+            self.scrolled_window = gtk.ScrolledWindow()
+            self.scrolled_window.set_border_width(10)
+            self.scrolled_window.set_policy(gtk.POLICY_AUTOMATIC,gtk.POLICY_AUTOMATIC)
+            d = drv.Driver(self.devicename)
+            l = d.getInfo(True)
+            print l
+            self.make_list(l)
+            self.table.attach(self.scrolled_window,0,len(btnname),0,1)
+        for btn in self.buttons:
+            btn.show()
+        self.scrolled_window.show()
         self.table.show()
 
     def main(self):
