@@ -7,72 +7,81 @@
  * di_lnode_t lnode
  * di_link_t link
  */
+
 #include <Python.h>
 #include <libdevinfo.h>
 
-static PyObject *DIError; /*local exception*/
-#define onError(message) { PyErr_SetString(ErrorObject,message);return NULL;}
+static PyObject *DIError; /* local exception */
+#define onError(message) { PyErr_SetString(DIError,message);return NULL;}
 
 /*
  * Node type information
  */
-
 typedef struct {
 	PyObject_HEAD
 	di_node_t node;
 } nodeobject;
 
+#define nodeobj_t nodeobject*
+
+static PyObject * node_info(PyObject * self,PyObject *args) {
+	nodeobj_t n = (nodeobj_t) self;
+	PyObject * dict = PyDict_New();
+	PyDict_SetItem(dict, Py_BuildValue("s","name"),Py_BuildValue("s",di_node_name(n->node)));
+	return dict;
+}
+
+static PyObject * node_child(PyObject * self,PyObject *args) {
+	PyObject * list = PyList_New(0);
+	return list;
+}
+
 static struct PyMethodDef node_methods[] = {
-//		{"info",node_info,1},
-//		{"child",node_child,1},
-		{NULL,NULL}
+	{"info",node_info,1},
+	{"child",node_child,1},
+	{NULL,NULL,0}
 };
 
 /*
  * Basic type operations
  */
 
-static nodeobject * newnodeobject(PyObject *arg) {
-	di_node_t root_node;
-	nodeobject *tmp = malloc(sizeof(nodeobject));
+static nodeobject * newnodeobject(nodeobject *arg) {
+	nodeobj_t tmp = malloc(sizeof(nodeobject));
 	if (tmp == NULL) {
 		PyErr_NoMemory();
 		return NULL;
 	}
-//	if (!PyArg_Parse(arg,"")) return NULL;
-	if ((root_node = di_init("/",DINFOCPYALL)) == DI_NODE_NIL) return NULL;
-	tmp->node = root_node;
+	if ((tmp->node = di_init("/",DINFOCPYALL)) == DI_NODE_NIL) onError("Cannot init root node");
 	return tmp;
 }
 
 static void node_dealloc(nodeobject *self) {
-	di_fini(self->node);
-	free(self);
-}
-
-static int node_print(nodeobject *self,FILE* fp,int flags) {
-
-}
-
-static PyObject * node_getattr(nodeobject *self,char* name) {
-
+	printf("dealloc");
+	if (self != NULL) {
+		if (self->node != NULL) {
+			di_fini(self->node);
+		}
+		printf("free\n");
+		free(self);
+	}
 }
 
 /*
  * Type descriptors
  */
 
-static PyTypeObject Nodetype = {
+static PyTypeObject NodeType = {
 		/* type header */
 		PyObject_HEAD_INIT(NULL) /*PyObject_HEAD_INIT(&PyType_Type)*/
 		0,/* ob_size */
-		"stack",/* tp_name */
+		"Node",/* tp_name */
 		sizeof(nodeobject),/* tp_basicsize */
 		0,/* tp_itemsize */
 		/* standard methods */
 		(destructor) node_dealloc,/* tp_dealloc */
-		(printfunc) node_print,/* tp_print */
-		(getattrfunc) node_getattr,/* tp_getattr */
+		(printfunc) 0,/* tp_print */
+		(getattrfunc) 0,/* tp_getattr */
 		(setattrfunc) 0,/* tp_setattr */
 		(cmpfunc) 0,/*tp_compare*/
 		(reprfunc) 0,/*tp_repr*/
@@ -89,18 +98,17 @@ static PyTypeObject Nodetype = {
 /* module logic */
 static PyObject * nodetype_new(PyObject *self,PyObject *args) {
 	if (!PyArg_ParseTuple(args,"")) return NULL;
-	printf("1");
-	return (PyObject *)newnodeobject(args);
+	return (PyObject *)newnodeobject(NULL);
 }
 
 static struct PyMethodDef di_methods[] = {
-		{"Node", nodetype_new,0,'Wrapped di_node_t class'},
+		{"Node", nodetype_new,1,"Wrapped di_node_t class"},
 		{NULL,NULL,0,NULL}
 };
 
-void initdi() {
+PyMODINIT_FUNC initdi(void) {
 	PyObject *m,*d;
-	if (PyType_Ready(&Nodetype) < 0) return;
+	if (PyType_Ready(&NodeType) < 0) return;
 	m = Py_InitModule("di",di_methods);
 	if (m == NULL) return;
 	d = PyModule_GetDict(m);
