@@ -46,16 +46,15 @@ class DriverInfoFrame(gtk.Frame):
             self.table.attach(btn,count,count+1,1,2)
             count += 1
             self.buttons.append(btn)
-            self.scrolled_window = gtk.ScrolledWindow()
-            self.scrolled_window.set_border_width(10)
-            self.scrolled_window.set_policy(gtk.POLICY_AUTOMATIC,gtk.POLICY_AUTOMATIC)
-            d = drv.Driver(self.devicename)
-            l = d.getInfo(True)
-            print l
-            self.make_list(l)
-            self.table.attach(self.scrolled_window,0,len(btnname),0,1)
-        for btn in self.buttons:
             btn.show()
+        self.scrolled_window = gtk.ScrolledWindow()
+        self.scrolled_window.set_border_width(10)
+        self.scrolled_window.set_policy(gtk.POLICY_AUTOMATIC,gtk.POLICY_AUTOMATIC)
+        d = drv.Driver(self.devicename)
+        l = d.getInfo(True)
+        print l
+        self.make_list(l)
+        self.table.attach(self.scrolled_window,0,len(btnname),0,1)
         self.scrolled_window.show()
         self.table.show()
 
@@ -77,3 +76,45 @@ class DriverGUITest():
 if __name__=='__main__':
     DriverGUITest(sys.argv[1])
     gtk.main()
+
+"""
+    def addLabelItem( self, lindent, rindent, key, value ):
+        if ( type( value ) == type( str() ) ) | ( type( value ) == type( int() ) ) | ( type( value ) == type( float() ) ):
+            l1 = Label( self.left, text = lindent + str( key ), fg = self.fg, bg = self.bg, font = self.leftfont )
+            l2 = Label( self.right, text = rindent + str( value ), fg = self.fg, bg = self.bg, font = self.rightfont )
+            self.leftlabels.append( l1 )
+            self.rightlabels.append( l2 )
+            l1.pack( side = TOP, anchor = NW )
+            l2.pack( side = TOP, anchor = NW )
+        elif ( type( value ) == type( list() ) ):
+            l1 = Label( self.left, text = lindent + str( key ), fg = self.fg, bg = self.bg, font = self.leftfont )
+            l2 = Label( self.right, text = rindent, fg = self.fg, bg = self.bg, font = self.rightfont )
+            self.leftlabels.append( l1 )
+            self.rightlabels.append( l2 )
+            l1.pack( side = TOP, anchor = NW )
+            l2.pack( side = TOP, anchor = NW )
+            for minorvalue in value:
+                self.addLabelItem( lindent + '|-', rindent + '  ', '', minorvalue )
+        elif ( type( value ) == type( dict() ) ):
+            l1 = Label( self.left, text = lindent + str( key ), fg = self.fg, bg = self.bg, font = self.leftfont )
+            l2 = Label( self.right, text = rindent, fg = self.fg, bg = self.bg, font = self.rightfont )
+            self.leftlabels.append( l1 )
+            self.rightlabels.append( l2 )
+            l1.pack( side = TOP, anchor = NW )
+            l2.pack( side = TOP, anchor = NW )
+            minorkeys = value.keys()
+            minorkeys.sort()
+            for minorkey in minorkeys:
+                self.addLabelItem( lindent + '|', rindent + '- ', minorkey, value[minorkey] )
+        else:
+            print type( value )
+"""
+"""
+TODO:
+1 - anyone could make it beautiful?  ^_^||
+2 - add special key to show up first, e.g 'name','size'...
+3 - add sort | reverse sort | special first order
+5 - add scrollbar?,listbox?
+BUGFIX:
+4 - find unknown type... also maybe type itself...
+"""
