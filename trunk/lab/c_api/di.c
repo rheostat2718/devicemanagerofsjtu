@@ -53,9 +53,10 @@ static void node_dealloc(nodeobj_t self) {
 	}
 }
 
-static int node_init(nodeobj_t self,PyObject *args) {
+static int node_init(nodeobj_t self,PyObject *args,PyObject *kwds) {
 	PyObject *root = NULL;
-	if (!PyArg_ParseTuple(args,"|O",&root)) return -1;
+	static char *kwlist[] {"node",NULL};
+	if (!PyArg_ParseTupleAndKeywords(args,kwds,"|O",kwlist,&root)) return -1;
 	if (root) {
 		self->node = ((nodeobj_t)root)->node;
 	}
@@ -74,9 +75,83 @@ static PyMemberDef node_members[]={
 };
 
 static PyObject * node_info(PyObject * self,PyObject *args) {
-	nodeobj_t n = (nodeobj_t) self;
+	di_node_t node = (nodeobj_t) self->node;
 	PyObject * dict = PyDict_New();
-	PyDict_SetItem(dict, Py_BuildValue("s","name"),Py_BuildValue("s",di_node_name(n->node)));
+	PyObject * compat = PyList_New(0);
+	char * name = NULL;
+	int count = di_compatible_names(node,&name);
+	int id = di_nodeid(node);
+	int state = di_node_state(node);
+	int ops = di_driver_ops(node);
+	PyDict_SetItem(dict, Py_BuildValue("s","name"),Py_BuildValue("s",di_node_name(node)));
+	PyDict_SetItem(dict, Py_BuildValue("s","addr"),Py_BuildValue("s",di_bus_addr(node)));
+	PyDict_SetItem(dict, Py_BuildValue("s","binding_name"),Py_BuildValue("s",di_binding_name(node)));
+	PyDict_SetItem(dict, Py_BuildValue("s","compatible_names_count"),Py_BuildValue("i",count));
+	while (count > 0) {
+		PyList_Append(compat,Py_BuildValue("s",name));
+		name = name+strlen(name)+1;
+		count -= 1;
+	}
+	PyDict_SetItem(dict, Py_BuildValue("s","compatible_names"),compat);
+	PyDict_SetItem(dict,Py_BuildValue("s","instance"),Py_BuildValue("i",di_instance(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","id"),Py_BuildValue("i",id));
+	if (id & DI_PSEUDO_NODEID)
+		PyDict_SetItem(dict,Py_BuildValue("s","id_pseudo"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","id_pseudo"),Py_BuildValue("s","False"));
+	if (id & DI_PROM_NODEID)
+		PyDict_SetItem(dict,Py_BuildValue("s","id_prom"),Py_BuildValue("s","True"));
+		//have additional properties : di_prom_prop_data di_prom_prop_lookup_bytes
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","id_prom"),Py_BuildValue("s","False"));
+	if (id & DI_SID_NODEID)
+		PyDict_SetItem(dict,Py_BuildValue("s","id_sid"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","id_sid"),Py_BuildValue("s","False"));
+	PyDict_SetItem(dict,Py_BuildValue("s","driver_major"),Py_BuildValue("i",di_driver_major(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","state"),Py_BuildValue("l",di_state(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","node_state"),Py_BuildValue("l",state));
+	if (state & DI_DRIVER_DETACHED)
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_driver_detached"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_driver_detached"),Py_BuildValue("s","False"));
+	if (state & DI_DEVICE_OFFLINE)
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_device_offline"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_device_offline"),Py_BuildValue("s","False"));
+	if (state & DI_DEVICE_DOWN)
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_device_down"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_device_down"),Py_BuildValue("s","False"));
+	if (state & DI_DEVICE_DEGRADED)
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_device_degraded"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_device_degraded"),Py_BuildValue("s","False"));
+	if (state & DI_BUS_QUIESCED)
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_bus_quiesced"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_bus_quiesced"),Py_BuildValue("s","False"));
+	if (state & DI_BUS_DOWN)
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_bus_down"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","node_state_bus_down"),Py_BuildValue("s","False"));
+	PyDict_SetItem(dict,Py_BuildValue("s","devid"),Py_BuildValue("l",di_devid(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","driver_name"),Py_BuildValue("s",di_driver_name(node)));
+	PyDict_SetItem(dict,Py_BuildValue("s","driver_ops"),Py_BuildValue("l",ops));
+	if (ops & DI_CB_OPS)
+		PyDict_SetItem(dict,Py_BuildValue("s","driver_cb_ops"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","driver_cb_ops"),Py_BuildValue("s","False"));
+	if (ops & DI_BUS_OPS)
+		PyDict_SetItem(dict,Py_BuildValue("s","driver_bus_ops"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","driver_bus_ops"),Py_BuildValue("s","False"));
+	if (ops & DI_STREAM_OPS)
+		PyDict_SetItem(dict,Py_BuildValue("s","driver_stream_ops"),Py_BuildValue("s","True"));
+	else
+		PyDict_SetItem(dict,Py_BuildValue("s","driver_stream_ops"),Py_BuildValue("s","False"));
+
+	PyDict_SetItem(dict,Py_BuildValue("s","devfs_path"),Py_BuildValue("s",(di_devfs_path(node))));
 	return dict;
 }
 
@@ -85,9 +160,13 @@ static PyObject * node_child(PyObject * self,PyObject *args) {
 	return list;
 }
 
+static PyObject * node_minor(PyObject *self,PyObject *args) {
+	return Py_None();
+}
+
 static PyMethodDef node_methods[]={
-		{"info",(PyCFunction)node_info,1,"Return node info"},
-		{"child",(PyCFunction)node_child,1,"Return list of child nodes"},
+		{"get_info",(PyCFunction)node_info,1,"Return node info"},
+		{"get_child",(PyCFunction)node_child,1,"Return list of child nodes"},
 		{NULL} /*Sentinel*/
 };
 
@@ -166,3 +245,10 @@ PyMODINIT_FUNC initdi(void) {
 	Py_INCREF(DIError);
 	PyModule_AddObject(m,"error",DIError);
 }
+
+/*
+static PyGetSetDef node_getseters[]={
+	{"flag",(getter)node_getflag,(setter)node_setflag,"flag"},
+	{NULL}
+};
+ */
