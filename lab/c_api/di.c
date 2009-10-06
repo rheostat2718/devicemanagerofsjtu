@@ -45,17 +45,21 @@ static PyObject* node_new(PyTypeObject *type,PyObject *args,PyObject *kwds) {
 	return (PyObject *)self;
 }
 
+static int node_clear(nodeobj_t self) {
+	if (self != NULL)
+		if (self -> node != NULL)
+			di_fini(self -> node);
+	return 0;
+}
+
 static void node_dealloc(nodeobj_t self) {
-	di_node_t tmp = NULL;
-	if (self != NULL) {
-		if (self->node != NULL) di_fini(self->node);
-		self->ob_type->tp_free((PyObject*)self);
-	}
+	node_clear(self);
+	self->ob_type->tp_free((PyObject*)self);
 }
 
 static int node_init(nodeobj_t self,PyObject *args,PyObject *kwds) {
 	PyObject *root = NULL;
-	static char *kwlist[] {"node",NULL};
+	static char *kwlist[]={"node",NULL};
 	if (!PyArg_ParseTupleAndKeywords(args,kwds,"|O",kwlist,&root)) return -1;
 	if (root) {
 		self->node = ((nodeobj_t)root)->node;
@@ -75,7 +79,7 @@ static PyMemberDef node_members[]={
 };
 
 static PyObject * node_info(PyObject * self,PyObject *args) {
-	di_node_t node = (nodeobj_t) self->node;
+	di_node_t node = ((nodeobj_t)self)->node;
 	PyObject * dict = PyDict_New();
 	PyObject * compat = PyList_New(0);
 	char * name = NULL;
@@ -160,13 +164,24 @@ static PyObject * node_child(PyObject * self,PyObject *args) {
 	return list;
 }
 
-static PyObject * node_minor(PyObject *self,PyObject *args) {
-	return Py_None();
+/*static PyObject * node_minor(PyObject *self,PyObject *args) {
+	return PyNone();
+}*/
+
+static PyObject * node_parent(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t)self)->node;
+	di_node_t parent_node = di_parent_node(node);
+	nodeobj_t parent = self->ob_type->tp_new(self->ob_type,Py_BuildValue(""),Py_BuildValue(""));
+	parent->node = parent_node;
+	return (PyObject *)parent;
+/*	di_node_t di_child_node(di_node_t node)
+	di_node_t di_sibling_node(di_node_t node)*/
 }
 
 static PyMethodDef node_methods[]={
 		{"get_info",(PyCFunction)node_info,1,"Return node info"},
 		{"get_child",(PyCFunction)node_child,1,"Return list of child nodes"},
+		{"get_parent",(PyCFunction)node_parent,1,"Return parent node"},
 		{NULL} /*Sentinel*/
 };
 
@@ -205,7 +220,7 @@ static PyTypeObject NodeType = {/* type header */
 		Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,/*tp_flags*/
 		"di_node objects",/*tp_doc*/
 		0,/*tp_traverse*/
-		0,/*tp_clear*/
+		node_clear,/*tp_clear*/
 		0,/*tp_richcompare*/
 		0,/*tp_weaklistoffset*/
 		0,/*tp_iter*/
