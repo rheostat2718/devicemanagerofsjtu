@@ -160,7 +160,15 @@ static PyObject * node_info(PyObject * self,PyObject *args) {
 }
 
 static PyObject * node_child(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t)self)->node;
 	PyObject * list = PyList_New(0);
+	di_node_t child_node = di_child_node(node);
+	while (child_node != DI_NODE_NIL) {
+		nodeobj_t child = self->ob_type->tp_new(self->ob_type,Py_BuildValue(""),Py_BuildValue(""));
+		child->node = child_node;
+		PyList_Append(list,(PyObject *)child);
+		child_node = di_sibling_node(child_node);
+	}
 	return list;
 }
 
@@ -173,9 +181,7 @@ static PyObject * node_parent(PyObject * self,PyObject *args) {
 	di_node_t parent_node = di_parent_node(node);
 	nodeobj_t parent = self->ob_type->tp_new(self->ob_type,Py_BuildValue(""),Py_BuildValue(""));
 	parent->node = parent_node;
-	return (PyObject *)parent;
-/*	di_node_t di_child_node(di_node_t node)
-	di_node_t di_sibling_node(di_node_t node)*/
+	return (PyObject *) parent;
 }
 
 static PyMethodDef node_methods[]={
@@ -233,7 +239,7 @@ static PyTypeObject NodeType = {/* type header */
 		0,/*tp_descr_get*/
 		0,/*tp_descr_set*/
 		0,/*tp_dictoff*/
-		(initproc) node_init,/*tp_init*/ //node_init
+		(initproc) node_init,/*tp_init*/
 		0,/*tp_alloc*/
 		node_new,/*tp_new*/
 };
