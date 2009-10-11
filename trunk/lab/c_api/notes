@@ -142,4 +142,23 @@ DDI_PSEUDO				For pseudo devices
 	PyObject *tp_weaklist;
 } PyTypeObject;
 
+typedef struct PyMethodDef {
+    char *ml_name;/*method name*/
+    PyCFunction ml_meth;/*implementation function*/
+    int ml_flags;/*flags*/
+    char *ml_doc;/*docstring*/
+} PyMethodDef;
+
+typedef struct PyMemberDef {
+    char *name;
+    int type;/*structmember.h*/
+    int offset;
+    int flags;
+    char *doc;
+} PyMemberDef;
+flags:
+READONLY / RO
+READ_RESTRICTED not readable in restricted mode
+WRITE_RESTRICTED node writable in restricted mode
+RESTRICTED not readable | writable in restricted mode
 	

@@ -39,8 +39,7 @@ static PyObject* node_new(PyTypeObject *type,PyObject *args,PyObject *kwds) {
 	}
 	if ((self->node = di_init("/",DINFOCPYALL)) == DI_NODE_NIL) {
 		Py_DECREF(self);
-		return NULL;
-		/*onError("Cannot init root node")*/
+		onError("Cannot init root node")
 	}
 	return (PyObject *)self;
 }
@@ -87,6 +86,9 @@ static PyObject * node_info(PyObject * self,PyObject *args) {
 	int id = di_nodeid(node);
 	int state = di_node_state(node);
 	int ops = di_driver_ops(node);
+
+	if (!PyArg_Parse(arg,"")) return NULL;
+
 	PyDict_SetItem(dict, Py_BuildValue("s","name"),Py_BuildValue("s",di_node_name(node)));
 	PyDict_SetItem(dict, Py_BuildValue("s","addr"),Py_BuildValue("s",di_bus_addr(node)));
 	PyDict_SetItem(dict, Py_BuildValue("s","binding_name"),Py_BuildValue("s",di_binding_name(node)));
@@ -163,6 +165,9 @@ static PyObject * node_child(PyObject * self,PyObject *args) {
 	di_node_t node = ((nodeobj_t)self)->node;
 	PyObject * list = PyList_New(0);
 	di_node_t child_node = di_child_node(node);
+
+	if (!PyArg_Parse(arg,"")) return NULL;
+
 	while (child_node != DI_NODE_NIL) {
 		nodeobj_t child = self->ob_type->tp_new(self->ob_type,Py_BuildValue(""),Py_BuildValue(""));
 		child->node = child_node;
@@ -177,9 +182,16 @@ static PyObject * node_child(PyObject * self,PyObject *args) {
 }*/
 
 static PyObject * node_parent(PyObject * self,PyObject *args) {
+/*	if (!PyObject_TypeCheck(self,&nodeobj)) {
+		PyErr_SetString(PyExc_TypeError,"self is not a Node");
+		return NULL;
+	}*/
 	di_node_t node = ((nodeobj_t)self)->node;
 	di_node_t parent_node = di_parent_node(node);
 	nodeobj_t parent = self->ob_type->tp_new(self->ob_type,Py_BuildValue(""),Py_BuildValue(""));
+
+	if (!PyArg_Parse(arg,"")) return NULL;
+
 	parent->node = parent_node;
 	return (PyObject *) parent;
 }
