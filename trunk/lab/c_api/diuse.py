@@ -8,4 +8,7 @@ print dir(di)
 print dir(di.Node)
 n = di.Node()
 print n.get_info()
-print n.get_child()[0].get_info()
+l = n.get_child()
+print len(l)
+for i in range(len(l)):
+    print l[i].get_info()
