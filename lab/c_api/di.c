@@ -1,30 +1,15 @@
 /*
  * di.c: wrap C library devinfo into Python code
- * This file intends to return Python objects such as:
+ * This program intends to return Python version types ->
  * di_node_t node
  * di_minor_t minor
  * di_path_t path
  * di_lnode_t lnode
  * di_link_t link
+ * ???????_t prop
  */
 
-#include <Python.h>
-#include <structmember.h>
-#include <libdevinfo.h>
-#include <stdio.h>
-
-static PyObject *DIError; /* local exception */
-#define onError(message) { PyErr_SetString(DIError,message);return NULL;}
-
-/*
- * Node type information
- */
-typedef struct {
-	PyObject_HEAD
-	di_node_t node;
-} nodeobj;
-
-#define nodeobj_t nodeobj*
+#include "di.h"
 
 /*
  * Basic type operations
@@ -72,36 +57,154 @@ static int node_init(nodeobj_t self,PyObject *args,PyObject *kwds) {
 	return 0;
 }
 
-static PyMemberDef node_members[]={
-		{"node",T_OBJECT_EX,offsetof(nodeobj,node),0,"node"},
-		{NULL}/* Sentinel */
-};
+static PyObject * node_name(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("s",di_node_name(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_bus_addr(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("s",di_bus_addr(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_binding_name(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("s",di_binding_name(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_compatible_names(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL) {
+		PyObject * compat = PyList_New(0);
+		char * name = NULL;
+		int count = di_compatible_names(node,&name);
+		while (count > 0) {
+			PyList_Append(compat,Py_BuildValue("s",name));
+			name = name+strlen(name)+1;
+			count -= 1;
+		}
+		return compat;
+	}
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_instance(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("l",di_instance(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_nodeid(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("l",di_nodeid(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_driver_major(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("l",di_driver_major(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_state(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("l",di_node_state(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_distate(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("l",di_state(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_devid(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("l",di_devid(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_devfs_path(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("s",di_devfs_path(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_driver_ops(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("l",di_driver_ops(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
+
+static PyObject * node_driver_name(PyObject * self,PyObject *args) {
+	di_node_t node = ((nodeobj_t) self)->node;
+	if (!PyArg_Parse(args,"")) return NULL;
+	if (node != DI_NODE_NIL)
+		return Py_BuildValue("s",di_driver_name(node));
+	else
+		onError("cannot access node : DI_NODE_NIL")
+}
 
 static PyObject * node_info(PyObject * self,PyObject *args) {
 	di_node_t node = ((nodeobj_t)self)->node;
 	PyObject * dict = PyDict_New();
-	PyObject * compat = PyList_New(0);
-	char * name = NULL;
-	int count = di_compatible_names(node,&name);
 	int id = di_nodeid(node);
 	int state = di_node_state(node);
 	int ops = di_driver_ops(node);
+	if (!PyArg_Parse(args,"")) return NULL;
+	PyDict_SetItem(dict, Py_BuildValue("s","name"),node_name(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","addr"),node_bus_addr(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","binding_name"),node_binding_name(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","compatible_names"),node_compatible_names(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","instance"),node_instance(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","nodeid"),node_nodeid(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","state"),node_distate(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","node_state"),node_state(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","devid"),node_devid(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","devfs_path"),node_devfs_path(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","driver_name"),node_driver_name(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","driver_ops"),node_driver_ops(self,args));
+	PyDict_SetItem(dict, Py_BuildValue("s","driver_major"),node_driver_major(self,args));
 
-	if (!PyArg_Parse(arg,"")) return NULL;
-
-	PyDict_SetItem(dict, Py_BuildValue("s","name"),Py_BuildValue("s",di_node_name(node)));
-	PyDict_SetItem(dict, Py_BuildValue("s","addr"),Py_BuildValue("s",di_bus_addr(node)));
-	PyDict_SetItem(dict, Py_BuildValue("s","binding_name"),Py_BuildValue("s",di_binding_name(node)));
-	PyDict_SetItem(dict, Py_BuildValue("s","compatible_names_count"),Py_BuildValue("i",count));
-	while (count > 0) {
-		PyList_Append(compat,Py_BuildValue("s",name));
-		name = name+strlen(name)+1;
-		count -= 1;
-	}
-	PyDict_SetItem(dict, Py_BuildValue("s","compatible_names"),compat);
-	PyDict_SetItem(dict,Py_BuildValue("s","instance"),Py_BuildValue("i",di_instance(node)));
-	PyDict_SetItem(dict,Py_BuildValue("s","id"),Py_BuildValue("i",id));
-	if (id & DI_PSEUDO_NODEID)
+/*	if (id & DI_PSEUDO_NODEID)
 		PyDict_SetItem(dict,Py_BuildValue("s","id_pseudo"),Py_BuildValue("s","True"));
 	else
 		PyDict_SetItem(dict,Py_BuildValue("s","id_pseudo"),Py_BuildValue("s","False"));
@@ -114,9 +217,6 @@ static PyObject * node_info(PyObject * self,PyObject *args) {
 		PyDict_SetItem(dict,Py_BuildValue("s","id_sid"),Py_BuildValue("s","True"));
 	else
 		PyDict_SetItem(dict,Py_BuildValue("s","id_sid"),Py_BuildValue("s","False"));
-	PyDict_SetItem(dict,Py_BuildValue("s","driver_major"),Py_BuildValue("i",di_driver_major(node)));
-	PyDict_SetItem(dict,Py_BuildValue("s","state"),Py_BuildValue("l",di_state(node)));
-	PyDict_SetItem(dict,Py_BuildValue("s","node_state"),Py_BuildValue("l",state));
 	if (state & DI_DRIVER_DETACHED)
 		PyDict_SetItem(dict,Py_BuildValue("s","node_state_driver_detached"),Py_BuildValue("s","True"));
 	else
@@ -141,9 +241,6 @@ static PyObject * node_info(PyObject * self,PyObject *args) {
 		PyDict_SetItem(dict,Py_BuildValue("s","node_state_bus_down"),Py_BuildValue("s","True"));
 	else
 		PyDict_SetItem(dict,Py_BuildValue("s","node_state_bus_down"),Py_BuildValue("s","False"));
-	PyDict_SetItem(dict,Py_BuildValue("s","devid"),Py_BuildValue("l",di_devid(node)));
-	PyDict_SetItem(dict,Py_BuildValue("s","driver_name"),Py_BuildValue("s",di_driver_name(node)));
-	PyDict_SetItem(dict,Py_BuildValue("s","driver_ops"),Py_BuildValue("l",ops));
 	if (ops & DI_CB_OPS)
 		PyDict_SetItem(dict,Py_BuildValue("s","driver_cb_ops"),Py_BuildValue("s","True"));
 	else
@@ -156,8 +253,7 @@ static PyObject * node_info(PyObject * self,PyObject *args) {
 		PyDict_SetItem(dict,Py_BuildValue("s","driver_stream_ops"),Py_BuildValue("s","True"));
 	else
 		PyDict_SetItem(dict,Py_BuildValue("s","driver_stream_ops"),Py_BuildValue("s","False"));
-
-	PyDict_SetItem(dict,Py_BuildValue("s","devfs_path"),Py_BuildValue("s",(di_devfs_path(node))));
+	*/
 	return dict;
 }
 
@@ -166,7 +262,7 @@ static PyObject * node_child(PyObject * self,PyObject *args) {
 	PyObject * list = PyList_New(0);
 	di_node_t child_node = di_child_node(node);
 
-	if (!PyArg_Parse(arg,"")) return NULL;
+	if (!PyArg_Parse(args,"()")) return NULL;
 
 	while (child_node != DI_NODE_NIL) {
 		nodeobj_t child = self->ob_type->tp_new(self->ob_type,Py_BuildValue(""),Py_BuildValue(""));
@@ -190,80 +286,11 @@ static PyObject * node_parent(PyObject * self,PyObject *args) {
 	di_node_t parent_node = di_parent_node(node);
 	nodeobj_t parent = self->ob_type->tp_new(self->ob_type,Py_BuildValue(""),Py_BuildValue(""));
 
-	if (!PyArg_Parse(arg,"")) return NULL;
+	if (!PyArg_Parse(args,"()")) return NULL;
 
 	parent->node = parent_node;
 	return (PyObject *) parent;
 }
-
-static PyMethodDef node_methods[]={
-		{"get_info",(PyCFunction)node_info,1,"Return node info"},
-		{"get_child",(PyCFunction)node_child,1,"Return list of child nodes"},
-		{"get_parent",(PyCFunction)node_parent,1,"Return parent node"},
-		{NULL} /*Sentinel*/
-};
-
-/*
- * Type descriptors
- */
-
-static PyTypeObject NodeType = {/* type header */
-		PyObject_HEAD_INIT(NULL) /*PyObject_HEAD_INIT(&PyType_Type)*/
-		0,/* ob_size */
-		"di.Node",/* tp_name */
-		sizeof(nodeobj),/* tp_basicsize */
-		0,/* tp_itemsize */
-
-		/* standard methods */
-		(destructor)node_dealloc,/* tp_dealloc */
-		0,/* tp_print */
-		0,/* tp_getattr */
-		0,/* tp_setattr */
-		0,/*tp_compare*/
-		0,/*tp_repr*/
-
-		/* type categories*/
-		0,/*tp_as_number*/
-		0,/*tp_as_sequence*/
-		0,/*tp_as_mapping*/
-
-		/* more methods */
-		0,/*tp_hash*/
-		0,/*tp_call*/
-		0,/*tp_str*/
-		0,/*tp_getattro*/
-		0,/*tp_setattro*/
-		0,/*tp_as_buffer*/
-
-		Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,/*tp_flags*/
-		"di_node objects",/*tp_doc*/
-		0,/*tp_traverse*/
-		node_clear,/*tp_clear*/
-		0,/*tp_richcompare*/
-		0,/*tp_weaklistoffset*/
-		0,/*tp_iter*/
-		0,/*tp_iternext*/
-		node_methods,/*tp_methods*/
-		node_members,/*tp_members*/
-		0,/*tp_getset*/
-		0,/*tp_base*/
-		0,/*tp_dict*/
-		0,/*tp_descr_get*/
-		0,/*tp_descr_set*/
-		0,/*tp_dictoff*/
-		(initproc) node_init,/*tp_init*/
-		0,/*tp_alloc*/
-		node_new,/*tp_new*/
-};
-
-/* module logic */
-static struct PyMethodDef di_methods[] = {
-		{NULL}
-};
-
-#ifndef PyMODINIT_FUNC
-#define PyMODINIT_FUNC void
-#endif
 
 PyMODINIT_FUNC initdi(void) {
 	PyObject *m,*d;

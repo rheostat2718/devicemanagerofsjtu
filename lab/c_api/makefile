@@ -16,7 +16,7 @@ modulec.o:modulec.c
 	$(CC) modulec.c $(COMPOPT)
 di.so:di.o
 	$(LD) di.o -ldevinfo $(LINKOPT) -o di.so
-di.o:di.c
+di.o:di.c di.h
 	$(CC) di.c $(COMPOPT)
 	
 
