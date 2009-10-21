@@ -11,8 +11,9 @@ from class_Device import *
 class KeyAndValue(gtk.ScrolledWindow):
     def __init__(self, hash):
         self.store=gtk.ListStore(str, str)
-        for (k, v) in hash.items():
-            self.store.append([k,v])
+        if hash:
+            for (k, v) in hash.items():
+                self.store.append([k,v])
         self.view=gtk.TreeView(self.store)
         self.tv_key=gtk.TreeViewColumn('Key')
         self.tv_val=gtk.TreeViewColumn('Value')
