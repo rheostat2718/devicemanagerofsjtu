@@ -1,68 +1,63 @@
+import sys
 import pygtk
 pygtk.require( '2.0' )
 import gtk
-import drv
-import sys
 
 class DriverInfoFrame( gtk.Frame ):
-    def __init__( self, devicename ):
+    """
+        This class gather driver information and several operations
+        about a specific device in a gtk.Frame.
+    """
+    def __init__( self, drvname) :
         gtk.Frame.__init__( self )
-        self.set_label( 'Module Info' )
-        self.set_label_align( 1.0, 0.0 )#left top
+        self.drvname = drvname
+        
+        from drv import Driver
+        self.drv = Driver(self.drvname)
+        
+        self.btnlist = [['Refresh',0,None],
+                        ['Install',0,None],
+                        ['Uninstall',0,None],
+                        ['Update',0,None],
+                        ['Backup',0,None],
+                        ['Restore',0,None]]
+        self.set_label( 'Driver Information' ) #Frame title
+        self.set_label_align( 1.0, 0.0 ) #top-left corner
         self.set_shadow_type( gtk.SHADOW_ETCHED_IN )
-        self.devicename = devicename
         self.make_widgets()
 
-    def make_list( self, d ):
-        from class_DeviceManagerGUI import KeyAndValue
-        self.scrolled_window = KeyAndValue( d )
-        '''
-        self.liststore = gtk.ListStore(str,str)
-        for key in d.keys():
-            self.liststore.append([key,d[key]])
-        tview = gtk.TreeView(self.liststore)
-        treecolumnkey = gtk.TreeViewColumn('Key')
-        treecolumnvalue = gtk.TreeViewColumn('Value')
-        tview.append_column(treecolumnkey)
-        tview.append_column(treecolumnvalue)
-        self.cell1 = gtk.CellRendererText()
-        self.cell2 = gtk.CellRendererText()
-        treecolumnkey.pack_start(self.cell1,True)
-        treecolumnkey.add_attribute(self.cell1,'text',0)
-        treecolumnvalue.pack_start(self.cell2,True)
-        treecolumnvalue.add_attribute(self.cell2,'text',1)
-        tview.set_search_column(0)
-        treecolumnkey.set_sort_column_id(0)
-        treecolumnvalue.set_sort_column_id(0)
-        tview.set_reorderable(True)
-        tview.show()
-        '''
-
-
     def make_widgets( self ):
-        btnname = ['Refresh', 'Install', 'Uninstall', 'Update', 'Backup', 'Restore']
-        self.buttons = []
-        self.table = gtk.Table( 2, len( btnname ), False )
-        self.add( self.table )
+        table = gtk.Table( 2, len( self.btnlist ), False )
+        self.add( table )
+
         count = 0
-        for name in btnname:
-            btn = gtk.Button( name )
-            self.table.attach( btn, count, count + 1, 1, 2 )
+        for item in self.btnlist:
+            item[2] = gtk.Button( item[0] )
+            table.attach( item[2], count, count + 1, 1, 2 )
+            item[2].show()
             count += 1
-            self.buttons.append( btn )
-            btn.show()
-        ''' 
-        self.scrolled_window = gtk.ScrolledWindow()
-        self.scrolled_window.set_border_width(10)
-        self.scrolled_window.set_policy(gtk.POLICY_AUTOMATIC,gtk.POLICY_AUTOMATIC)
-        '''
-        d = drv.Driver( self.devicename )
-        l = d.getInfo( True )
-        print l
-        self.make_list( l )
-        self.table.attach( self.scrolled_window, 0, len( btnname ), 0, 1 )
-        self.scrolled_window.show()
-        self.table.show()
+
+        # Given argument "False" drv.Driver doesn't search related package
+        # and provide fast loading
+        self.info1 = self.drv.getInfo(False)     
+        from GUIcommon import KeyAndValue
+        self.list = KeyAndValue( self.info1 )
+        
+        table.attach( self.list, 0, len( self.btnlist ), 0, 1 )
+
+        self.list.show()
+        table.show()
+
+    def force_refresh(self):
+        self.drv = Driver(self.drvname)
+        self.refresh_list()
+
+    def refresh_list(self):
+        if self.drv:
+            self.info1 = self.drv.getInfo( False )
+        else:
+            self.info1 = None
+        self.list.refresh(self.info1)
 
     def main( self ):
         gtk.main()
@@ -114,8 +109,7 @@ if __name__ == '__main__':
                 self.addLabelItem( lindent + '|', rindent + '- ', minorkey, value[minorkey] )
         else:
             print type( value )
-"""
-"""
+
 TODO:
 1 - anyone could make it beautiful?  ^_^||
 2 - add special key to show up first, e.g 'name','size'...

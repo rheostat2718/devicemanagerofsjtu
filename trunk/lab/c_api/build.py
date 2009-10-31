@@ -1,3 +1,4 @@
+#!/bin/env python2.6
 from distutils.core import setup, Extension
 def builddi():
     setup( name = 'di', version = '1.0', ext_modules = [Extension( 'di', ['di.c'] )] )

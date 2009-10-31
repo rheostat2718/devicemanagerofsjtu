@@ -5,6 +5,7 @@ if ret != 0:
     sys.exit()
 import di
 print dir(di)
+print di.DI_BUS_DOWN
 print dir(di.Node)
 n = di.Node()
 print n.get_info()
