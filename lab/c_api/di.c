@@ -292,18 +292,40 @@ static PyObject * node_parent(PyObject * self,PyObject *args) {
 	return (PyObject *) parent;
 }
 
+static void add_const(PyObject *mod) {
+	DIError = PyErr_NewException("di.error",NULL,NULL);
+	Py_INCREF(DIError);
+	PyModule_AddObject(mod,"error",DIError);
+/* di_walk_node, not used*/
+	PyModule_AddObject(mod,"DI_WALK_CLDFIRST",Py_BuildValue("i",DI_WALK_CLDFIRST));
+	PyModule_AddObject(mod,"DI_WALK_SIBFIRST",Py_BuildValue("i",DI_WALK_SIBFIRST));
+	PyModule_AddObject(mod,"DI_WALK_LINKGEN",Py_BuildValue("i",DI_WALK_LINKGEN));
+	PyModule_AddObject(mod,"DI_WALK_MASK",Py_BuildValue("i",DI_WALK_MASK));
+/* di_walk_node callback, not used currently*/
+	PyModule_AddObject(mod,"DI_WALK_CONTINUE",Py_BuildValue("i",DI_WALK_CONTINUE)); //Continue walking
+	PyModule_AddObject(mod,"DI_WALK_PRUNESIB",Py_BuildValue("i",DI_WALK_PRUNESIB)); //Continue walking, but skip siblings and their child nodes
+	PyModule_AddObject(mod,"DI_WALK_PRUNECHILD",Py_BuildValue("i",DI_WALK_PRUNECHILD)); //Continue walking,but skip subtree rooted at current node
+	PyModule_AddObject(mod,"DI_WALK_TERMINATE",Py_BuildValue("i",DI_WALK_TERMINATE)); //Terminate the walk immediately.
+/* di_node_xx, export to Python*/
+	PyModule_AddObject(mod,"DI_PSEUDO_NODEID",Py_BuildValue("i",DI_PSEUDO_NODEID));
+	PyModule_AddObject(mod,"DI_PROM_NODEID",Py_BuildValue("i",DI_PROM_NODEID));
+	PyModule_AddObject(mod,"DI_SID_NODEID",Py_BuildValue("i",DI_SID_NODEID));
+	PyModule_AddObject(mod,"DI_DRIVER_DETACHED",Py_BuildValue("i",DI_DRIVER_DETACHED));
+	PyModule_AddObject(mod,"DI_DEVICE_OFFLINE",Py_BuildValue("i",DI_DEVICE_OFFLINE));
+	PyModule_AddObject(mod,"DI_DEVICE_DOWN",Py_BuildValue("i",DI_DEVICE_DOWN));
+	PyModule_AddObject(mod,"DI_DEVICE_DEGRADED",Py_BuildValue("i",DI_DEVICE_DEGRADED));
+	PyModule_AddObject(mod,"DI_BUS_QUIESCED",Py_BuildValue("i",DI_BUS_QUIESCED));
+	PyModule_AddObject(mod,"DI_BUS_DOWN",Py_BuildValue("i",DI_BUS_DOWN));
+}
+
 PyMODINIT_FUNC initdi(void) {
-	PyObject *m,*d;
+	PyObject *m;
 	if (PyType_Ready(&NodeType) < 0) return;
 	m = Py_InitModule3("di",di_methods,"libdevinfo in Python");
 	if (m == NULL) return;
 	Py_INCREF(&NodeType);
 	PyModule_AddObject(m,"Node",(PyObject*)&NodeType);
-
-	d = PyModule_GetDict(m);
-	DIError = PyErr_NewException("di.error",NULL,NULL);
-	Py_INCREF(DIError);
-	PyModule_AddObject(m,"error",DIError);
+	add_const(m);
 }
 
 /*
@@ -312,3 +334,12 @@ static PyGetSetDef node_getseters[]={
 	{NULL}
 };
  */
+
+static PyObject * node_search(PyObject * self,PyObject *args) {
+	/* TODO : search by devpath : DI_WALK_NODE*/
+}
+
+static PyObject * node_xx()
+{
+	/* YET DECIDED*/
+}

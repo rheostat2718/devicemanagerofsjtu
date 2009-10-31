@@ -5,9 +5,25 @@ import sys
 import traceback
 from c_api.modulec import *
 
-class Driver:
-    def __init__( self, drvname ):
+class DriverBase():
+    """
+    Base type of all Driver items
+    """
+    def __init__(self, drvname):
         self.drvname = drvname
+
+    def info(self):
+        pass
+    
+    def install(self):
+        pass
+    
+    def uninstall(self):
+        pass
+        
+class Driver(DriverBase):
+    def __init__( self, drvname ):
+        DriverBase.__init__(self,drvname);
         try:
             self.defaultdrvpath, self.defaultconfpath = getFirstDriverPathConf()
         except:

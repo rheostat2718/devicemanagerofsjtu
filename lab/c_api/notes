@@ -19,12 +19,6 @@ DI_WALK_CLDFIRST	depth first(default)
 DI_WALK_SIBFIRST		breadth first
 DI_WALK_LINKGEN
 DI_WALK_MASK
-node_callback() return value:
-DI_WALK_CONTINUE	Continue walking
-DI_WALK_PRUNESIB	Continue walking, but skip siblings and their child nodes
-DI_WALK_PRUNECHILD	Continue walking,but skip subtree rooted at current node
-DI_WALK_TERMINATE	Terminate the walk immediately.
-
 (2)
 char * di_node_name(di_node_t node);
 char * di_bus_addr(di_node_t node);
