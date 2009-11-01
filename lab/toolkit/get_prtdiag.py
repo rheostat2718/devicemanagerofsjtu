@@ -1,7 +1,14 @@
 import os, sys
+
 """
-load prtdiag -v's output, get extra information...
+execute 'prgdiag -v'
+collect extra information
+
+get_prtdiag():
+input : none
+return type:dict {'name':value}
 """
+
 def sepstr( key, seps ):
     ret = []
     for i in range( len( seps ) ):
@@ -10,7 +17,8 @@ def sepstr( key, seps ):
     return ret
 
 def get_prtdiag():
-    return os.popen('prtdiag -v').readlines()
+    lines = os.popen('prtdiag -v').readlines()
+    return read_prtdiag(lines)
     
 def read_prtdiag( lines ):
     ret = {}
@@ -54,5 +62,5 @@ def read_prtdiag( lines ):
     return ret
 
 if __name__ == '__main__':
-    lines = open( 'prtdiag.txt', 'r' ).readlines()
-    print read_prtdiag( lines )
+    print get_prtdiag()
+    # debug: print read_prtdiag( open( 'prtdiag.txt', 'r' ).readlines() )
