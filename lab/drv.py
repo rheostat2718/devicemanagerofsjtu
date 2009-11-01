@@ -20,7 +20,15 @@ class DriverBase():
     
     def uninstall(self):
         pass
-        
+    
+class LocatorMixin():
+    def __init__(self):
+        pass
+
+class IPSMixin():
+    def __init__(self):
+        pass
+            
 class Driver(DriverBase):
     def __init__( self, drvname ):
         DriverBase.__init__(self,drvname);

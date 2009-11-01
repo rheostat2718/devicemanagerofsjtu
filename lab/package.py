@@ -1,5 +1,3 @@
-#!/bin/env python2.6
-
 import os
 import sys
 
@@ -8,7 +6,6 @@ def isPackage( pkgname ):
     pfexec is sudo in solaris
     """
     return ( os.system( 'pfexec pkginfo -q ' + pkgname ) == 0 )
-
 
 class Package():
     # A class that invokes pkg install / uninstall / list / search / info, managers pkg files
