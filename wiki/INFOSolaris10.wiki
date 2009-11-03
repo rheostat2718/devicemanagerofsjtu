@@ -1,0 +1,34 @@
+= List =
+
+  * 确认操作系统32位/64位兼容，isainfo -b，输出位数
+  * isalist 输出运行平台以及指令集
+  * psrinfo -pv 物理CPU，关联的虚拟CPU
+  * showrev -a 显示系统综合信息，格式 xxx: xxxx
+  * prtconf | grep Memory 内存信息
+  * vmstat -i 中断信息
+  * iostat 时间，显示磁盘使用信息
+  * sar -u -xtc - q /CPU , sar -b -a -d / IO
+  * 调试：查询core文件信息 /usr/proc/bin/pstack ./core *** dumpadm ... /var/crash/主机名
+  * DTrace -l 探测器数量 provider:module:function:name
+  * /usr/demo/dtrace
+  * pkgadd -d 目录 (-G 全局) 软件包名
+  * pkgrm 名称
+  * patchadd / patchrm
+  * 设备策略 getdevpolicy 设备名 update_drv 更新/增减策略
+  * list_devices 设备分配信息 list_devices audio[n]/fd[n]/sr[n]/st[n]
+  * allocate / deallocate
+  * 1 su 2 pkgadd -d device package-name 3 touch /reconfigure
+  * du 使用 / format 分区 / prtvtoc 标识内容
+  * 热插拔 板：unknown 未知 / ok 正常 / failed 故障 / unusable 不可用
+  * 板插卡： configured 配置 / unconfigured 未配置(断开总是未配置)
+  * 板插口： empty 空 / disconnected 断开连接 / connected 已连接
+  * cfgadm 处理USB / SCSI / PCI
+  * cfgadm -l 信息
+  * cfgadm -al 附加信息
+  * 连接 cfgadm -c connect c1 或 c1::dsk/c1t4d0xxx
+  * 断开 cfgadm -c disconnect c1
+  * 配置 cfgadm -c configure c1
+  * 未配置 cfgadm -c unconfigure c1
+  * 增添 cfgadm -x insert_device c1
+  * 删除 cfgadm -x replace_device c1
+  * 磁带操作命令: cpio tar pax
