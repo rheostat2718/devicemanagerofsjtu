@@ -1,9 +1,6 @@
 = List =
 
-  * 确认操作系统32位/64位兼容，isainfo -b，输出位数
-  * isalist 输出运行平台以及指令集
-  * psrinfo -pv 物理CPU，关联的虚拟CPU
-  * showrev -a 显示系统综合信息，格式 xxx: xxxx
+  * showrev -a 显示系统综合信息，格式 xxx: xxxx show patch level and/or patches -p
   * prtconf | grep Memory 内存信息
   * vmstat -i 中断信息
   * iostat 时间，显示磁盘使用信息
@@ -11,9 +8,9 @@
   * 调试：查询core文件信息 /usr/proc/bin/pstack ./core *** dumpadm ... /var/crash/主机名
   * DTrace -l 探测器数量 provider:module:function:name
   * /usr/demo/dtrace
-  * pkgadd -d 目录 (-G 全局) 软件包名
+  * pkgadd -d 目录/device (-G 全局) 软件包名
   * pkgrm 名称
-  * patchadd / patchrm
+  * patchadd / patchrm -p?
   * 设备策略 getdevpolicy 设备名 update_drv 更新/增减策略
   * list_devices 设备分配信息 list_devices audio[n]/fd[n]/sr[n]/st[n]
   * allocate / deallocate
@@ -31,4 +28,11 @@
   * 未配置 cfgadm -c unconfigure c1
   * 增添 cfgadm -x insert_device c1
   * 删除 cfgadm -x replace_device c1
-  * 磁带操作命令: cpio tar pax
+  * 磁带操作命令: cpio tar pax   tape devices /dev/rmt/0
+  * get/set configurations by ndd:
+  * ndd /dev/xxx \? -> get keylist
+  * ndd /dev/xxx key -> get value
+  * ndd -set /dev/xxx key value -> set value
+  * read disk label / label it: prtvtoc  | format | (x86) fdisk?
+  * partition a disk: format | fmthard
+  * fuser -d /dev/console : who is using the device
