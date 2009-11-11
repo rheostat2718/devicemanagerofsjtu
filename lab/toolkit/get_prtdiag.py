@@ -2,11 +2,10 @@ import os, sys
 
 """
 execute 'prgdiag -v'
-collect extra information
+collect onboard-slots infomation
 
-get_prtdiag():
-input : none
-return type:dict {'name':value}
+usage : read_prtdiag(get_prtdiag()):
+return type : a key-value dict
 """
 
 def sepstr( key, seps ):
@@ -17,8 +16,7 @@ def sepstr( key, seps ):
     return ret
 
 def get_prtdiag():
-    lines = os.popen('prtdiag -v').readlines()
-    return read_prtdiag(lines)
+    return os.popen('prtdiag -v').readlines()
     
 def read_prtdiag( lines ):
     ret = {}
@@ -62,5 +60,7 @@ def read_prtdiag( lines ):
     return ret
 
 if __name__ == '__main__':
-    print get_prtdiag()
-    # debug: print read_prtdiag( open( 'prtdiag.txt', 'r' ).readlines() )
+    output = get_prtdiag()
+    if not output:
+        output = open('prtdiag.txt').readlines()
+    print read_prtdiag(output)

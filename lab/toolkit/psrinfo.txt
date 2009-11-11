@@ -1,8 +1,0 @@
-Status of virtual processor 0 as of: 08/27/2009 19:59:27
-  自 08/27/2009 18:35:48 开始已在运行。
-  The i386 processor operates at 2100 MHz,
-	and has an i387 compatible floating point processor.
-Status of virtual processor 1 as of: 08/27/2009 19:59:27
-  自 08/27/2009 18:35:51 开始已在运行。
-  The i386 processor operates at 2100 MHz,
-	and has an i387 compatible floating point processor.
