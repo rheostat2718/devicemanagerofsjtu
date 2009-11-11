@@ -5,23 +5,10 @@ eject �������ƶ�����
 fsck ����ļ�ϵͳ
 mkfs newfs�����ļ�ϵͳ
 
-ȷ�����ڷ��ʽ��ʵĽ�̡�
-# fuser -u /media
-
 sysdef ��ʾ�豸������Ϣ������ϵͳӲ����α�豸����װ��ģ���Լ�ѡ�����ں˲���
 dmesg ��ʾϵͳ�����Ϣ�Լ����ϴ�ϵͳ������������ϵͳ���ӵ��豸���б?
 ��ʾ�й���ϵͳ���ӵ�ĳ���ض��豸����Ϣ��
 �� ��ʾ�豸ʹ����Ϣ��
-���磬����fuser ������ʾ�����ڷ���/dev/console �豸�Ľ�̡�
-# fuser -d /dev/console
-/dev/console: 346o 323o
-#
-
-��װ�����
-# pkgadd [-d] device package-name
--d device ���ڱ�ʶ���������豸·����
-package-name ���ڱ�ʶ���豸��������������
-
 -------------------------------------------------
 list hardware configuration:
 dmesg
@@ -32,57 +19,16 @@ show/set EEPROM/NVRAM values: eeprom
 
 add device without reboot : devfsadm. pre-Solaris 7 HW 11/99, use: drvconfig; devlinks; {disks, tapes, ports}
 remove device: devfsadm
-tape device: /dev/rmt/0
-stdin,out,err:  	/dev/fd/[012]
-
-read disk label: prtvtoc
-label a disk : format / prtvtoc / (x86) fdisk
-partition a disk: format / fmthard
 
 show/set kernel parameters:
 sysdef
 getconf
-cat /etc/system
-ndd
-mdb -k
 
-loaded kernel modules :modinfo
-load module :modload
-unload module:modunload
-make disk bootable: 	installboot /usr/platform/`uname -i`
-/lib/fs/ufs/bootblk raw_device_file
-
-startup scripts :/etc/rc*
-/etc/init.d/
-(10+) svcadm
-(10+) svcs
-
-shutdown (& power off if possible)  	shutdown -y -g0 -i5
-run levels 1 *=normal states
-0: firmware monitor
-s,S: single-user
-1: sys admin
-2: multiuser
-3*: share NFS
-4*: user-defined
-5: power-down if possible
-6: reboot
-
-time zone info: 	/usr/share/lib/zoneinfo/
-
-file system description /etc/vfstab (local)
 volume manipulation:zpool (10+) meta*(Solstice DiskSuite;Solaris Volume Mgr (9+))
 
 show installed software :
-pkginfo
 prodreg
-admintool
 /var/sadm/install/contents
 
 file is in which package: pkgchk -l -p binaryToCheck
-add software: pkgadd
-
-show patch level and/or patches :	showrev -p
 prodreg (2.6+)
-patchadd -p
-cat /etc/release

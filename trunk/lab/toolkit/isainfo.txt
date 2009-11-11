@@ -1,4 +1,2 @@
-64-bit amd64 applications
-	sse4.1 ssse3 cx16 sse3 sse2 sse fxsr mmx cmov amd_sysc cx8 tsc fpu 
-32-bit i386 applications
-	sse4.1 ssse3 ahf cx16 sse3 sse2 sse fxsr mmx cmov sep cx8 tsc fpu 
+amd64: sse4.1 ssse3 cx16 sse3 sse2 sse fxsr mmx cmov amd_sysc cx8 tsc fpu
+i386: sse4.1 ssse3 ahf cx16 sse3 sse2 sse fxsr mmx cmov sep cx8 tsc fpu

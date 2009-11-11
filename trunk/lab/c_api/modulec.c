@@ -3,6 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * this function gets specific module infomation according to module-id
+ * @param self : unused
+ * @param id : module-id
+ * @return : (PyObject *) pointer, exactly a key-value dict, where keys are
+ * id, LOADED, INSTALLED, loadcnt, name, size, rev, infocnt, specific_info
+ */
 static PyObject * getModuleInfo(PyObject * self, PyObject *id) {
   int n,k = 0;
   struct modinfo mi;
@@ -15,13 +22,13 @@ static PyObject * getModuleInfo(PyObject * self, PyObject *id) {
   if (modctl(MODINFO,n,&mi) < 0) return NULL;
   mi.mi_name[MODMAXNAMELEN-1] = '\0';
   PyDict_SetItem(info, Py_BuildValue("s","id"),Py_BuildValue("i",mi.mi_id));
-  PyDict_SetItem(info, Py_BuildValue("s","LOADED"),Py_BuildValue("i",mi.mi_state & MI_LOADED));
-  PyDict_SetItem(info, Py_BuildValue("s","INSTALLED"),Py_BuildValue("i",mi.mi_state & MI_INSTALLED));
+  PyDict_SetItem(info, Py_BuildValue("s","LOADED"),Py_BuildValue("i",((mi.mi_state & MI_LOADED)?1:0)));
+  PyDict_SetItem(info, Py_BuildValue("s","INSTALLED"),Py_BuildValue("i",((mi.mi_state & MI_INSTALLED)?1:0)));
   PyDict_SetItem(info,Py_BuildValue("s","loadcnt"),Py_BuildValue("i",mi.mi_loadcnt));
   PyDict_SetItem(info,Py_BuildValue("s","name"),Py_BuildValue("s",mi.mi_name));
   PyDict_SetItem(info,Py_BuildValue("s","size"),Py_BuildValue("l",mi.mi_size));
   PyDict_SetItem(info,Py_BuildValue("s","rev"),Py_BuildValue("i",mi.mi_rev));
-/*FIXME: mi_base corrupts modctl(), we usually do not need it...
+/*FIXME: mi_base corrupts modctl(), But we do not need it, usually...
   PyDict_SetItem(info,Py_BuildValue("s","addr"),Py_BuildValue("l",mi.mi_base));
  */
   for (;k<MODMAXLINK;k++) {
@@ -36,6 +43,7 @@ static PyObject * getModuleInfo(PyObject * self, PyObject *id) {
   PyDict_SetItem(info,Py_BuildValue("s","specific_info"),sp_info);
   return info;
 }
+
 
 static PyObject * getModuleId(PyObject * self, PyObject *arg) {
   struct modinfo mi;
@@ -99,6 +107,7 @@ static struct PyMethodDef modulec_methods[] = {
     {"getModPathLen",getModPathLen,0},
 //TODO:TEST IT    {"getMajorName",getMajorName,1},
 //TODO:FIGURE IT OUT {"getDevicePath",getDevicePath,1}, //device related, mayport to device.c
+//TODO:... {"getDevfsPath",getDevfsPath,1}
 //TODO:TEST IT    {"getFrameBufferName",getFrameBufferName,0},
     {NULL,NULL}
 };

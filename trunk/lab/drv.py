@@ -5,7 +5,7 @@ import sys
 import traceback
 from c_api.modulec import *
 
-class DriverBase():
+class BaseDriver():
     """
     Base type of all Driver items
     """
@@ -13,7 +13,8 @@ class DriverBase():
         self.drvname = drvname
 
     def info(self):
-        pass
+        dict = {'name':self.drvname} #short-name
+        return dict
     
     def install(self):
         pass
@@ -21,28 +22,84 @@ class DriverBase():
     def uninstall(self):
         pass
     
-class LocatorMixin():
-    def __init__(self):
-        pass
+class LocatedDriver(BaseDriver):
+    """
+    Automatically find driver file
+    """
+    def __init__(self,drvname):
+        BaseDriver.__init__(self,drvname);
+        self.collect_env()
+        if (self.drvname.find(os.path.sep) != -1):
+            list = self.drvname.rsplit(os.path.sep,1)
+            self.drvname = list[-1];
+            self.path = list[0]
+        else:
+            self.path = ''
+            self.AutoLocate()
+    
+    def getFullPath(self):
+        return self.path + self.drvname
+    
+    def collect_env(self):
+        """
+        invoke a series of opensolaris command-line tools to
+        detect device driver locations
+        """
+        output = os.popen('isainfo -b').readlines()[0]
+        if output[:2] == '64':
+            self.env_bit = 64
+        elif output[:2] == '32':
+            self.env_bit = 32
+        self.dev_subpath = os.popen('isainfo -k').readlines()[0]
+        self.dev_path = os.popen('arch -k').readlines()[0]            
 
+    def IsExist(self):
+        return os.path.exists(self.getFullPath());
+    
+    def ManualLocate(self,path):
+        self.path = path
+    
+    def AutoLocate(self):
+        """
+        Automatically find the path of device file
+        find in:
+        /kernel/drv /usr/kernel/drv /platform/xxxx/kernel/drv ... /amd64
+        /etc/system -> moddir
+        """
+        self.path = ''
+        dirlist = ['/kernel/drv','usr/kernel/drv','/platform/'+self.dev_path+'/kernel/drv','']
+        for directory in dirlist:
+            if not directory:
+                break
+            if self.dev_subpath:
+                finddir = directory + '/'+self.dev_subpath+'/'
+            else:
+                finddir = directory + '/'
+            if os.path.exists(finddir+self.drvname):
+                self.path = finddir
+                return
+        #default path
+        self.path = dirlist[0]+'/'
+
+    def info(self):
+        dict = BaseDriver.info(self)
+        dict['devfs path'] = self.path
+        dict['full path'] = self.getFullPath()
+        dict['file exists?'] = self.IsExist()
+        return dict
+        
 class IPSMixin():
     def __init__(self):
         pass
             
-class Driver(DriverBase):
+class Driver(LocatedDriver):
     def __init__( self, drvname ):
-        DriverBase.__init__(self,drvname);
+        LocatedDriver.__init__(self,drvname);
         try:
             self.defaultdrvpath, self.defaultconfpath = getFirstDriverPathConf()
         except:
             self.defaultdrvpath = ''
             self.defaultconfpath = ''
-
-    def dbg_setDefaultDrvPath( self, path ):
-        self.defaultdrvpath = path
-
-    def dbg_setDefaultConfPath( self, path ):
-        self.defaultconfpath = path
 
     def isInstalled( self ):
         return ( self.getInfo()['INSTALLED'] != 0 )
@@ -153,14 +210,17 @@ class Driver(DriverBase):
         return
 
     def isBackup( self ):
-        return False
+        pass
 
     def getInfo( self, pkg = False ):
         id = self.getId()
         if id == None:
             return
+        dict = LocatedDriver.info(self)
         try:
             info = getModuleInfo( id )
+            for key in dict.keys():
+                info[key] = dict[key]
             #pkg search is really slow,disable it ...
             if pkg == True:
                 info['package'] = self.getPackageInfo()
