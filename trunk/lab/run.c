@@ -1,7 +1,12 @@
 /* This program is copied from Python Embedding reference.
  * syntax: %0 modulename funcname argument
 */
-
+/**
+ * An example on execute Python code in C programs
+ * @param argc
+ * @param argv
+ * @return 0
+ */
 #include <Python.h>
 int main(int argc,char *argv[]) {
 	PyObject *pName,*pModule,*pFunc,*pArgs,*pValue;

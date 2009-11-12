@@ -39,7 +39,7 @@ class DriverInfoFrame( gtk.Frame ):
 
         # Given argument "False" drv.Driver doesn't search related package
         # and provide fast loading
-        self.info1 = self.drv.getInfo(False)     
+        self.info1 = self.drv.info()     
         from GUIcommon import KeyAndValue
         self.list = KeyAndValue( self.info1 )
         
@@ -54,7 +54,7 @@ class DriverInfoFrame( gtk.Frame ):
 
     def refresh_list(self):
         if self.drv:
-            self.info1 = self.drv.getInfo( False )
+            self.info1 = self.drv.info()
         else:
             self.info1 = None
         self.list.refresh(self.info1)
