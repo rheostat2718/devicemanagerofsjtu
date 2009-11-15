@@ -5,398 +5,344 @@ import sys
 import traceback
 from c_api.modulec import *
 
-class Driver:
-    def __init__( self, drvname ):
+class BaseDriver():
+    """
+    Base type of all Driver items
+    """
+    def __init__(self, drvname):
         self.drvname = drvname
-        try:
-            self.defaultdrvpath, self.defaultconfpath = getFirstDriverPathConf()
-        except:
-            self.defaultdrvpath = ''
-            self.defaultconfpath = ''
 
-    def dbg_setDefaultDrvPath( self, path ):
-        self.defaultdrvpath = path
+    def info(self):
+        dict = {'name':self.drvname} #short-name
+        return dict
+    
+    def install(self):
+        pass
+    
+    def uninstall(self):
+        pass
+    
+    def update(self):
+        pass
+    
+    def backup(self,id):
+        pass
+    
+    def restore(self,id):
+        pass
 
-    def dbg_setDefaultConfPath( self, path ):
-        self.defaultconfpath = path
-
-    def isInstalled( self ):
-        return ( self.getInfo()['INSTALLED'] != 0 )
-
-    def isLoaded( self ):
-        return ( self.getInfo()['LOADED'] != 0 )
-
-    def getAllDriverPath( self ):
-        ret = []
-        for ( a, b ) in findDrvConf( self.drvname ):
-            ret.append( a )
-        return ret
-
-    def getFirstDriverConfPath( self ):
-        return self.getAllDriverConfPath()[0]
-
-    def getFirstDriverPath( self ):
-        return self.getAllDriverPath()[0]
-
-    def getAllDriverConfPath( self ):
+    def Touch_Reconfigure():
         """
-            Having more than 2 subdir is completely possible, e.g. some on 32b system and others on 64b system
-        """
-        subdirlist = []
-        mapdict = {'amd64':'amd64', 'sparcv9':'sparcv9', 'i386':'.'}
-        for name in os.popen( 'arch -k' ).readline().split():
-            subdirlist.append( mapdict[name] )
-        ret = []
-        for currdir in getModPath().split:
-            for subdir in subdirlist:
-                drvname = currdir + os.path.sep + 'drv' + os.path.sep + subdir + os.path.sep + self.drvname
-                if os.path.isfile( drvname ):
-                    # driver.conf in .../drv
-                    confname = currdir + os.path.sep + 'drv' + os.path.sep + self.drvname + '.conf'
-                    if os.path.isfile( confname ):
-                        ret.append( ( drvname, confname ) )
-                        #FIXME: I don't know whether should return None or deprecate it
-                    else:
-                        ret.append( ( drvname, None ) )
-        return ret
+        static method:
 
-    def dbg_loadModule( self, verbose = True ):
-        """
-        First try to remove old modules before we proceed, then we load it
-        """
-        if not self.isInstalled():
-            if verbose:
-                print "Module %s not found" % self.drvname
-            return
-        if self.isLoaded():
-            try:
-                ret = self.dbg_unloadModule( verbose )
-            except:
-                if verbose:
-                    print 'Cannot unload old module : ', self.drvname
-        if  self.isLoaded():
-            if verbose:
-                print 'Cannot unload old module : ', self.drvname
-                return
-        if verbose:
-            print "Module ", self.drvname, ':', self.defaultdrvpath, ':'
-            opt = ''
-        else:
-            opt = ' 2>/dev/null'
-
-        ret = os.popen( 'modinst ' + self.defaultdrvpath + opt )
-        if verbose:
-            if ret != 0:
-                print 'Failed'
-            else:
-                print 'Succeed'
-        return ret
-
-    def dbg_unloadModule( self, verbose = True ):
-        if not self.isInstalled():
-            if verbose:
-                print "Module %s not found" % self.drvname
-            return
-        if not self.isLoaded():
-            print 'Module %s not loaded' % self.drvname
-            return
-        else:
-            idno = self.getId()
-        if idno == None:
-            print 'Module %s not loaded' % self.drvname
-            return
-        if verbose:
-            print "Module :", self.drvname, ': Id', idno
-        ret = os.system( 'modunload -i ' + str( idno ) )
-        if verbose:
-            if ret != 0:
-                print 'Failed'
-            else:
-                print 'Succeed'
-        return ret
-
-    def dbg_touchReconf():
-        """
-        just tell the system to find new hardware in the next boot,
-        execute it to setup it manually
+        tell system to detect hardware changes in the next boot
+        by executing 'touch /reconfigure'
+        
+        warning: you may need root permission to execute it,
+        check the return value to see whether it succeed.
         """
         return os.system( 'touch /reconfigure' )
-
-    def Backup( self ):
-        return
-
-    def Restore( self ):
-        return
-
-    def isBackup( self ):
-        return False
-
-    def getInfo( self, pkg = False ):
-        id = self.getId()
-        if id == None:
-            return
-        #try:
-        info = getModuleInfo( id )
-        #pkg search is really slow,disable it ...
-        if pkg == True:
-            info['package'] = self.getPackageInfo()
+    
+class LocatedDriver(BaseDriver):
+    """
+    Automatically find driver file
+    """
+    def __init__(self,drvname):
+        BaseDriver.__init__(self,drvname);
+        self.collect_env()
+        if (self.drvname.find(os.path.sep) != -1):
+            list = self.drvname.rsplit(os.path.sep,1)
+            self.drvname = list[-1];
+            self.path = list[0]
         else:
-            info['package'] = 'Unknown'
-        return info
-        #except:
-        #    print e
-
-    def getId( self ):
-        try:
-            return getModuleId( self.drvname )
-        except:
-            pass
-
-    def Install( self, verbose = True, InstallFromPackage = True, arg = None ):
+            self.path = ''
+            self.AutoLocate()
+    
+    def getFullPath(self):
+        return self.path + self.drvname
+    
+    def collect_env(self):
         """
-        We can use pkg install / pkgadd to install drivers,
-        and we may use shell command, as written in Solaris document 819-7057.pdf
+        invoke a series of opensolaris command-line tools to
+        detect device driver locations
         """
-        try:
-            if InstallFromPackage:
-                """
-                Install from file pkgname, if pkgname is None, then we search in PKG's database and choose the latest package
-                """
-                if arg != None:
-                    self.Install_Pkg( verbose, arg )
-                else:
-                    self.Install_Search( verbose )
+        output = os.popen('isainfo -b').readlines()[0]
+        if output[:2] == '64':
+            self.env_bit = 64
+        elif output[:2] == '32':
+            self.env_bit = 32
+        self.dev_subpath = os.popen('isainfo -k').readlines()[0][:-1]
+        self.dev_path = os.popen('arch -k').readlines()[0][:-1]            
+
+    def IsExist(self):
+        return os.path.exists(self.getFullPath());
+    
+    def ManualLocate(self,path):
+        self.path = path
+    
+    def AutoLocate(self):
+        """
+        Automatically find the path of device file
+        find in:
+        /kernel/drv /usr/kernel/drv /platform/xxxx/kernel/drv ... /amd64
+        /etc/system -> moddir
+        """
+        self.path = ''
+        dirlist = ['/kernel/drv','/usr/kernel/drv','/platform/'+self.dev_path+'/kernel/drv','']
+        for directory in dirlist:
+            if not directory:
+                break
+            if self.dev_subpath:
+                finddir = directory + '/'+self.dev_subpath+'/'
             else:
-                if arg == None:
-                    if verbose:
-                        print 'You need to specify files to install'
-                    return
-                elif len( arg ) == 1:
-                    if arg[0][-4:] == '.pkg' :
-                        self.Install_Pkg( verbose, arg[0] )
-                    else:
-                        if verbose:
-                            print 'You need to specify two or more files, or an package.'
-                        return
-                else:
-                    self.Install_Cpy( verbose, arg )
-        except:
-            pass
-
-    def Install_Pkg( self, verbose, pkgname ):
-        if os.path.isfile( pkgname ):
-            if verbose:
-                print 'Install from ', pkgname
-                opt = ''
-            else:
-                opt = ' 2>/dev/null'
-            ret = os.system( 'pkgadd -d ' + self.drvname + ' ' + pkgname + opt )
-            return ret
-        else:
-            print 'Cannot find ', pkgname
-            return
-
-    def Install_Cpy( self, verbose, args ):
-        """
-        install without pkgadd, the driver and its configure file must be in the same directory
-        """
-        USR_KERNEL_DRV = r'/usr/kernel/drv'
-        drvlist = []
-        conflist = []
-        fname.split()
-        if verbose:
-            opt = ''
-        else:
-            opt = ' /dev/null'
-        for fname in args:
-            if not os.path.exists( fname ):
-                if verbose:
-                    print 'File ', fname, ' does not exist'
-                    return
-            #TODO: more restruction on fname, only 26 lower alphabetic, 10 digit _
-            if fname.find( '.' ) != None:
-                if fname[-5:] != '.conf':
-                    if verbose:
-                        print fname, ' is neither a driver or driver.conf, installion abort'
-                    return
-                elif fname[:-5].find( '.' ) != None:
-                    if verbose:
-                        print fname, ' is neither a driver or driver.conf, installion abort'
-                    return
-                else:
-                    path, name = os.path.split( fname )
-                    if name in conflist:
-                        continue
-                    conflist.append( name )
-            else:
-                path, name = os.path.split( fname )
-                if name in drvlist:
-                    continue
-                drvlist.append( name )
-        for name in drvlist:
-            if not ( ( name + '.conf' ) in conflist ):
-                print "driver and configure doesn't match :", name, ' .conf not found.'
+                finddir = directory + '/'
+            if os.path.exists(finddir+self.drvname):
+                self.path = finddir
                 return
-        for fname in args:
-            if verbose:
-                print 'cp ', fname,
-            path, name = os.path.split( fname )
-            if name in drvlist:
-                if verbose:
-                    print ' to ', USR_KERNEL_DRV + os.path.sep, subdir, os.path.sep
-                ret = os.system( "cp " + fname + ' ' + USR_KERNEL_DRV + os.path.sep + subdir + os.path.sep + opt )
-            else:
-                if verbose:
-                    print ' to ', USR_KERNEL_DRV + os.path.sep
-                ret = os.system( "cp " + fname + ' ' + USR_KERNEL_DRV + os.path.sep + opt )
-            if ret != 0:
-                if verbose:
-                    print 'Operation Failed.'
-                return
-        for name in drvlist:
-            if verbose:
-                print 'add_drv :', name,
-            ret = os.system( 'add_drv ' + name + opt )
-            if verbose:
-                if ret < 0:
-                    print 'Failed'
-                    #If this one fails, go on ...
-                else:
-                    print 'Succeed'
-#TODO: add_drv does not support STREAM devices
-#(816-4855.pdf) reference : sad, autopush
-        self.dbg_touchReconf()
-        if verbose:
-            print 'Changes will take effect during your next reboot'
+        #default path
+        if self.dev_subpath:
+            self.path = dirlist[1]+'/'+self.dev_subpath+'/'
+        else:
+            self.path = dirlist[1]+'/'
+
+    def getShortPath(self):
+        if self.dev_subpath:
+            return 'drv/'+self.dev_subpath+'/'+self.drvname
+        else:
+            return 'drv/'+self.drvname
+        
+    def info(self):
+        dict = BaseDriver.info(self)
+        dict['short path'] = self.getShortPath()
+        dict['full path'] = self.getFullPath()
+        dict['file exists?'] = self.IsExist()
+        return dict
+
+class Driver(LocatedDriver):
+    def __init__( self, drvname ):
+        LocatedDriver.__init__(self,drvname);
+
+    def dbg_Reload_Module(self):
+        """
+            Unload old modules, then reload it
+            return value: 0 for succeed, anything else for failed
+            Exception: None
+        """
+        print 'reload module: ',self.getFullPath()
+        try:
+            ret = self.Unload_Module(verbose)
+        except:
+            ret = -1
+        if ret != 0:
+            print 'Cannot unload old module :',self.drvname
+            return -1
+
+        try:
+            ret = self.Load_Module(verbose)
+        except:
+            ret = -1
+        if ret != 0:
+            print 'Cannot load module :', self.drvname
+            return -1
+
         return 0
 
-    def Install_Search( self, verbose ):
+    def dbg_Load_Module(self):
+        """
+            Load modules
+            return value: 0 for succeed, anything else for failed
+            Exception: None
+        """
+        print "load module:", self.drvname
+        path = self.getShortPath()
+        if not path:
+            print 'Module ',self.drvname,' not found'
+            return -1
+        
+        ret = os.system( 'modload -p ' + path )
+        return ret
+    
+    def dbg_Unload_Module(self):
+        """
+            Unload modules
+            return value: 0 for succeed, anything else for failed
+            Exception: None
+        """
+        print "unload module:", self.drvname
         try:
-            import package
-            driverPkg = package.Package( self.drvname, search = 'remote', verbose = verbose )
-            if driverPkg.name == None:
-                if verbose:
-                    print 'Cannot find related package'
-                    return
-            return driverPkg.Install( verbose )
+            mid = self.getId()
         except:
-            if verbose:
-                exc_info = sys.exc_info()
-                print exc_info[0]
-                print exc_info[1]
-                traceback.print_tb( exc_info[2] )
-                return
+            mid = None # module not found?
+        if mid == None:
+            print 'Module ',self.drvname,' not loaded'
+            return -1
+        
+        ret = os.system( 'modunload -i ' + str( mid ) )
+        return ret
 
-    def Update( self ):
-        return
+    def backup( self, id ):
+        " use tar to backup the drv directory"
+        pass
 
-    def Uninstall( self, verbose = True, removeFromPackage = True, arg = None ):
+    def restore( self, id ):
+        " use tar to restore the drv directory"
+        pass
+
+    def list_backup( self ):
+        " list all backups "
+        pass
+
+    def info(self):
+        dict = LocatedDriver.info(self)
         try:
-            if removeFromPackage:
-                if arg:
-                    self.Uninstall_Pkg( verbose, arg )
-                else:
-                    self.Uninstall_Search( verbose )
-            else:
-                if arg == None:
-                    if verbose:
-                        print 'You need to specify files to install'
-                    return
-                else:
-                    self.Uninstall_Cpy( verbose, arg )
+            mid = self.getId()
+            kinfo = getModuleInfo(mid)
+            for key in kinfo.keys():
+                dict[key] = kinfo[key]
         except:
-            pass
+            pass #currently not loaded in kernel
+        return dict
+    
+    def getId(self):
+        """
+        invoke 'c_api.modulec.getModuleId'
+        """
+        return getModuleId(self.drvname)
 
-    def Uninstall_Pkg( self, verbose, pkgname ):
-        if os.path.isfile( pkgname ):
-            if verbose:
-                print 'Uninstall from ', pkgname
-                opt = ''
-            else:
-                opt = ' 2>/dev/null'
-#TODO: find out the cmd
-#            ret = os.system('pkgrem '+pkgname+opt)
+    def install(self, args):
+        """
+            invoke add_drv to install drivers.
+            args: 'add_drv' arguments except for driver name
+            return value: 0 for succeed, anything else for failed
+            Exception: None
+        """
+        print 'install driver: ',self.drvname
+        if self.dev_subpath:
+            path = '/usr/kernel/drv/'+self.dev_subpath+'/'
+        else:
+            path = '/usr/kernel/drv/'
+        
+        print 'Follow these steps:'
+        print 'copy device driver binary into ',path
+        print 'copy device driver configures *.conf into ','/usr/kernel/drv'
+        
+        #pause()
+        ret = os.system( 'add_drv ' + args + ' ' + self.drvname)
+        #WARNING: add_drv does not support STREAM devices according to (816-4855.pdf)
+        #reference to sad, autopush
+        
+        if ret == 0:
+            BaseDriver.Touch_Reconfigure()
+            print 'changes may take effect in the next reboot'
+        else:
+            print 'Cannot install module :',self.drvname
+
+        return ret
+
+    def uninstall(self):
+        """
+            invoke rem_drv to remove drivers.
+            return value: 0 for succeed, anything else for failed
+            Exception: None
+        """
+        print 'uninstall : ',self.drvname
+
+        ret = os.system( 'rem_drv ' + self.drvname )
+
+        if ret == 0:
+            BaseDriver.Touch_Reconfigure()
+            print 'changes may take effect in the next reboot'
+        else:
+            print 'Cannot remove module :',self.drvname
+        
+        return ret
+    
+class PackageDriver(Driver):
+    def __init__(self,drvname):
+        Driver.__init__(self,drvname)
+        if 1:
+#        try:
+            import IPS
+            self.pkg = IPS.Package(self.drvname)
+#        except:
+#            exc_info = sys.exc_info()
+#            print exc_info[0]
+#            print exc_info[1]
+#            traceback.print_tb( exc_info[2] )
+#            self.pkg = None
+
+    def install(self):
+        print 'install :',self.pkg.name
+        if not self.pkg.name:
+            print 'Cannot find related package'
+            return -1
+        else:
+            ret = self.pkg.Install()
+        return ret
+   
+    #unused
+    def install_from_file(self,pkgname):
+        print 'install from file : ',pkgname
+        if not os.path.isfile(pkgname):
+            print 'Cannot find :',pkgname
+            return -1
+        else:
+            #TODO: find correct commands
+            ret = os.system( 'pkgadd '+pkgname)
             return ret
+    
+    def uninstall(self):
+        print 'uninstall :',self.pkg.name
+        if not self.pkg.name:
+            print 'Cannot find related package'
+            return -1
         else:
-            print 'Cannot find ', pkgname
-            return
-
-    def Uninstall_Cpy( self, verbose, arg ):
-        if verbose:
-            opt = ''
+            ret = self.pkg.Uninstall()
+        return ret
+        
+    #unused
+    def uninstall_from_file(self,pkgname):
+        print 'uninstall from file : ',pkgname
+        if not os.path.isfile(pkgname):
+            print 'Cannot find :',pkgname
+            return -1
         else:
-            opt = ' /dev/null'
-        if verbose:
-            print 'rem_drv :', self.drvname,
-        ret = os.system( 'rem_drv ' + self.drvname + opt )
-        if verbose:
-            if ret < 0:
-                print 'Failed'
-                #If this one fails, go on ...
-            else:
-                print 'Succeed'
-        for fname in args:
-            if verbose:
-                print 'rm ', fname
-            ret = os.system( "rm -f " + fname + opt )
-            if verbose:
-                if ret != 0:
-                    print 'Failed'
-                    #If this one fails, go on ...
-                else:
-                    print 'Succeed'
+            #TODO: find correct commands
+            ret = os.system('pkgrm '+pkgname)
+            return ret
+        
+    def info(self):
+        dict = Driver.info(self)
+        if self.pkg:
+            dict['package'] = self.pkg.getInfo()
+        return dict
 
-    def Uninstall_Search( self, verbose ):
-        try:
-            import package
-            driverPkg = package.Package( self.drvname, search = 'local', verbose = verbose )
-            if driverPkg.name == None:
-                if verbose:
-                    print 'Cannot find related package'
-                return
-            return driverPkg.Uninstall( verbose )
-        except:
-            if verbose:
-                exc_info = sys.exc_info()
-                print exc_info[0]
-                print exc_info[1]
-                traceback.print_tb( exc_info[2] )
-                return
-
-    def getPackageInfo( self, verbose = True ):
-        try:
-            import package
-#TODO: impove search
-            driverPkg = package.Package( self.drvname, search = True, verbose = False )
-            if driverPkg.name == None:
-                return
-            return driverPkg.getInfo()
-        except:
-            if verbose:
-                exc_info = sys.exc_info()
-                print exc_info[0]
-                print exc_info[1]
-                traceback.print_tb( exc_info[2] )
-                return
+def usage():
+    print "Usage: python2.6 drv.py {install | uninstall} drvname"
+    print "                        info drvname"
 
 if __name__ == '__main__':
-    if len( sys.argv ) < 4:
-        print "Usage: [python2.6] drv.py {install | uninstall | info} drvname [-q | -v]"
-    else:
+    try:
         if sys.argv[1] == 'install':
-            Driver( sys.argv[2] ).Install( ( sys.argv[3] == '-v' ), True )
+            PackageDriver( sys.argv[2] ).install()
         if sys.argv[1] == 'uninstall':
-            Driver( sys.argv[2] ).Uninstall( ( sys.argv[3] == '-v' ), True )
+            PackageDriver( sys.argv[2] ).uninstall()
         if sys.argv[1] == 'info':
-            print Driver( sys.argv[2] ).getInfo( True )
+            print PackageDriver( sys.argv[2] ).info()
+        else:
+            usage()
+    except IndexError:
+        usage()
 
 """
-TESTED:
-drv.py install sppp -v
-drv.py install sppp -q
-drv.py uninstall sppp -v
-drv.py uninstall sppp -q
-drv.py info sppp
-TODO:
-2
+Device Driver Manager
+
+Tested methods:
+[info] usage: drv.py info sppp
+
+Implementing methods:
+[install] drv.py install sppp -v | -q
+[uninstall] drv.py uninstall sppp -v | -q
+[backup]
+[restore]
 """
