@@ -12,7 +12,9 @@ class DriverInfoFrame( gtk.Frame ):
         gtk.Frame.__init__( self )
         self.drvname = drvname
         
-        from drv import Driver
+#        from drv import Driver
+        from drv import PackageDriver as Driver
+        
         self.drv = Driver(self.drvname)
         
         self.btnlist = [['Refresh',0,None],
@@ -33,19 +35,27 @@ class DriverInfoFrame( gtk.Frame ):
         count = 0
         for item in self.btnlist:
             item[2] = gtk.Button( item[0] )
-            table.attach( item[2], count, count + 1, 1, 2 )
+            table.attach( item[2], count, count + 1, 3, 4 )
             item[2].show()
             count += 1
 
         # Given argument "False" drv.Driver doesn't search related package
         # and provide fast loading
-        self.info1 = self.drv.info()     
+        self.info1 = self.drv.info()
+        if self.info1['package']:
+            self.info2 = self.info1['package'][0]
+        else:
+            self.info2=None
+        self.info1['package'] = 'See below'
         from GUIcommon import KeyAndValue
         self.list = KeyAndValue( self.info1 )
-        
-        table.attach( self.list, 0, len( self.btnlist ), 0, 1 )
+        self.plist = KeyAndValue(self.info2)
 
+        table.attach( self.list, 0, len( self.btnlist ), 0, 1 )
+        table.attach( self.plist, 0, len( self.btnlist ), 2, 3 )
+        
         self.list.show()
+        self.plist.show()
         table.show()
 
     def force_refresh(self):
