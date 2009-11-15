@@ -6,69 +6,73 @@ class Package():
     this class invokes pkg install / uninstall / list / search / info,
     manages IPS operations
     """
-    def __init__(self, name, verbose):
+    def __init__(self, name):
         self.name = name
-        self.pkgname = None
-        self.verbose = verbose
+        self.pkgname = self.Search()
+        print self.pkgname
+        
+    def Search(self, arg = '-lr', filter = None):
+        """
+        arg : arguments used in pkg search
+        '-r','-l','-lr', and ''
+        """
+        print 'search for ',self.name,arg
+        output = os.popen('pkg search '+arg+' '+self.name).readlines()
+        return self.GetNameList(output)
     
-    def GetNameList(self,lines):
+    def GetNameList(self,lines,filter = None):
         pkg = []
         for line in lines:
-            if verbose:
-                print line,
+            line = line[:-1]
+            print line
             try:
-                index,action,value,package = line.split()
-                if action != 'file':
+                index, action, value, package = line.split()
+                if (action != 'file') | (not index) | (not package):
                     continue
-                if (not index) | (not package):
-                    continue
-                if filter & (index != filter):
+                if filter and (index != filter):
                     continue
                 if value.find('/drv') == -1:
                     continue #make sure it is a driver
-                (prefix,version) = package.split('@',1)
+                (prefix, version) = package.split('@',1)
                 (type,name) = prefix.split(':/',1)
-                
                 if not (name in pkg):
                     pkg.append(name)
                 #pkg install always install the latest package when provided with name
-            except:
+                
+            except ValueError:
                 continue
+                
         return pkg
     
-    def GetFMRI(self,lines):
+    def GetFMRI(self,lines,filter=None):
         pkg = []
         for line in lines:
-            if verbose:
-                print line,
+            line = line[:-1]
+            print line
             try:
-                index,action,value,package = line.split()
-                if action != 'file':
+                index, action, value, package = line.split()
+                if (action != 'file') | (not index) | (not package):
                     continue
-                if (not index) | (not package):
-                    continue
-                if filter & (index != filter):
+                if filter and (index != filter):
                     continue
                 if value.find('/drv') == -1:
                     continue #make sure it is a driver
                 if not ( package in pkg ):
                     pkg.append(package)
-            except:
+            except ValueError:
                 continue
         return pkg
     
     def GetLatestVersion(self,lines):
         pkg = {}
         for line in lines:
-            if verbose:
-                print line,
+            line = line[:-1]
+            print line
             try:
                 index,action,value,package = line.split()
-                if action != 'file':
+                if (action != 'file') | (not index) | (not package):
                     continue
-                if (not index) | (not package):
-                    continue
-                if filter & (index != filter):
+                if filter and (index != filter):
                     continue
                 if value.find('/drv') == -1:
                     continue #make sure it is a driver
@@ -78,103 +82,74 @@ class Package():
                     pkg[prefix] = version
                 elif self.dbg_compareFMRI( version, pkg[prefix] ) > 0:
                     pkg[prefix] = version
-            except:
+            except ValueError:
                 continue
         pkglist = []
         for prefix in pkg.keys():
             pkglist.append( prefix + '@' + pkg[prefix] )
-        if verbose:
-            print 'Found ', len( pkglist ), ' matches:'
-            for pkgname in pkglist:
-                print 'Package name: ', pkgname
+        print 'Found ', len( pkglist ), ' matches:'
+        for pkgname in pkglist:
+            print 'Package name: ', pkgname
         return pkglist
     
-    def Search(self, arg = '-lr', filter = None):
-        """
-        arg : arguments used in pkg search
-        '-r','-l','-lr', and ''
-        """
-        opt = ''
-        if self.verbose:
-            print 'pkg search',self.name,arg
-        else:
-            opt = ' 2>/dev/null'
-        output = os.popen('pkg search'+arg+' '+match+opt).readlines()
-        return self.GetNameList(output)
-    
+    def TryInstall( self, EXarg = '' ):
+        self.Install( ' -n ' + EXarg )
 
-    def TryInstall( self, verbose = True, EXarg = '' ):
-        self.Install( verbose, 'n' + EXarg )
-
-    def Install( self , verbose = True, EXarg = '' ):
+    def Install( self , EXarg = '' ):
 #FIXME:    if cannot install : return, print error message
-        if verbose:
-            arg = ' -v'
-            opt = ' 2>/dev/null'
-        else:
-            arg = ' -q'
-            opt = ''
+        arg = ' -v'
         count = 0
-        for pkgname in self.name:
+        for pkgname in self.pkgname:
             ret = -1
-            if verbose:
-                print 'Install package ', pkgname, ' :'
             try:
-                ret = os.system( 'pfexec pkg install' + arg + EXarg + ' ' + pkgname + opt )
+                ret = os.system( 'pfexec pkg install' + arg + EXarg + ' ' + pkgname )
             except:
                 pass
             if ret == 0:
                 count = count + 1
-                if verbose:
-                    print 'Succeed!'
+                print 'Succeed!'
             else:
-                if verbose:
-                    print 'Failed!'
+                print 'Failed!'
         return count
 
-    def TryUninstall( self, verbose = True, EXarg = '' ):
-        self.Uninstall( verbose, ' -n' + EXarg )
+    def TryUninstall( self, EXarg = '' ):
+        self.Uninstall( ' -n' + EXarg )
 
-    def Uninstall( self, verbose = True, EXarg = '' ):
+    def Uninstall( self, EXarg = '' ):
 #FIXME:    check if we need -r, -r is very dangerous
-        if verbose:
-            arg = ' -v'
-            opt = ''
-        else:
-            arg = ' -q'
-            opt = ' 2>/dev/null'
+        arg = ' -v'
         count = 0
-        for pkgname in self.name:
+        for pkgname in self.pkgname:
             ret = -1
-            if verbose:
-                print 'Uninstall package ', pkgname, ' :'
             try:
-                ret = os.system( 'pfexec pkg uninstall' + arg + EXarg + ' ' + pkgname + opt )
+                ret = os.system( 'pfexec pkg uninstall' + arg + EXarg + ' ' + pkgname)
             except:
                 pass
             if ret == 0:
                 count = count + 1
-                if verbose:
-                    print 'Succeed!'
+                print 'Succeed!'
             else:
-                if verbose:
-                    print 'Failed!'
+                print 'Failed!'
         return count
 
+    def getShortName(self,name):
+        list = name.split('@')
+        if len(list) == 1:
+            return name
+        else:
+            return list[0][5:]
+    
     def getInfo( self ):
-        print self.name
+#        print self.name
         ret = []
-        for name in self.name:
-            shortname = name[5:].split( '@' )[0]
+        for name in self.pkgname:
+            shortname = self.getShortName(name)
             dict = {}
-            try:
-                output = os.popen( 'pfexec pkginfo -l ' + shortname )
-            except:
-                pass
+            output = os.popen( 'pfexec pkginfo -l ' + shortname )
             for line in output:
                 try:
                     attr, value = line.split( ':', 1 )
-                    dict[attr] = value
+                    dict[attr] = value[:-1]
                 except:
                     pass
             ret.append( dict )
