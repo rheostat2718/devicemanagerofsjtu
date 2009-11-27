@@ -7,9 +7,9 @@ import sys
 class DriverInfoFrame( gtk.Frame ):
     def __init__( self, devicename ):
         gtk.Frame.__init__( self )
-        self.set_label( 'Module Info' )
+        #self.set_label( 'Module Info' )
         self.set_label_align( 1.0, 0.0 )#left top
-        self.set_shadow_type( gtk.SHADOW_ETCHED_IN )
+        #self.set_shadow_type( gtk.SHADOW_ETCHED_IN )
         self.devicename = devicename
         self.make_widgets()
 
@@ -41,16 +41,22 @@ class DriverInfoFrame( gtk.Frame ):
 
     def make_widgets( self ):
         btnname = ['Refresh', 'Install', 'Uninstall', 'Update', 'Backup', 'Restore']
-        self.buttons = []
-        self.table = gtk.Table( 2, len( btnname ), False )
+        self.bbox1=gtk.HButtonBox()
+        self.bbox2=gtk.HButtonBox()
+        self.table = gtk.Table( 10, 1, True )
         self.add( self.table )
-        count = 0
-        for name in btnname:
+        for name in btnname[:3]:
             btn = gtk.Button( name )
-            self.table.attach( btn, count, count + 1, 1, 2 )
-            count += 1
-            self.buttons.append( btn )
+            btn.set_size_request(120,30)
+            self.bbox1.add( btn )
             btn.show()
+
+        for name in btnname[3:]:
+            btn = gtk.Button( name )
+            btn.set_size_request(120,30)
+            self.bbox2.add ( btn )
+            btn.show()
+
         '''
         self.scrolled_window = gtk.ScrolledWindow()
         self.scrolled_window.set_border_width(10)
@@ -58,10 +64,14 @@ class DriverInfoFrame( gtk.Frame ):
         '''
 
         d = drv.Driver( self.devicename )
-        l = d.getInfo( False )
+        l = d.info()
         self.make_list( l )
-        self.table.attach( self.scrolled_window, 0, len( btnname ), 0, 1 )
+        self.table.attach( self.scrolled_window, 0, 1, 0, 8 )
+        self.table.attach( self.bbox1, 0, 1, 8, 9 )
+        self.table.attach( self.bbox2, 0, 1, 9, 10 )
         self.scrolled_window.show()
+        self.bbox1.show()
+        self.bbox2.show()
         self.table.show()
 
     def main( self ):
