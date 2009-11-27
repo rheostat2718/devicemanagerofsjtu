@@ -5,7 +5,7 @@ import sys
 import traceback
 from c_api.modulec import *
 
-class BaseDriver():
+class BaseDriver:
     """
     Base type of all Driver items
     """
@@ -15,19 +15,19 @@ class BaseDriver():
     def info(self):
         dict = {'name':self.drvname} #short-name
         return dict
-    
+
     def install(self):
         pass
-    
+
     def uninstall(self):
         pass
-    
+
     def update(self):
         pass
-    
+
     def backup(self,id):
         pass
-    
+
     def restore(self,id):
         pass
 
@@ -37,12 +37,12 @@ class BaseDriver():
 
         tell system to detect hardware changes in the next boot
         by executing 'touch /reconfigure'
-        
+
         warning: you may need root permission to execute it,
         check the return value to see whether it succeed.
         """
         return os.system( 'touch /reconfigure' )
-    
+
 class LocatedDriver(BaseDriver):
     """
     Automatically find driver file
@@ -57,10 +57,10 @@ class LocatedDriver(BaseDriver):
         else:
             self.path = ''
             self.AutoLocate()
-    
+
     def getFullPath(self):
         return self.path + self.drvname
-    
+
     def collect_env(self):
         """
         invoke a series of opensolaris command-line tools to
@@ -72,14 +72,14 @@ class LocatedDriver(BaseDriver):
         elif output[:2] == '32':
             self.env_bit = 32
         self.dev_subpath = os.popen('isainfo -k').readlines()[0][:-1]
-        self.dev_path = os.popen('arch -k').readlines()[0][:-1]            
+        self.dev_path = os.popen('arch -k').readlines()[0][:-1]
 
     def IsExist(self):
         return os.path.exists(self.getFullPath());
-    
+
     def ManualLocate(self,path):
         self.path = path
-    
+
     def AutoLocate(self):
         """
         Automatically find the path of device file
@@ -110,7 +110,7 @@ class LocatedDriver(BaseDriver):
             return 'drv/'+self.dev_subpath+'/'+self.drvname
         else:
             return 'drv/'+self.drvname
-        
+
     def info(self):
         dict = BaseDriver.info(self)
         dict['short path'] = self.getShortPath()
@@ -158,10 +158,10 @@ class Driver(LocatedDriver):
         if not path:
             print 'Module ',self.drvname,' not found'
             return -1
-        
+
         ret = os.system( 'modload -p ' + path )
         return ret
-    
+
     def dbg_Unload_Module(self):
         """
             Unload modules
@@ -176,7 +176,7 @@ class Driver(LocatedDriver):
         if mid == None:
             print 'Module ',self.drvname,' not loaded'
             return -1
-        
+
         ret = os.system( 'modunload -i ' + str( mid ) )
         return ret
 
@@ -202,7 +202,7 @@ class Driver(LocatedDriver):
         except:
             pass #currently not loaded in kernel
         return dict
-    
+
     def getId(self):
         """
         invoke 'c_api.modulec.getModuleId'
@@ -221,16 +221,16 @@ class Driver(LocatedDriver):
             path = '/usr/kernel/drv/'+self.dev_subpath+'/'
         else:
             path = '/usr/kernel/drv/'
-        
+
         print 'Follow these steps:'
         print 'copy device driver binary into ',path
         print 'copy device driver configures *.conf into ','/usr/kernel/drv'
-        
+
         #pause()
         ret = os.system( 'add_drv ' + args + ' ' + self.drvname)
         #WARNING: add_drv does not support STREAM devices according to (816-4855.pdf)
         #reference to sad, autopush
-        
+
         if ret == 0:
             BaseDriver.Touch_Reconfigure()
             print 'changes may take effect in the next reboot'
@@ -254,9 +254,9 @@ class Driver(LocatedDriver):
             print 'changes may take effect in the next reboot'
         else:
             print 'Cannot remove module :',self.drvname
-        
+
         return ret
-    
+
 class PackageDriver(Driver):
     def __init__(self,drvname):
         Driver.__init__(self,drvname)
@@ -279,7 +279,7 @@ class PackageDriver(Driver):
         else:
             ret = self.pkg.Install()
         return ret
-   
+
     #unused
     def install_from_file(self,pkgname):
         print 'install from file : ',pkgname
@@ -290,7 +290,7 @@ class PackageDriver(Driver):
             #TODO: find correct commands
             ret = os.system( 'pkgadd '+pkgname)
             return ret
-    
+
     def uninstall(self):
         print 'uninstall :',self.pkg.name
         if not self.pkg.name:
@@ -299,7 +299,7 @@ class PackageDriver(Driver):
         else:
             ret = self.pkg.Uninstall()
         return ret
-        
+
     #unused
     def uninstall_from_file(self,pkgname):
         print 'uninstall from file : ',pkgname
@@ -310,7 +310,7 @@ class PackageDriver(Driver):
             #TODO: find correct commands
             ret = os.system('pkgrm '+pkgname)
             return ret
-        
+
     def info(self):
         dict = Driver.info(self)
         if self.pkg:

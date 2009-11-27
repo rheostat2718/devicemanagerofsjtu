@@ -8,6 +8,7 @@ import gtk
 from class_DeviceManager import *
 from class_Device import *
 from GUIcommon import KeyAndValue
+from DrvFrame import *
 
 class DeviceManagerGUI(gtk.Window):
     def __init__(self, manager):
@@ -149,6 +150,11 @@ class DeviceNote(gtk.Notebook):
         self.table1=gtk.Table(1,1,False)
         self.append_page(self.table1, label)
 
+        #drive info
+        label=gtk.Label("Driver")
+        self.table2=gtk.Table(1,1,False)
+        self.append_page(self.table2, label)
+
         self.device=None
 
         self.connect("switch-page", self.pageCallback)
@@ -175,13 +181,16 @@ class DeviceNote(gtk.Notebook):
 
         self.brief=DeviceBriefTable(device)
         self.detail=DeviceDetailTable(device)
-        #self.detail=gtk.Label('building...')
+        self.driver=DriverInfoFrame(device.getDriver())
         self.table0.attach(self.brief,0,1,0,1)
         self.table1.attach(self.detail,0,1,0,1)
+        self.table2.attach(self.driver,0,1,0,1)
         self.brief.show()
         self.detail.show()
+        self.driver.show()
         self.table0.show()
         self.table1.show()
+        self.table2.show()
 
 
 
