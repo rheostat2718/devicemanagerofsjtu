@@ -1,112 +1,3 @@
-typedef char *(*dump_propname_t)(void *);
-typedef int (*dump_proptype_t)(void *);
-typedef int (*dump_propints_t)(void *, int **);
-typedef int (*dump_propint64_t)(void *, int64_t **);
-typedef int (*dump_propstrings_t)(void *, char **);
-typedef int (*dump_propbytes_t)(void *, uchar_t **);
-typedef int (*dump_proprawdata_t)(void *, uchar_t **);
-
-typedef struct dumpops_common {
-	dump_propname_t doc_propname;
-	dump_proptype_t doc_proptype;
-	dump_propints_t doc_propints;
-	dump_propint64_t doc_propint64;
-	dump_propstrings_t doc_propstrings;
-	dump_propbytes_t doc_propbytes;
-	dump_proprawdata_t doc_proprawdata;
-} dumpops_common_t;
-
-static const dumpops_common_t prop_dumpops = {
-	(dump_propname_t)di_prop_name,
-	(dump_proptype_t)di_prop_type,
-	(dump_propints_t)di_prop_ints,
-	(dump_propint64_t)di_prop_int64,
-	(dump_propstrings_t)di_prop_strings,
-	(dump_propbytes_t)di_prop_bytes,
-	(dump_proprawdata_t)di_prop_rawdata
-}, pathprop_common_dumpops = {
-	(dump_propname_t)di_path_prop_name,
-	(dump_proptype_t)di_path_prop_type,
-	(dump_propints_t)di_path_prop_ints,
-	(dump_propint64_t)di_path_prop_int64s,
-	(dump_propstrings_t)di_path_prop_strings,
-	(dump_propbytes_t)di_path_prop_bytes,
-	(dump_proprawdata_t)di_path_prop_bytes
-};
-
-typedef void *(*dump_nextprop_t)(void *, void *);
-typedef dev_t (*dump_propdevt_t)(void *);
-
-typedef struct dumpops {
-	const dumpops_common_t *dop_common;
-	dump_nextprop_t dop_nextprop;
-	dump_propdevt_t dop_propdevt;
-} dumpops_t;
-
-typedef struct di_args {
-	di_prom_handle_t	prom_hdl;
-	di_devlink_handle_t	devlink_hdl;
-} di_arg_t;
-
-static const dumpops_t sysprop_dumpops = {
-	&prop_dumpops,
-	(dump_nextprop_t)di_prop_sys_next,
-	NULL
-}, globprop_dumpops = {
-	&prop_dumpops,
-	(dump_nextprop_t)di_prop_global_next,
-	NULL
-}, drvprop_dumpops = {
-	&prop_dumpops,
-	(dump_nextprop_t)di_prop_drv_next,
-	(dump_propdevt_t)di_prop_devt
-}, hwprop_dumpops = {
-	&prop_dumpops,
-	(dump_nextprop_t)di_prop_hw_next,
-	NULL
-}, pathprop_dumpops = {
-	&pathprop_common_dumpops,
-	(dump_nextprop_t)di_path_prop_next,
-	NULL
-};
-
-#define	PROPNAME(ops) (ops->dop_common->doc_propname)
-#define	PROPTYPE(ops) (ops->dop_common->doc_proptype)
-#define	PROPINTS(ops) (ops->dop_common->doc_propints)
-#define	PROPINT64(ops) (ops->dop_common->doc_propint64)
-#define	PROPSTRINGS(ops) (ops->dop_common->doc_propstrings)
-#define	PROPBYTES(ops) (ops->dop_common->doc_propbytes)
-#define	PROPRAWDATA(ops) (ops->dop_common->doc_proprawdata)
-#define	NEXTPROP(ops) (ops->dop_nextprop)
-#define	PROPDEVT(ops) (ops->dop_propdevt)
-#define	NUM_ELEMENTS(A) (sizeof (A) / sizeof (A[0]))
-
-static int prop_type_guess(const dumpops_t *, void *, void **, int *);
-static void walk_driver(di_node_t, di_arg_t *);
-static int dump_devs(di_node_t, void *);
-static int dump_prop_list(const dumpops_t *, const char *,
-				int, void *, dev_t, int *);
-static int _error(const char *, ...);
-static int is_openprom();
-static void walk(uchar_t *, uint_t, int);
-static void dump_node(nvlist_t *, int);
-static void dump_prodinfo(di_prom_handle_t, di_node_t, const char **,
-				char *, int);
-static di_node_t find_node_by_name(di_prom_handle_t, di_node_t, char *);
-static int get_propval_by_name(di_prom_handle_t, di_node_t,
-				const char *, uchar_t **);
-static int dump_compatible(char *, int, di_node_t);
-static void dump_pathing_data(int, di_node_t);
-static void dump_minor_data(int, di_node_t, di_devlink_handle_t);
-static void dump_link_data(int, di_node_t, di_devlink_handle_t);
-static int print_composite_string(const char *, char *, int);
-static void print_one(nvpair_t *, int);
-static int unprintable(char *, int);
-static int promopen(int);
-static void promclose();
-static di_node_t find_target_node(di_node_t);
-static void node_display_set(di_node_t);
-
 void
 prtconf_devinfo(void)
 {
@@ -130,45 +21,19 @@ prtconf_devinfo(void)
 
 	if (opts.o_pciid) {
 		flag |= DINFOPROP;
-		if ((prom_hdl = di_prom_init()) == DI_PROM_HANDLE_NIL)
-			exit(_error("di_prom_init() failed."));
+		prom_hdl = di_prom_init()
 	}
 
-	if (opts.o_forcecache) {
-		if (dbg.d_forceload) {
-			exit(_error(NULL, "option combination not supported"));
-		}
-		if (strcmp(rootpath, "/") != 0) {
-			exit(_error(NULL, "invalid root path for option"));
-		}
-		flag = DINFOCACHE;
-	} else if (opts.o_verbose) {
-		flag |= (DINFOPROP | DINFOMINOR |
-		    DINFOPRIVDATA | DINFOPATH | DINFOLYR);
-	}
-
-	if (dbg.d_forceload) {
-		flag |= DINFOFORCE;
-	}
+	flag |= (DINFOPROP | DINFOMINOR |¡¡DINFOPRIVDATA | DINFOPATH | DINFOLYR);
 
 	if (opts.o_verbose) {
 		init_priv_data(&fetch);
 		root_node = di_init_impl(rootpath, flag, &fetch);
 
 		/* get devlink (aka aliases) data */
-		if ((devlink_hdl = di_devlink_init(NULL, 0)) == NULL)
-			exit(_error("di_devlink_init() failed."));
+		devlink_hdl = di_devlink_init(NULL, 0)
 	} else
 		root_node = di_init(rootpath, flag);
-
-	if (root_node == DI_NODE_NIL) {
-		(void) _error(NULL, "devinfo facility not available");
-		/* not an error if this isn't the global zone */
-		if (getzoneid() == GLOBAL_ZONEID)
-			exit(-1);
-		else
-			exit(0);
-	}
 
 	di_arg.prom_hdl = prom_hdl;
 	di_arg.devlink_hdl = devlink_hdl;
@@ -191,12 +56,6 @@ prtconf_devinfo(void)
 		di_node_t target_node, node;
 
 		target_node = find_target_node(root_node);
-		if (target_node == DI_NODE_NIL) {
-			(void) fprintf(stderr, "%s: "
-			    "invalid device path specified\n",
-			    opts.o_progname);
-			exit(1);
-		}
 
 		/* mark the target node so we display it */
 		node_display_set(target_node);
@@ -258,8 +117,7 @@ i_find_target_node(di_node_t node, void *arg)
 	if (opts.o_devices_path != NULL) {
 		char *path;
 
-		if ((path = di_devfs_path(node)) == NULL)
-			exit(_error("failed to allocate memory"));
+		path = di_devfs_path(node);
 
 		if (strcmp(opts.o_devices_path, path) == 0) {
 			di_devfs_path_free(path);
@@ -343,9 +201,6 @@ lnode_displayed_clear(di_lnode_t lnode)
 	data &= ~LNODE_DISPLAYED;
 	di_lnode_private_set(lnode, (void *)data);
 }
-
-#define	MINOR_DISPLAYED		(1<<0)
-#define	MINOR_PTR		(~(0x3))
 
 static long
 minor_displayed(di_minor_t minor)
@@ -760,40 +615,6 @@ dump_devs(di_node_t node, void *arg)
 	return (DI_WALK_CONTINUE);
 }
 
-/* _error([no_perror, ] fmt [, arg ...]) */
-static int
-_error(const char *opt_noperror, ...)
-{
-	int saved_errno;
-	va_list ap;
-	int no_perror = 0;
-	const char *fmt;
-
-	saved_errno = errno;
-
-	(void) fprintf(stderr, "%s: ", opts.o_progname);
-
-	va_start(ap, opt_noperror);
-	if (opt_noperror == NULL) {
-		no_perror = 1;
-		fmt = va_arg(ap, char *);
-	} else
-		fmt = opt_noperror;
-	(void) vfprintf(stderr, fmt, ap);
-	va_end(ap);
-
-	if (no_perror)
-		(void) fprintf(stderr, "\n");
-	else {
-		(void) fprintf(stderr, ": ");
-		errno = saved_errno;
-		perror("");
-	}
-
-	return (-1);
-}
-
-
 /*
  * The rest of the routines handle printing the raw prom devinfo (-p option).
  *
@@ -813,61 +634,6 @@ typedef union {
 
 static int prom_fd;
 static uchar_t *prom_snapshot;
-
-static int
-is_openprom(void)
-{
-	Oppbuf	oppbuf;
-	struct openpromio *opp = &(oppbuf.opp);
-	unsigned int i;
-
-	opp->oprom_size = MAXVALSIZE;
-	if (ioctl(prom_fd, OPROMGETCONS, opp) < 0)
-		exit(_error("OPROMGETCONS"));
-
-	i = (unsigned int)((unsigned char)opp->oprom_array[0]);
-	return ((i & OPROMCONS_OPENPROM) == OPROMCONS_OPENPROM);
-}
-
-int
-do_prominfo(void)
-{
-	uint_t arg = opts.o_verbose;
-
-	if (promopen(O_RDONLY))  {
-		exit(_error("openeepr device open failed"));
-	}
-
-	if (is_openprom() == 0)  {
-		(void) fprintf(stderr, "System architecture does not "
-		    "support this option of this command.\n");
-		return (1);
-	}
-
-	/* OPROMSNAPSHOT returns size in arg */
-	if (ioctl(prom_fd, OPROMSNAPSHOT, &arg) < 0)
-		exit(_error("OPROMSNAPSHOT"));
-
-	if (arg == 0)
-		return (1);
-
-	if ((prom_snapshot = malloc(arg)) == NULL)
-		exit(_error("failed to allocate memory"));
-
-	/* copy out the snapshot for printing */
-	/*LINTED*/
-	*(uint_t *)prom_snapshot = arg;
-	if (ioctl(prom_fd, OPROMCOPYOUT, prom_snapshot) < 0)
-		exit(_error("OPROMCOPYOUT"));
-
-	promclose();
-
-	/* print out information */
-	walk(prom_snapshot, arg, 0);
-	free(prom_snapshot);
-
-	return (0);
-}
 
 static void
 walk(uchar_t *buf, uint_t size, int level)
@@ -1582,36 +1348,6 @@ unprintable(char *value, int size)
 	return (0);
 }
 
-static int
-promopen(int oflag)
-{
-	for (;;)  {
-		if ((prom_fd = open(opts.o_promdev, oflag)) < 0)  {
-			if (errno == EAGAIN)   {
-				(void) sleep(5);
-				continue;
-			}
-			if (errno == ENXIO)
-				return (-1);
-			if (getzoneid() == GLOBAL_ZONEID) {
-				_exit(_error("cannot open %s",
-				    opts.o_promdev));
-			}
-			/* not an error if this isn't the global zone */
-			(void) _error(NULL, "openprom facility not available");
-			exit(0);
-		} else
-			return (0);
-	}
-}
-
-static void
-promclose(void)
-{
-	if (close(prom_fd) < 0)
-		exit(_error("close error on %s", opts.o_promdev));
-}
-
 /*
  * Get and print the name of the frame buffer device.
  */
@@ -1623,18 +1359,7 @@ do_fbname(void)
 
 	retval =  modctl(MODGETFBNAME, (caddr_t)fbuf_path);
 
-	if (retval == 0) {
-		(void) printf("%s\n", fbuf_path);
-	} else {
-		if (retval == EFAULT) {
-			(void) fprintf(stderr,
-			"Error copying fb path to userland\n");
-		} else {
-			(void) fprintf(stderr,
-			"Console output device is not a frame buffer\n");
-		}
-		return (1);
-	}
+	(void) printf("%s\n", fbuf_path);
 	return (0);
 }
 
@@ -1659,42 +1384,6 @@ do_promversion(void)
 	(void) printf("%s\n", opp->oprom_array);
 	promclose();
 	return (0);
-}
-
-int
-do_prom_version64(void)
-{
-#ifdef	sparc
-	Oppbuf	oppbuf;
-	struct openpromio *opp = &(oppbuf.opp);
-	/*LINTED*/
-	struct openprom_opr64 *opr = (struct openprom_opr64 *)opp->oprom_array;
-
-	static const char msg[] =
-	    "NOTICE: The firmware on this system does not support the "
-	    "64-bit OS.\n"
-	    "\tPlease upgrade to at least the following version:\n"
-	    "\t\t%s\n\n";
-
-	if (promopen(O_RDONLY))  {
-		(void) fprintf(stderr, "Cannot open openprom device\n");
-		return (-1);
-	}
-
-	opp->oprom_size = MAXVALSIZE;
-	if (ioctl(prom_fd, OPROMREADY64, opp) < 0)
-		exit(_error("OPROMREADY64"));
-
-	if (opr->return_code == 0)
-		return (0);
-
-	(void) printf(msg, opr->message);
-
-	promclose();
-	return (opr->return_code);
-#else
-	return (0);
-#endif
 }
 
 int
