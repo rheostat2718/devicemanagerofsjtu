@@ -16,55 +16,28 @@ class DriverInfoFrame( gtk.Frame ):
     def make_list( self, d ):
         from class_DeviceManagerGUI import KeyAndValue
         self.scrolled_window = KeyAndValue( d )
-        '''
-        self.liststore = gtk.ListStore(str,str)
-        for key in d.keys():
-            self.liststore.append([key,d[key]])
-        tview = gtk.TreeView(self.liststore)
-        treecolumnkey = gtk.TreeViewColumn('Key')
-        treecolumnvalue = gtk.TreeViewColumn('Value')
-        tview.append_column(treecolumnkey)
-        tview.append_column(treecolumnvalue)
-        self.cell1 = gtk.CellRendererText()
-        self.cell2 = gtk.CellRendererText()
-        treecolumnkey.pack_start(self.cell1,True)
-        treecolumnkey.add_attribute(self.cell1,'text',0)
-        treecolumnvalue.pack_start(self.cell2,True)
-        treecolumnvalue.add_attribute(self.cell2,'text',1)
-        tview.set_search_column(0)
-        treecolumnkey.set_sort_column_id(0)
-        treecolumnvalue.set_sort_column_id(0)
-        tview.set_reorderable(True)
-        tview.show()
-        '''
-
 
     def make_widgets( self ):
-        btnname = ['Refresh', 'Install', 'Uninstall', 'Update', 'Backup', 'Restore']
+        btnname = ['Refresh', 'Install', 'Uninstall', 'Update']
         self.bbox1=gtk.HButtonBox()
         self.bbox2=gtk.HButtonBox()
         self.table = gtk.Table( 10, 1, True )
         self.add( self.table )
-        for name in btnname[:3]:
+        for name in btnname[:2]:
             btn = gtk.Button( name )
             btn.set_size_request(120,30)
             self.bbox1.add( btn )
             btn.show()
-
-        for name in btnname[3:]:
+        for name in btnname[2:]:
             btn = gtk.Button( name )
             btn.set_size_request(120,30)
-            self.bbox2.add ( btn )
+            self.bbox2.add( btn )
             btn.show()
-
-        '''
-        self.scrolled_window = gtk.ScrolledWindow()
-        self.scrolled_window.set_border_width(10)
-        self.scrolled_window.set_policy(gtk.POLICY_AUTOMATIC,gtk.POLICY_AUTOMATIC)
-        '''
-
-        d = drv.Driver( self.devicename )
-        l = d.info()
+        if self.devicename == 'unknown':
+            l = {}
+        else:
+            d = drv.Driver( self.devicename )
+            l = d.info()
         self.make_list( l )
         self.table.attach( self.scrolled_window, 0, 1, 0, 8 )
         self.table.attach( self.bbox1, 0, 1, 8, 9 )
