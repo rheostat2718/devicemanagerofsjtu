@@ -1,31 +1,42 @@
+#!/bin/env python
 import os
 import sys
+import logging
 
-class Package():
+import logger
+
+class Package:
     """
-    this class invokes pkg install / uninstall / list / search / info,
-    manages IPS operations
+    this class invokes "pkg install / uninstall / list / info",
+    as a glue layer, manages package operations
     """
     def __init__(self, name):
         self.name = name
-        self.pkgname = self.Search()
-        print self.pkgname
+        self.pkgnamelist = self.Search()
+        if self.pkgnamelist:
+            self.pkgname = self.pkgnamelist[0]
+        else:
+            self.pkgname = None
+        #it seems always find one device
+        if self.pkgname:
+            logging.info('Find '+self.pkgname)
+        else:
+            logging.error('Cannot find package matches '+self.name)
         
-    def Search(self, arg = '-lr', filter = None):
-        """
-        arg : arguments used in pkg search
-        '-r','-l','-lr', and ''
-        """
-        print 'search for ',self.name,arg
-        output = os.popen('pkg search '+arg+' '+self.name).readlines()
-        return self.GetNameList(output)
+    def Search(self):
+        logging.debug('search for '+self.name)
+        devlist = self.get_devlist()
+        
     
-    def GetNameList(self,lines,filter = None):
+    def GetNameList(self,lines,filter):
         pkg = []
         for line in lines:
             line = line[:-1]
-            print line
+            logging.info(line)
             try:
+                llist = line.split()
+                package = llist[-1]
+                value = llist[-2]
                 index, action, value, package = line.split()
                 if (action != 'file') | (not index) | (not package):
                     continue
@@ -182,9 +193,43 @@ class Package():
         except:
             pass
 
-if __name__ == '__main__':
-    s = Package( 'pci-ide', True, True )
-    print s.getInfo()
+    def get_devlist(self):
+        """
+        invoke pkg search self.name
+        """
+        text = os.popen('pkg search -lr '+self.name).readlines()
+        pkgnamelist = GetNameList(text)
+        return pkgname
+
+    def update_devlist(self,dict):
+        """
+        update pkgdev.list if new data(list) is available
+        """
+        old = open('pkgdev.list','r').readlines()
+        f = open('pkgdev.list','w')
+        f.write(old)
+        for key in dict.keys():
+            f.write(key+' '+dict[key]+'\n')
+        f.close()
+
+    def search_devlist(self):
+        """
+        search pkgdev.list for self.name
+        """
+        line = open('pkgdev.list','a').readlines()
+        for line in lines:
+            list = line.split()
+            try:
+                if self.name == list[0]:
+                    ret = list[1]
+                    return ret
+            except IndexError :
+                pass
+        return None
+
+    def clear_devlist(self,name):
+        os.system('rm pkgdev.list')
+        open('pkgdev.list','w')
 
 """
 usage : pkgchk package-name
@@ -192,6 +237,11 @@ usage : pkgchk package-name
 
 def isPackage( pkgname ):
     return ( os.system( 'pfexec pkginfo -q ' + pkgname ) == 0 )
+
 def verify():
     pass
 
+if __name__ == '__main__':
+    update_devinfo()
+
+#
