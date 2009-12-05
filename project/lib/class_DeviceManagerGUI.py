@@ -15,9 +15,10 @@ class DeviceManagerGUI(gtk.Window):
         self.manager=manager
 
         gtk.Window.__init__(self, gtk.WINDOW_TOPLEVEL)
-        self.set_title("Device Manager v0.1")
+        self.set_title("Device Manager v0.3")
         self.connect("delete_event", self.delete_event)
         self.device_tree=DeviceTree(manager.getDeviceObj("root"), self)
+        self.device_common=DeviceCommon(manager.getDeviceObj("root"), self)
         #self.top.add(self.device_tree.getFrame())
         #self.top.set_size_request(300, 400)
         #self.top.show_all()
@@ -25,11 +26,13 @@ class DeviceManagerGUI(gtk.Window):
         #self.top2=gtk.Window(gtk.WINDOW_TOPLEVEL)
         #self.top2.set_title('Note')
         self.notebook=DeviceNote()
+        self.notebookleft=DeviceNoteLeft(self.device_common, self.device_tree)
         #self.top2.add(self.notebook)
         #self.top2.show_all()
 
         self.table=gtk.Table(1,2)
-        self.table.attach(self.device_tree,0,1,0,1)
+        #self.table.attach(self.device_tree,0,1,0,1)
+        self.table.attach(self.notebookleft,0,1,0,1)
         self.table.attach(self.notebook,1,2,0,1)
 
         self.add(self.table)
@@ -48,6 +51,10 @@ class DeviceManagerGUI(gtk.Window):
 
 
     def loop(self):
+        pass
+
+class DeviceCommon(gtk.Frame):
+    def __init__(self, manager, root):
         pass
 
 class DeviceBriefTable(KeyAndValue):
@@ -134,6 +141,25 @@ class DeviceTree(gtk.ScrolledWindow):
             itr=self.tree_store.append(parent, [child.getProduct(), child.getUDI()])
             if child.hasChildren():
                 self.append_device(itr, child)
+
+class DeviceNoteLeft(gtk.Notebook):
+    def __init__(self, device_common, device_tree):
+        gtk.Notebook.__init__(self)
+        self.set_tab_pos(gtk.POS_TOP)
+
+        #common
+        label=gtk.Label("Common")
+        self.table0=gtk.Table(1,1,False)
+        self.table0.attach(device_common,0,1,0,1)
+        self.append_page(self.table0, label)
+
+        #device tree
+        label=gtk.Label("Device Tree")
+        self.table1=gtk.Table(1,1,False)
+        self.table1.attach(device_tree,0,1,0,1)
+        self.append_page(self.table1, label)
+
+        self.set_size_request(300,400)
 
 class DeviceNote(gtk.Notebook):
     def __init__(self):
