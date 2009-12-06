@@ -273,48 +273,40 @@ class PackageDriver(Driver):
                 
     def install(self):
         logging.debug('install '+self.pkg.name)
-        if not self.pkg.name:
-            logging.error('Cannot find related package')
-            return -1
+        if not self.pkg.pkgname:
+            ret = -1
         else:
-            ret = self.pkg.Install()
+            ret = self.pkg.install()
         return ret
    
-    #unused
-    def install_from_file(self,pkgname):
-        logging.debug('install from file : '+pkgname)
-        if not os.path.isfile(pkgname):
-            print 'Cannot find :',pkgname
-            return -1
-        else:
-            #TODO: find correct commands
-            ret = os.system( 'pkgadd '+pkgname)
-            return ret
-    
     def uninstall(self):
-        print 'uninstall :',self.pkg.name
-        if not self.pkg.name:
-            print 'Cannot find related package'
-            return -1
+        logging.debug('uninstall '+self.pkg.name)
+        if not self.pkg.pkgname:
+            ret = -1
         else:
-            ret = self.pkg.Uninstall()
+            ret = self.pkg.uninstall()
         return ret
         
-    #unused
-    def uninstall_from_file(self,pkgname):
-        print 'uninstall from file : ',pkgname
-        if not os.path.isfile(pkgname):
-            print 'Cannot find :',pkgname
-            return -1
+    def dbg_install_from_file(self,filename):
+        logging.debug('install from file '+filename)
+        if not os.path.isfile(filename):
+            ret = -1
         else:
-            #TODO: find correct commands
-            ret = os.system('pkgrm '+pkgname)
-            return ret
+            ret = os.system( 'pkgadd -n '+filename)
+        return ret
+    
+    def dbg_uninstall_from_file(self,filename):
+        logging.debug('uninstall from file '+filename)
+        if not os.path.isfile(filename):
+            ret=-1
+        else:
+            ret = os.system('pkgrm -n '+filename)
+        return ret
         
     def info(self):
         dict = Driver.info(self)
         if self.pkg:
-            dict['package'] = self.pkg.getInfo()
+            dict['package'] = self.pkg.info()
         return dict
 
 def usage():
@@ -325,9 +317,9 @@ if __name__ == '__main__':
     try:
         if sys.argv[1] == 'install':
             PackageDriver( sys.argv[2] ).install()
-        if sys.argv[1] == 'uninstall':
+        elif sys.argv[1] == 'uninstall':
             PackageDriver( sys.argv[2] ).uninstall()
-        if sys.argv[1] == 'info':
+        elif sys.argv[1] == 'info':
             print PackageDriver( sys.argv[2] ).info()
         else:
             usage()

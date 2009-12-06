@@ -36,7 +36,7 @@ class DriverInfoFrame( gtk.Frame ):
         if self.devicename == 'unknown':
             l = {}
         else:
-            d = drv.Driver( self.devicename )
+            d = drv.PackageDriver( self.devicename )
             l = d.info()
         self.make_list( l )
         self.table.attach( self.scrolled_window, 0, 1, 0, 8 )
