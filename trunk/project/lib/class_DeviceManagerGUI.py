@@ -9,6 +9,7 @@ from class_DeviceManager import *
 from class_Device import *
 from GUIcommon import KeyAndValue
 from DrvFrame import *
+from class_CommonDevice import *
 
 class DeviceManagerGUI(gtk.Window):
     def __init__(self, manager):
@@ -18,7 +19,7 @@ class DeviceManagerGUI(gtk.Window):
         self.set_title("Device Manager v0.3")
         self.connect("delete_event", self.delete_event)
         self.device_tree=DeviceTree(manager.getDeviceObj("root"), self)
-        self.device_common=DeviceCommon(manager.getDeviceObj("root"), self)
+        self.device_common=CommonDeviceList(manager.getDeviceObj("root"), self)
         #self.top.add(self.device_tree.getFrame())
         #self.top.set_size_request(300, 400)
         #self.top.show_all()
@@ -51,10 +52,6 @@ class DeviceManagerGUI(gtk.Window):
 
 
     def loop(self):
-        pass
-
-class DeviceCommon(gtk.Frame):
-    def __init__(self, manager, root):
         pass
 
 class DeviceBriefTable(KeyAndValue):
