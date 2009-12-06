@@ -47,6 +47,7 @@ class Device(object):
 
         if property_.has_key("info.solaris.driver"):
             cls.__driver=str(property_["info.solaris.driver"])
+            cls.__type=cls.__driver
         else:
             cls.__driver="unknown"
 
