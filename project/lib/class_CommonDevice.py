@@ -4,9 +4,11 @@ import gtk
 
 from class_DeviceManagerGUI import *
 
-class CommonDeviceList(gtk.Frame):
+class CommonDeviceList(gtk.ScrolledWindow):
     def __init__(self, dev_root, gui):
-        gtk.Frame.__init__(self)
+        gtk.ScrolledWindow.__init__(self)
+        self.set_border_width(10)
+        self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
 
         self.list={}
         self.gui=gui
@@ -18,8 +20,8 @@ class CommonDeviceList(gtk.Frame):
             if len(line)>3:
                 common_device=CommonDevice(line)
                 common_device.update_udi(self.find_udi(common_device.udi, self.root))
-                print common_device.name,":",common_device.udi
-            #self.list{common_device.get_name()}=common_device
+                if common_device.udi is not None:
+                    self.list[common_device.name]=common_device.udi
         txt.close()
 
     def find_udi(self, udi, dev):
