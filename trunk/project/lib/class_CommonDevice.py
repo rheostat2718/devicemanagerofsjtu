@@ -24,6 +24,41 @@ class CommonDeviceList(gtk.ScrolledWindow):
                     self.list[common_device.name]=common_device.udi
         txt.close()
 
+        self.make_view()
+
+    def make_view(self):
+        try:
+            self.store.destroy()
+            self.view.destroy()
+        except:
+            pass
+
+        self.store=gtk.TreeStore(str, str)
+        for dev,udi in self.list.items():
+            self.store.append(None, [dev, udi])
+
+        self.view=gtk.TreeView(self.store)
+        self.column=gtk.TreeViewColumn('Device')
+        self.view.append_column(self.column)
+
+        self.cell=gtk.CellRendererText()
+        self.column.pack_start(self.cell, True)
+        self.column.add_attribute(self.cell, 'text', 0)
+
+        self.view.set_search_column(0)
+        self.column.set_sort_column_id(0)
+
+        self.view.set_reorderable(True)
+        self.view.connect("cursor_changed", self.selectedCallback)
+
+        self.add_with_viewport(self.view)
+
+    def selectedCallback(self, tree):
+        selection=self.view.get_selection()
+        (model, itr)=selection.get_selected()
+        device=self.store.get_value(itr, 1)
+        self.gui.updateNote(self.gui.manager.getDeviceObj(device))
+
     def find_udi(self, udi, dev):
         m=re.search(udi, dev.getUDI())
         if m is not None:
