@@ -4,6 +4,9 @@ import gtk
 import drv
 import sys
 
+#for test
+import pynotify
+
 class DriverInfoFrame( gtk.Frame ):
     def __init__( self, devicename ):
         gtk.Frame.__init__( self )
@@ -17,6 +20,15 @@ class DriverInfoFrame( gtk.Frame ):
         from class_DeviceManagerGUI import KeyAndValue
         self.scrolled_window = KeyAndValue( d )
 
+    def button_test( self, widget, id ):
+        icon=gtk.StatusIcon()
+        icon.set_from_stock(gtk.STOCK_ABOUT)
+
+        pynotify.init('example')
+        n=pynotify.Notification(id, 'test only')
+        n.attach_to_status_icon(icon)
+        n.show()
+
     def make_widgets( self ):
         btnname = ['Refresh', 'Install', 'Uninstall', 'Update']
         self.bbox1=gtk.HButtonBox()
@@ -26,11 +38,15 @@ class DriverInfoFrame( gtk.Frame ):
         for name in btnname[:2]:
             btn = gtk.Button( name )
             btn.set_size_request(120,30)
+            #connect
+            btn.connect("clicked", self.button_test, name)
             self.bbox1.add( btn )
             btn.show()
         for name in btnname[2:]:
             btn = gtk.Button( name )
             btn.set_size_request(120,30)
+            #connect
+            btn.connect("clicked", self.button_test, name)
             self.bbox2.add( btn )
             btn.show()
         if self.devicename == 'unknown':
