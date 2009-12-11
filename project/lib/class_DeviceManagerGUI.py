@@ -202,6 +202,11 @@ class DeviceNote(gtk.Notebook):
         except:
             pass
 
+        try:
+            self.driver.destroy()
+        except:
+            pass
+
         self.brief=DeviceBriefTable(device)
         self.detail=DeviceDetailTable(device)
         self.driver=DriverInfoFrame(device.getDriver())

@@ -5136,3 +5136,232 @@
 2009-12-06 20:48:42,635 INFO:root:basename   dir       usr/kernel/drv            pkg:/SUNWxwdv@0.5.11-0.111
 2009-12-06 20:48:42,636 INFO:root:basename   dir       platform/SUNW,Sun-Fire-15000/kernel/drv pkg:/SUNWdrcr@0.5.11-0.111
 2009-12-06 20:48:42,636 INFO:root:basename   dir       kernel/drv                pkg:/SUNWced@0.5.11-0.111
+2009-12-07 18:43:12,126 ERROR:dbus.proxies:Introspect error on :1.1:/org/freedesktop/Hal/devices/computer: dbus.exceptions.IntrospectionParserException: Error parsing introspect data: xml.parsers.expat.ExpatError: not well-formed (invalid token): line 145, column 8
+2009-12-07 18:43:12,127 DEBUG:dbus.proxies:Executing introspect queue due to error
+2009-12-07 18:43:22,932 DEBUG:root:search uhci
+2009-12-07 18:43:22,933 DEBUG:root:search_pkglist uhci
+2009-12-07 18:43:22,935 DEBUG:root:info
+2009-12-07 18:43:23,295 DEBUG:root:search ecpp
+2009-12-07 18:43:23,295 DEBUG:root:search_pkglist ecpp
+2009-12-07 18:43:23,298 DEBUG:root:info
+2009-12-07 18:43:24,326 DEBUG:root:search sd
+2009-12-07 18:43:24,326 DEBUG:root:search_pkglist sd
+2009-12-07 18:43:24,327 DEBUG:root:info
+2009-12-07 18:43:24,745 DEBUG:root:search pcie_pci
+2009-12-07 18:43:24,745 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:43:24,747 DEBUG:root:info
+2009-12-07 18:43:25,677 DEBUG:root:search pci_pci
+2009-12-07 18:43:25,678 DEBUG:root:search_pkglist pci_pci
+2009-12-07 18:43:25,679 DEBUG:root:info
+2009-12-07 18:43:26,140 DEBUG:root:search e1000g
+2009-12-07 18:43:26,140 DEBUG:root:search_pkglist e1000g
+2009-12-07 18:43:26,142 DEBUG:root:info
+2009-12-07 18:43:27,181 DEBUG:root:search vgatext
+2009-12-07 18:43:27,182 DEBUG:root:search_pkglist vgatext
+2009-12-07 18:43:27,183 DEBUG:root:info
+2009-12-07 18:43:28,623 DEBUG:root:search vgatext
+2009-12-07 18:43:28,625 DEBUG:root:search_pkglist vgatext
+2009-12-07 18:43:28,626 DEBUG:root:info
+2009-12-07 18:43:31,914 DEBUG:root:search vgatext
+2009-12-07 18:43:31,914 DEBUG:root:search_pkglist vgatext
+2009-12-07 18:43:31,916 DEBUG:root:info
+2009-12-07 18:43:39,015 DEBUG:root:search pcie_pci
+2009-12-07 18:43:39,015 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:43:39,017 DEBUG:root:info
+2009-12-07 18:43:39,762 DEBUG:root:search sd
+2009-12-07 18:43:39,762 DEBUG:root:search_pkglist sd
+2009-12-07 18:43:39,763 DEBUG:root:info
+2009-12-07 18:43:43,519 DEBUG:root:search sd
+2009-12-07 18:43:43,519 DEBUG:root:search_pkglist sd
+2009-12-07 18:43:43,521 DEBUG:root:info
+2009-12-07 18:43:44,286 DEBUG:root:search ecpp
+2009-12-07 18:43:44,286 DEBUG:root:search_pkglist ecpp
+2009-12-07 18:43:44,289 DEBUG:root:info
+2009-12-07 18:43:44,779 DEBUG:root:search pci_pci
+2009-12-07 18:43:44,780 DEBUG:root:search_pkglist pci_pci
+2009-12-07 18:43:44,782 DEBUG:root:info
+2009-12-07 18:43:46,126 DEBUG:root:search pcie_pci
+2009-12-07 18:43:46,126 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:43:46,128 DEBUG:root:info
+2009-12-07 18:43:47,057 DEBUG:root:search ecpp
+2009-12-07 18:43:47,058 DEBUG:root:search_pkglist ecpp
+2009-12-07 18:43:47,061 DEBUG:root:info
+2009-12-07 18:43:47,636 DEBUG:root:search ecpp
+2009-12-07 18:43:47,636 DEBUG:root:search_pkglist ecpp
+2009-12-07 18:43:47,639 DEBUG:root:info
+2009-12-07 18:43:50,236 DEBUG:root:search ecpp
+2009-12-07 18:43:50,237 DEBUG:root:search_pkglist ecpp
+2009-12-07 18:43:50,240 DEBUG:root:info
+2009-12-07 18:43:51,625 DEBUG:root:search ecpp
+2009-12-07 18:43:51,626 DEBUG:root:search_pkglist ecpp
+2009-12-07 18:43:51,628 DEBUG:root:info
+2009-12-07 18:43:57,034 DEBUG:root:search isa
+2009-12-07 18:43:57,035 DEBUG:root:search_pkglist isa
+2009-12-07 18:43:57,037 DEBUG:root:info
+2009-12-07 18:43:58,324 DEBUG:root:search pcie_pci
+2009-12-07 18:43:58,325 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:43:58,326 DEBUG:root:info
+2009-12-07 18:43:58,854 DEBUG:root:search pcie_pci
+2009-12-07 18:43:58,855 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:43:58,856 DEBUG:root:info
+2009-12-07 18:43:59,456 DEBUG:root:search pcie_pci
+2009-12-07 18:43:59,457 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:43:59,457 DEBUG:root:info
+2009-12-07 18:43:59,914 DEBUG:root:search pcie_pci
+2009-12-07 18:43:59,915 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:43:59,917 DEBUG:root:info
+2009-12-07 18:44:01,812 DEBUG:root:search pcie_pci
+2009-12-07 18:44:01,813 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:44:01,814 DEBUG:root:info
+2009-12-07 18:44:02,898 DEBUG:root:search pcie_pci
+2009-12-07 18:44:02,898 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:44:02,900 DEBUG:root:info
+2009-12-07 18:44:03,872 DEBUG:root:search pcie_pci
+2009-12-07 18:44:03,872 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:44:03,874 DEBUG:root:info
+2009-12-07 18:44:05,282 DEBUG:root:search pcie_pci
+2009-12-07 18:44:05,282 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:44:05,284 DEBUG:root:info
+2009-12-07 18:44:06,589 DEBUG:root:search pcie_pci
+2009-12-07 18:44:06,590 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:44:06,590 DEBUG:root:info
+2009-12-07 18:44:07,273 DEBUG:root:search pcie_pci
+2009-12-07 18:44:07,274 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:44:07,276 DEBUG:root:info
+2009-12-07 18:44:10,198 DEBUG:root:search pcie_pci
+2009-12-07 18:44:10,199 DEBUG:root:search_pkglist pcie_pci
+2009-12-07 18:44:10,201 DEBUG:root:info
+2009-12-07 18:44:15,124 DEBUG:root:search acpi_drv
+2009-12-07 18:44:15,124 DEBUG:root:search_pkglist acpi_drv
+2009-12-07 18:44:15,126 DEBUG:root:info
+2009-12-07 18:44:21,937 DEBUG:root:search lofi
+2009-12-07 18:44:21,937 DEBUG:root:search_pkglist lofi
+2009-12-07 18:44:21,940 DEBUG:root:info
+2009-12-07 18:44:22,953 DEBUG:root:search power
+2009-12-07 18:44:22,953 DEBUG:root:search_pkglist power
+2009-12-07 18:44:22,955 DEBUG:root:info
+2009-12-11 12:38:26,835 ERROR:dbus.proxies:Introspect error on :1.1:/org/freedesktop/Hal/devices/computer: dbus.exceptions.IntrospectionParserException: Error parsing introspect data: xml.parsers.expat.ExpatError: not well-formed (invalid token): line 145, column 8
+2009-12-11 12:38:26,871 DEBUG:dbus.proxies:Executing introspect queue due to error
+2009-12-11 12:38:30,236 DEBUG:root:search ecpp
+2009-12-11 12:38:30,237 DEBUG:root:search_pkglist ecpp
+2009-12-11 12:38:30,269 DEBUG:root:info
+2009-12-11 12:38:33,231 DEBUG:root:search isa
+2009-12-11 12:38:33,231 DEBUG:root:search_pkglist isa
+2009-12-11 12:38:33,233 DEBUG:root:info
+2009-12-11 12:38:33,701 DEBUG:root:search cpudrv
+2009-12-11 12:38:33,701 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:38:33,704 DEBUG:root:info
+2009-12-11 12:39:02,582 DEBUG:root:search isa
+2009-12-11 12:39:02,583 DEBUG:root:search_pkglist isa
+2009-12-11 12:39:02,584 DEBUG:root:info
+2009-12-11 12:39:03,311 DEBUG:root:search pit_beep
+2009-12-11 12:39:03,311 DEBUG:root:search_pkglist pit_beep
+2009-12-11 12:39:03,313 DEBUG:root:info
+2009-12-11 12:39:04,276 DEBUG:root:search isa
+2009-12-11 12:39:04,276 DEBUG:root:search_pkglist isa
+2009-12-11 12:39:04,278 DEBUG:root:info
+2009-12-11 12:39:05,658 DEBUG:root:search cpudrv
+2009-12-11 12:39:05,658 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:39:05,661 DEBUG:root:info
+2009-12-11 12:39:06,893 DEBUG:root:search cpudrv
+2009-12-11 12:39:06,894 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:39:06,897 DEBUG:root:info
+2009-12-11 12:39:07,740 DEBUG:root:search cpudrv
+2009-12-11 12:39:07,740 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:39:07,743 DEBUG:root:info
+2009-12-11 12:39:16,584 DEBUG:root:search isa
+2009-12-11 12:39:16,585 DEBUG:root:search_pkglist isa
+2009-12-11 12:39:16,587 DEBUG:root:info
+2009-12-11 12:39:17,346 DEBUG:root:search cpudrv
+2009-12-11 12:39:17,346 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:39:17,348 DEBUG:root:info
+2009-12-11 12:39:23,792 DEBUG:root:search isa
+2009-12-11 12:39:23,793 DEBUG:root:search_pkglist isa
+2009-12-11 12:39:23,793 DEBUG:root:info
+2009-12-11 12:39:26,305 DEBUG:root:search cpunex
+2009-12-11 12:39:26,305 DEBUG:root:search_pkglist cpunex
+2009-12-11 12:39:26,306 DEBUG:root:info
+2009-12-11 12:39:27,059 DEBUG:root:search cpudrv
+2009-12-11 12:39:27,060 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:39:27,064 DEBUG:root:info
+2009-12-11 12:39:27,917 DEBUG:root:search cpunex
+2009-12-11 12:39:27,917 DEBUG:root:search_pkglist cpunex
+2009-12-11 12:39:27,918 DEBUG:root:info
+2009-12-11 12:39:29,850 DEBUG:root:search cpudrv
+2009-12-11 12:39:29,851 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:39:29,852 DEBUG:root:info
+2009-12-11 12:39:30,624 DEBUG:root:search cpunex
+2009-12-11 12:39:30,625 DEBUG:root:search_pkglist cpunex
+2009-12-11 12:39:30,625 DEBUG:root:info
+2009-12-11 12:39:35,089 DEBUG:root:search mouse8042
+2009-12-11 12:39:35,089 DEBUG:root:search_pkglist mouse8042
+2009-12-11 12:39:35,091 DEBUG:root:info
+2009-12-11 12:39:35,706 DEBUG:root:search e1000g
+2009-12-11 12:39:35,707 DEBUG:root:search_pkglist e1000g
+2009-12-11 12:39:35,709 DEBUG:root:info
+2009-12-11 12:39:36,349 DEBUG:root:search kb8042
+2009-12-11 12:39:36,349 DEBUG:root:search_pkglist kb8042
+2009-12-11 12:39:36,353 DEBUG:root:info
+2009-12-11 12:39:38,056 DEBUG:root:search ehci
+2009-12-11 12:39:38,056 DEBUG:root:search_pkglist ehci
+2009-12-11 12:39:38,058 DEBUG:root:info
+2009-12-11 12:39:52,814 DEBUG:root:search pci_pci
+2009-12-11 12:39:52,814 DEBUG:root:search_pkglist pci_pci
+2009-12-11 12:39:52,818 DEBUG:root:info
+2009-12-11 12:39:54,464 DEBUG:root:search vgatext
+2009-12-11 12:39:54,464 DEBUG:root:search_pkglist vgatext
+2009-12-11 12:39:54,466 DEBUG:root:info
+2009-12-11 12:39:54,935 DEBUG:root:search ecpp
+2009-12-11 12:39:54,935 DEBUG:root:search_pkglist ecpp
+2009-12-11 12:39:54,938 DEBUG:root:info
+2009-12-11 12:39:55,604 DEBUG:root:search sd
+2009-12-11 12:39:55,605 DEBUG:root:search_pkglist sd
+2009-12-11 12:39:55,607 DEBUG:root:info
+2009-12-11 12:48:28,903 ERROR:dbus.proxies:Introspect error on :1.1:/org/freedesktop/Hal/devices/computer: dbus.exceptions.IntrospectionParserException: Error parsing introspect data: xml.parsers.expat.ExpatError: not well-formed (invalid token): line 145, column 8
+2009-12-11 12:48:28,904 DEBUG:dbus.proxies:Executing introspect queue due to error
+2009-12-11 12:48:31,726 DEBUG:root:search cpudrv
+2009-12-11 12:48:31,726 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:48:31,731 DEBUG:root:info
+2009-12-11 12:48:32,743 DEBUG:root:search cpudrv
+2009-12-11 12:48:32,745 DEBUG:root:search_pkglist cpudrv
+2009-12-11 12:48:32,748 DEBUG:root:info
+2009-12-11 12:50:07,985 ERROR:dbus.proxies:Introspect error on :1.1:/org/freedesktop/Hal/devices/computer: dbus.exceptions.IntrospectionParserException: Error parsing introspect data: xml.parsers.expat.ExpatError: not well-formed (invalid token): line 145, column 8
+2009-12-11 12:50:07,986 DEBUG:dbus.proxies:Executing introspect queue due to error
+2009-12-11 12:50:09,436 DEBUG:root:search sd
+2009-12-11 12:50:09,437 DEBUG:root:search_pkglist sd
+2009-12-11 12:50:09,439 DEBUG:root:info
+2009-12-11 12:50:10,889 DEBUG:root:search sd
+2009-12-11 12:50:10,889 DEBUG:root:search_pkglist sd
+2009-12-11 12:50:10,890 DEBUG:root:info
+2009-12-11 13:03:31,674 ERROR:dbus.proxies:Introspect error on :1.1:/org/freedesktop/Hal/devices/computer: dbus.exceptions.IntrospectionParserException: Error parsing introspect data: xml.parsers.expat.ExpatError: not well-formed (invalid token): line 145, column 8
+2009-12-11 13:03:31,675 DEBUG:dbus.proxies:Executing introspect queue due to error
+2009-12-11 13:03:34,094 DEBUG:root:search ecpp
+2009-12-11 13:03:34,094 DEBUG:root:search_pkglist ecpp
+2009-12-11 13:03:34,099 DEBUG:root:info
+2009-12-11 13:03:36,423 DEBUG:root:search ecpp
+2009-12-11 13:03:36,424 DEBUG:root:search_pkglist ecpp
+2009-12-11 13:03:36,426 DEBUG:root:info
+2009-12-11 13:03:40,105 DEBUG:root:search sd
+2009-12-11 13:03:40,105 DEBUG:root:search_pkglist sd
+2009-12-11 13:03:40,108 DEBUG:root:info
+2009-12-11 13:03:43,008 DEBUG:root:search ecpp
+2009-12-11 13:03:43,009 DEBUG:root:search_pkglist ecpp
+2009-12-11 13:03:43,012 DEBUG:root:info
+2009-12-11 13:03:45,433 DEBUG:root:search ecpp
+2009-12-11 13:03:45,433 DEBUG:root:search_pkglist ecpp
+2009-12-11 13:03:45,436 DEBUG:root:info
+2009-12-11 13:03:46,848 DEBUG:root:search pcie_pci
+2009-12-11 13:03:46,848 DEBUG:root:search_pkglist pcie_pci
+2009-12-11 13:03:46,850 DEBUG:root:info
+2009-12-11 13:03:48,703 DEBUG:root:search pcie_pci
+2009-12-11 13:03:48,704 DEBUG:root:search_pkglist pcie_pci
+2009-12-11 13:03:48,705 DEBUG:root:info
+2009-12-11 13:03:55,513 DEBUG:root:search pci_pci
+2009-12-11 13:03:55,514 DEBUG:root:search_pkglist pci_pci
+2009-12-11 13:03:55,516 DEBUG:root:info
+2009-12-11 13:03:58,093 DEBUG:root:search e1000g
+2009-12-11 13:03:58,094 DEBUG:root:search_pkglist e1000g
+2009-12-11 13:03:58,096 DEBUG:root:info
+2009-12-11 13:03:58,811 DEBUG:root:search mouse8042
+2009-12-11 13:03:58,811 DEBUG:root:search_pkglist mouse8042
+2009-12-11 13:03:58,815 DEBUG:root:info
