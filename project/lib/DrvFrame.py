@@ -1,24 +1,38 @@
 import pygtk
 pygtk.require( '2.0' )
 import gtk
-import drv
 import sys
 
 #for test
 import pynotify
 
-class DriverInfoFrame( gtk.Frame ):
-    def __init__( self, devicename ):
-        gtk.Frame.__init__( self )
-        #self.set_label( 'Module Info' )
-        self.set_label_align( 1.0, 0.0 )#left top
-        #self.set_shadow_type( gtk.SHADOW_ETCHED_IN )
-        self.devicename = devicename
-        self.make_widgets()
 
-    def make_list( self, d ):
+import drv
+
+
+class DriverInfoFrame( gtk.Frame ):
+    def __init__( self, devname ):
+        gtk.Frame.__init__( self )
+        self.set_label_align( 1.0, 0.0 )#left top
+        self.devname = devname
+        self.make_widgets()
+        self.drv = None
+
+    def make_list(self):
+        if self.devname == 'unknown' or not self.devname:
+            self.drv = None
+            l = {}
+            p = {}
+        else:
+            self.drv = drv.PackageDriver(self.devname)
+            l = self.drv.info()
+            if l.has_key('package'):
+                p = l.pop('package')
+            else:
+                p = {}
         from class_DeviceManagerGUI import KeyAndValue
-        self.scrolled_window = KeyAndValue( d )
+        self.module_window = KeyAndValue( l )
+        self.package_window = KeyAndValue(p)
 
     def button_test( self, widget, id ):
         icon=gtk.StatusIcon()
@@ -28,37 +42,67 @@ class DriverInfoFrame( gtk.Frame ):
         n=pynotify.Notification(id, 'test only')
         n.attach_to_status_icon(icon)
         n.show()
-
-    def make_widgets( self ):
-        btnname = ['Refresh', 'Install', 'Uninstall', 'Update']
-        self.bbox1=gtk.HButtonBox()
-        self.bbox2=gtk.HButtonBox()
-        self.table = gtk.Table( 10, 1, True )
-        self.add( self.table )
-        for name in btnname[:2]:
-            btn = gtk.Button( name )
-            btn.set_size_request(120,30)
-            #connect
-            btn.connect("clicked", self.button_test, name)
-            self.bbox1.add( btn )
-            btn.show()
-        for name in btnname[2:]:
-            btn = gtk.Button( name )
-            btn.set_size_request(120,30)
-            #connect
-            btn.connect("clicked", self.button_test, name)
-            self.bbox2.add( btn )
-            btn.show()
-        if self.devicename == 'unknown':
-            l = {}
+    
+    def op_null(self,event,call_data):
+        pass
+    
+    def on_refresh(self,event,call_data):
+        self.module_window.hide()
+        self.package_window.hide()
+        self.module_window = None
+        self.package_window = None
+        self.make_list()
+        self.table.attach( self.module_window, 0, 1, 1, 6 )
+        self.table.attach(self.package_window,0,1,7,12)
+        self.module_window.show()
+        self.package_window.show()
+        
+    def on_install(self):
+        if False:
+            self.drv.install()
         else:
-            d = drv.PackageDriver( self.devicename )
-            l = d.info()
-        self.make_list( l )
-        self.table.attach( self.scrolled_window, 0, 1, 0, 8 )
-        self.table.attach( self.bbox1, 0, 1, 8, 9 )
-        self.table.attach( self.bbox2, 0, 1, 9, 10 )
-        self.scrolled_window.show()
+            pass
+
+    def make_btns(self):
+        btnname = ['Refresh', 'PKG Install', 'PKG Uninstall', 'PKG Update']
+        btncall = [self.on_refresh,self.op_null,self.op_null,self.op_null]
+        btnpic = [None,None,None,None]
+        self.bbox1 = gtk.HButtonBox()
+        self.bbox2=gtk.HButtonBox()
+        for i in range(len(btnname)):
+            if btnpic[i]:
+                btn = gtk.Button(btnname[i],btnpic[i])
+            else:
+                btn = gtk.Button(btnname[i])
+            btn.set_size_request(110,30)
+            btn.connect("clicked",btncall[i],btnname[i])
+            if i < 2:
+                self.bbox1.add(btn)
+            else:
+                self.bbox2.add(btn)
+            btn.show()
+        
+    def make_widgets( self ):
+        self.table = gtk.Table( 14, 1, True )
+        self.add( self.table )
+
+        self.make_btns()
+        self.make_list()
+        
+        lbl1 = gtk.Label('Module')
+        lbl2 = gtk.Label('Package')
+        lbl1.show()
+        lbl2.show()
+        
+        self.table.attach(lbl1,0,1,0,1)
+        self.table.attach(lbl2,0,1,6,7)
+        self.table.attach( self.module_window, 0, 1, 1, 6 )
+        self.table.attach(self.package_window,0,1,7,12)
+        self.table.attach( self.bbox1, 0, 1, 12, 13 )
+        self.table.attach( self.bbox2, 0, 1, 13, 14 )
+
+        self.module_window.show()
+        self.package_window.show()
         self.bbox1.show()
         self.bbox2.show()
         self.table.show()

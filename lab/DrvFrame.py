@@ -1,78 +1,92 @@
-import sys
 import pygtk
 pygtk.require( '2.0' )
 import gtk
+import sys
+
+#for test
+import pynotify
+
+
+import drv
+
 
 class DriverInfoFrame( gtk.Frame ):
-    """
-        This class gather driver information and several operations
-        about a specific device in a gtk.Frame.
-    """
-    def __init__( self, drvname) :
+    def __init__( self, devname ):
         gtk.Frame.__init__( self )
-        self.drvname = drvname
-        
-#        from drv import Driver
-        from drv import PackageDriver as Driver
-        
-        self.drv = Driver(self.drvname)
-        
-        self.btnlist = [['Refresh',0,None],
-                        ['Install',0,None],
-                        ['Uninstall',0,None],
-                        ['Update',0,None],
-                        ['Backup',0,None],
-                        ['Restore',0,None]]
-        self.set_label( 'Driver Information' ) #Frame title
-        self.set_label_align( 1.0, 0.0 ) #top-left corner
-        self.set_shadow_type( gtk.SHADOW_ETCHED_IN )
+        self.set_label_align( 1.0, 0.0 )#left top
+        self.devname = devname
         self.make_widgets()
+        self.drv = None
+
+    def make_list(self):
+        if self.devname == 'unknown' or not self.devname:
+            self.drv = None
+            l = {}
+            p = {}
+        else:
+            self.drv = drv.PackageDriver(self.devname)
+            l = self.drv.info()
+            if l.has_key('package'):
+                p = l.pop('package')
+            else:
+                p = {}
+        from class_DeviceManagerGUI import KeyAndValue
+        self.module_window = KeyAndValue( l )
+        self.package_window = KeyAndValue(p)
+
+    def button_test( self, widget, id ):
+        icon=gtk.StatusIcon()
+        icon.set_from_stock(gtk.STOCK_ABOUT)
+
+        pynotify.init('example')
+        n=pynotify.Notification(id, 'test only')
+        n.attach_to_status_icon(icon)
+        n.show()
 
     def make_widgets( self ):
-        table = gtk.Table( 2, len( self.btnlist ), False )
-        self.add( table )
-
-        count = 0
-        for item in self.btnlist:
-            item[2] = gtk.Button( item[0] )
-            table.attach( item[2], count, count + 1, 3, 4 )
-            item[2].show()
-            count += 1
-
-        # Given argument "False" drv.Driver doesn't search related package
-        # and provide fast loading
-        self.info1 = self.drv.info()
-        if self.info1['package']:
-            self.info2 = self.info1['package'][0]
-        else:
-            self.info2=None
-        self.info1['package'] = 'See below'
-        from GUIcommon import KeyAndValue
-        self.list = KeyAndValue( self.info1 )
-        self.plist = KeyAndValue(self.info2)
-
-        table.attach( self.list, 0, len( self.btnlist ), 0, 1 )
-        table.attach( self.plist, 0, len( self.btnlist ), 2, 3 )
+        btnname = ['Refresh', 'Install', 'Uninstall', 'Update']
+        self.bbox1=gtk.HButtonBox()
+        self.bbox2=gtk.HButtonBox()
+        self.table = gtk.Table( 14, 1, True )
+        self.add( self.table )
         
-        self.list.show()
-        self.plist.show()
-        table.show()
+        for name in btnname[:2]:
+            btn = gtk.Button( name )
+            btn.set_size_request(120,30)
+            #connect
+            btn.connect("clicked", self.button_test, name)
+            self.bbox1.add( btn )
+            btn.show()
+        for name in btnname[2:]:
+            btn = gtk.Button( name )
+            btn.set_size_request(120,30)
+            #connect
+            btn.connect("clicked", self.button_test, name)
+            self.bbox2.add( btn )
+            btn.show()
 
-    def force_refresh(self):
-        self.drv = Driver(self.drvname)
-        self.refresh_list()
-
-    def refresh_list(self):
-        if self.drv:
-            self.info1 = self.drv.info()
-        else:
-            self.info1 = None
-        self.list.refresh(self.info1)
+        self.make_list()
+        
+        lbl1 = gtk.Label('Module')
+        lbl1.show()
+        lbl2 = gtk.Label('Package')
+        lbl2.show()
+        self.table.attach(lbl1,0,1,0,1)
+        self.table.attach( self.module_window, 0, 1, 1, 6 )
+        self.table.attach(lbl2,0,1,6,7)
+        self.table.attach(self.package_window,0,1,7,12)
+        self.table.attach( self.bbox1, 0, 1, 12, 13 )
+        self.table.attach( self.bbox2, 0, 1, 13, 14 )
+        self.module_window.show()
+        self.package_window.show()
+        self.bbox1.show()
+        self.bbox2.show()
+        self.table.show()
 
     def main( self ):
         gtk.main()
 
-class DriverGUITest():
+class DriverGUITest:
     def __init__( self, devicename ):
         window = gtk.Window( gtk.WINDOW_TOPLEVEL )
         window.set_title( 'Driver GUI Test' )
@@ -119,7 +133,8 @@ if __name__ == '__main__':
                 self.addLabelItem( lindent + '|', rindent + '- ', minorkey, value[minorkey] )
         else:
             print type( value )
-
+"""
+"""
 TODO:
 1 - anyone could make it beautiful?  ^_^||
 2 - add special key to show up first, e.g 'name','size'...
