@@ -15,9 +15,11 @@ class DriverInfoFrame( gtk.Frame ):
         gtk.Frame.__init__( self )
         self.set_label_align( 1.0, 0.0 )#left top
         self.devname = devname
-        self.make_widgets()
         self.drv = None
-
+        self.module_window = None
+        self.package_window = None
+        self.make_widgets()
+        
     def make_list(self):
         if self.devname == 'unknown' or not self.devname:
             self.drv = None
@@ -33,22 +35,15 @@ class DriverInfoFrame( gtk.Frame ):
         from class_DeviceManagerGUI import KeyAndValue
         self.module_window = KeyAndValue( l )
         self.package_window = KeyAndValue(p)
-
-    def button_test( self, widget, id ):
-        icon=gtk.StatusIcon()
-        icon.set_from_stock(gtk.STOCK_ABOUT)
-
-        pynotify.init('example')
-        n=pynotify.Notification(id, 'test only')
-        n.attach_to_status_icon(icon)
-        n.show()
     
     def op_null(self,event,call_data):
         pass
     
-    def on_refresh(self,event,call_data):
-        self.module_window.hide()
-        self.package_window.hide()
+    def on_refresh(self):
+        if self.module_window:
+            self.module_window.hide()
+        if self.package_window:
+            self.package_window.hide()
         self.module_window = None
         self.package_window = None
         self.make_list()
@@ -57,15 +52,63 @@ class DriverInfoFrame( gtk.Frame ):
         self.module_window.show()
         self.package_window.show()
         
-    def on_install(self):
-        if False:
-            self.drv.install()
-        else:
-            pass
+    def on_install(self,event,call_data):
+        if not self.drv:
+            return
+        from GUIcommon import get_okcancel
+        ret = get_okcancel(None,'Install','Execute package install?')
+        if not ret:
+            return
 
+        self.status.set_text('Installing') 
+
+        try:
+            ret = self.drv.install()
+        except:
+            ret = -1
+
+        self.status.set_text('Waiting') 
+
+        from GUIcommon import get_ok
+        if ret != 0:
+            ret = get_ok(None,'Install','Install failed')
+        else:
+            ret = get_ok(None,'Install','Install succeed')
+        self.on_refresh()
+        
+    def on_uninstall(self,event,call_data):
+        if not self.drv:
+            return
+        from GUIcommon import get_okcancel
+        ret = get_okcancel(None,'Uninstall','Execute package uninstall?')
+        if not ret:
+            return
+
+        self.status.set_text('Uninstalling') 
+
+        try:
+            ret = self.drv.uninstall()
+        except:
+            ret = -1
+
+        self.status.set_text('Waiting') 
+
+        from GUIcommon import get_ok
+        if ret != 0:
+            ret = get_ok(None,'Uninstall','Uninstall failed')
+        else:
+            ret = get_ok(None,'Uninstall','Uninstall succeed')
+        self.on_refresh()
+    
+    def op_add(self,event,call_data):
+        pass
+
+    def op_remove(self,event,call_data):
+        pass
+    
     def make_btns(self):
-        btnname = ['Refresh', 'PKG Install', 'PKG Uninstall', 'PKG Update']
-        btncall = [self.on_refresh,self.op_null,self.op_null,self.op_null]
+        btnname = ['PKG Install', 'PKG Uninstall', 'Remove','Add']
+        btncall = [self.on_install,self.on_uninstall,self.op_remove,self.op_add]
         btnpic = [None,None,None,None]
         self.bbox1 = gtk.HButtonBox()
         self.bbox2=gtk.HButtonBox()
@@ -83,26 +126,27 @@ class DriverInfoFrame( gtk.Frame ):
             btn.show()
         
     def make_widgets( self ):
-        self.table = gtk.Table( 14, 1, True )
+        self.table = gtk.Table( 15, 1, True )
         self.add( self.table )
 
         self.make_btns()
-        self.make_list()
         
         lbl1 = gtk.Label('Module')
         lbl2 = gtk.Label('Package')
         lbl1.show()
         lbl2.show()
+        self.status = gtk.Label('Waiting')
+        self.status.show()
+
+        self.on_refresh()
         
         self.table.attach(lbl1,0,1,0,1)
         self.table.attach(lbl2,0,1,6,7)
-        self.table.attach( self.module_window, 0, 1, 1, 6 )
-        self.table.attach(self.package_window,0,1,7,12)
+
         self.table.attach( self.bbox1, 0, 1, 12, 13 )
         self.table.attach( self.bbox2, 0, 1, 13, 14 )
+        self.table.attach(self.status,0,1,14,15)
 
-        self.module_window.show()
-        self.package_window.show()
         self.bbox1.show()
         self.bbox2.show()
         self.table.show()
