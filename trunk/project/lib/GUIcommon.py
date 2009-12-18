@@ -32,3 +32,41 @@ class KeyAndValue(gtk.ScrolledWindow):
     def refresh(self, hash = None):
         for (k, v) in hash.items():
             self.store.append([k,v])
+
+def get_okcancel(parent,title,text):
+    dialog = gtk.Dialog(title,parent,1)
+    content = dialog.get_content_area()
+    label = gtk.Label(text)
+    label.show()
+    content.pack_start(label)
+    ret = []
+    
+    def action(widget,ret,b):
+        ret.append(b)
+        dialog.destroy()
+
+    #buttons
+    button1 = dialog.add_button(gtk.STOCK_OK,gtk.RESPONSE_ACCEPT)
+    button1.connect("clicked",action,ret,True)
+    button2 = dialog.add_button(gtk.STOCK_CANCEL,gtk.RESPONSE_REJECT)
+    button2.connect("clicked",action,ret,False)
+    dialog.run()
+    return ret[0]
+
+def get_ok(parent,title,text):
+    dialog = gtk.Dialog(title,parent,1)
+    content = dialog.get_content_area()
+    label = gtk.Label(text)
+    label.show()
+    content.pack_start(label)
+    
+    def action(widget):
+        dialog.destroy()
+
+    #buttons
+    button1 = dialog.add_button(gtk.STOCK_OK,gtk.RESPONSE_ACCEPT)
+    button1.connect("clicked",action)
+    dialog.run()
+
+if __name__=='__main__':
+    print get_ok(None, 'abc', 'bcd')

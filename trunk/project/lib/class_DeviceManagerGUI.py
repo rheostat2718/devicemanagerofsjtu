@@ -37,7 +37,7 @@ class DeviceManagerGUI(gtk.Window):
         self.table.attach(self.notebook,1,2,0,1)
 
         self.add(self.table)
-        self.set_size_request(800, 400)
+        self.set_size_request(800, 600)
         self.show_all()
 
     def delete_event(self, widget, event, data=None):
