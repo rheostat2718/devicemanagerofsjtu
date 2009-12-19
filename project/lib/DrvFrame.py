@@ -3,13 +3,8 @@ pygtk.require( '2.0' )
 import gtk
 import sys
 
-#for test
-import pynotify
-
-
 import drv
-
-
+from IPS import LocalesRun
 class DriverInfoFrame( gtk.Frame ):
     def __init__( self, devname ):
         gtk.Frame.__init__( self )
@@ -27,7 +22,7 @@ class DriverInfoFrame( gtk.Frame ):
             p = {}
         else:
             self.drv = drv.PackageDriver(self.devname)
-            l = self.drv.info()
+            l = LocalesRun(self.drv.info)
             if l.has_key('package'):
                 p = l.pop('package')
             else:
@@ -39,7 +34,7 @@ class DriverInfoFrame( gtk.Frame ):
     def op_null(self,event,call_data):
         pass
     
-    def on_refresh(self):
+    def on_refresh(self,event = None,call_data=None):
         if self.module_window:
             self.module_window.hide()
         if self.package_window:
@@ -71,9 +66,10 @@ class DriverInfoFrame( gtk.Frame ):
 
         from GUIcommon import get_ok
         if ret != 0:
-            ret = get_ok(None,'Install','Install failed')
+            get_ok(None,'Install','Install failed')
         else:
-            ret = get_ok(None,'Install','Install succeed')
+            get_ok(None,'Install','Install succeed')
+        print 'return value =',ret
         self.on_refresh()
         
     def on_uninstall(self,event,call_data):
@@ -95,21 +91,83 @@ class DriverInfoFrame( gtk.Frame ):
 
         from GUIcommon import get_ok
         if ret != 0:
-            ret = get_ok(None,'Uninstall','Uninstall failed')
+            get_ok(None,'Uninstall','Uninstall failed')
         else:
-            ret = get_ok(None,'Uninstall','Uninstall succeed')
+            get_ok(None,'Uninstall','Uninstall succeed')
+        print 'return value =',ret
         self.on_refresh()
     
     def op_add(self,event,call_data):
-        pass
+#        if not self.drv:
+#            return
+        from GUIcommon import get_okcancel
+        ret = get_okcancel(None,'Add driver','Execute add_drv?')
+        if not ret:
+            return
+
+        self.status.set_text('Add_drv') 
+
+        try:
+            ret = self.drv.dbg_Adddrv()
+        except:
+            ret = -1
+
+        self.status.set_text('Waiting') 
+
+        from GUIcommon import get_ok
+        if ret != 0:
+            get_ok(None,'Add_drv','Add_drv failed')
+        else:
+            get_ok(None,'Add_drv','Add_drv succeed, you may need to reboot')
+
+        print 'return value =',ret
+        self.on_refresh()
 
     def op_remove(self,event,call_data):
-        pass
+        if not self.drv:
+            return
+        from GUIcommon import get_okcancel
+        ret = get_okcancel(None,'Rem driver','Execute rem_drv?')
+        if not ret:
+            return
+
+        self.status.set_text('Rem_drv') 
+
+        try:
+            ret = self.drv.dbg_Remdrv()
+        except:
+            ret = -1
+
+    def op_reload(self,event,call_data):
+        if not self.drv:
+            return
+        from GUIcommon import get_okcancel
+        ret = get_okcancel(None,'Reload conf file','Execute update_drv?')
+        if not ret:
+            return
+
+        self.status.set_text('Update_drv') 
+
+        try:
+            ret = self.drv.dbg_Updatedrv()
+        except:
+            ret = -1
+
+        self.status.set_text('Waiting') 
+
+        from GUIcommon import get_ok
+        if ret != 0:
+            get_ok(None,'Reload conf','Update_drv failed')
+        else:
+            get_ok(None,'Reload conf','Update_drv succeed')
+
+        print 'return value =',ret
+        self.on_refresh()
     
     def make_btns(self):
-        btnname = ['PKG Install', 'PKG Uninstall', 'Remove','Add']
-        btncall = [self.on_install,self.on_uninstall,self.op_remove,self.op_add]
-        btnpic = [None,None,None,None]
+        btnname = ['PKG Install', 'PKG Uninstall','Refresh', 'Add','Remove','Reload conf']
+        btncall = [self.on_install,self.on_uninstall,self.on_refresh,self.op_add,self.op_remove,self.op_reload]
+        btnpic = [None,None,None,None,None,None]
         self.bbox1 = gtk.HButtonBox()
         self.bbox2=gtk.HButtonBox()
         for i in range(len(btnname)):
@@ -119,7 +177,7 @@ class DriverInfoFrame( gtk.Frame ):
                 btn = gtk.Button(btnname[i])
             btn.set_size_request(110,30)
             btn.connect("clicked",btncall[i],btnname[i])
-            if i < 2:
+            if i < 3:
                 self.bbox1.add(btn)
             else:
                 self.bbox2.add(btn)
