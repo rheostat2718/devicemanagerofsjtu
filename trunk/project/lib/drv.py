@@ -125,7 +125,28 @@ class LocatedDriver(BaseDriver):
 class Driver(LocatedDriver):
     def __init__( self, drvname ):
         LocatedDriver.__init__(self,drvname);
-               
+    
+    def dbg_Remdrv(self):
+        logging.debug('rem_drv module'+self.getFullPath())
+        ret = os.system('rem_drv '+self.drvname)
+        if ret == 0:
+            os.system('devfsadm -v')
+            self.Touch_Reconfigure()
+        return ret
+    
+    def dbg_Adddrv(self):
+        logging.debug('add_drv module'+self.getFullPath())
+        ret = os.system('add_drv '+self.drvname)
+        if ret == 0:
+            os.system('devfsadm -v')
+            self.Touch_Reconfigure()
+        return ret
+    
+    def dbg_Updatedrv(self):
+        logging.debug('update_drv module'+self.getFullPath())
+        ret = os.system('update_drv '+self.drvname)
+        return ret
+
     def dbg_Reload_Module(self):
         """
             Unload old modules, then reload it

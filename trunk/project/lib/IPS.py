@@ -1,10 +1,18 @@
 #!/bin/env python
+import locale
 import os
 import sys
 import logging
 
 import logger
 
+def LocalesRun(func,localestr='en_GB.UTF-8'):
+    old = os.environ['LC_MESSAGES']
+    os.environ['LC_MESSAGES']=localestr
+    value = func()
+    os.environ['LC_MESSAGES']=old
+    return value
+    
 class Package:
     """
     This class execute "pkg install | uninstall | list | info | search,
@@ -264,9 +272,14 @@ class Package:
     
     def info(self):
         logging.debug('info')
+        if not self.pkgname:
+            return {}
         shortname = self.getShortName(self.pkgname)
         dict = {}
-        output = os.popen( 'pkginfo -l ' + shortname )
+        if self.ispackage():
+            output = os.popen('pkginfo -l '+shortname)
+        else:
+            output = os.popen( 'pkg info -r ' + shortname )
         for line in output:
             try:
                 attr, value = line.split( ':', 1 )
@@ -309,13 +322,12 @@ class Package:
     def check( self ):
         return
 
-    def ispackage():
+    def ispackage(self):
         return ( os.system( 'pfexec pkginfo -q ' + self.pkgname ) == 0 )
 
 if __name__ == '__main__':
     def usage():
-        print sys.argv[0],'[driver name [pkgname]]'
-
+        print sys.argv[0],'[driver_name [pkgname]]'
     logging.basicConfig(level=0)
     try:
         if len(sys.argv) == 3:
@@ -326,5 +338,4 @@ if __name__ == '__main__':
             usage()
     except IndexError:
         usage()
-    print p.info()
-#
+    print LocalesRun(p.info)
