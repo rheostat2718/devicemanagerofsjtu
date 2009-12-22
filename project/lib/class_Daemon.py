@@ -29,6 +29,7 @@ class Daemon(object):
         # add listenerso for all devices
         deviceNames=cls.__hal_manager.GetAllDevices()
 
+        # add icon at notification area
         cls.__icon=gtk.StatusIcon()
         cls.__icon.set_from_stock(gtk.STOCK_ABOUT)
 
@@ -91,8 +92,12 @@ class Daemon(object):
         if signal=='DeviceAdded':
             cls.notify("Add", product)
             print 'add',udi
-        elif signal=='DeviceRemoved':            cls.notify("Remove", product)
+            cls.__manager.update()
+        elif signal=='DeviceRemoved':
+            cls.notify("Remove", product)
             print 'remove',udi
+            cls.__manager.update()
         elif signal=='NewCapability':
             cls.notify("Modify", product)
             print 'new',udi
+            cls.__manager.update()
