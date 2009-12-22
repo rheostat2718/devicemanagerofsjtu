@@ -47,7 +47,7 @@ class DeviceManager(object):
 
     def update(cls, dev=None, from_=None):
         '''update all device'''
-        pass#cls.__gui.update()
+        cls.__gui.update()
     def addDriver(cls, dev):
         '''add driver'''
         pass#cls.__devices[dev.getPath()].addDriver()
