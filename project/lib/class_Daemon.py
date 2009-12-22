@@ -5,7 +5,10 @@ import dbus.glib
 from dbus.mainloop.glib import DBusGMainLoop
 import gobject
 import sys
+import gtk
+import pynotify
 from class_Device import Device
+
 
 class Daemon(object):
     '''daemon of device manager listening to HAL signal'''
@@ -25,6 +28,9 @@ class Daemon(object):
 
         # add listenerso for all devices
         deviceNames=cls.__hal_manager.GetAllDevices()
+
+        cls.__icon=gtk.StatusIcon()
+        cls.__icon.set_from_stock(gtk.STOCK_ABOUT)
 
         # redirect error message
         #error=sys.stderr
@@ -73,18 +79,20 @@ class Daemon(object):
         cls.__loop=gobject.MainLoop()
         cls.__loop.run()
 
+    def notify(cls, title, info):
+        pynotify.init("dev")
+        n=pynotify.Notification(title, info)
+        n.attach_to_status_icon(cls.__icon)
+        n.show()
+
     def handle(cls, signal, udi, *args):
         '''handle of the signals'''
+        product=str(cls.__manager.getDeviceProduct(udi))
         if signal=='DeviceAdded':
-            pass#cls.__manager.update(udi)
-            #cls.panel(signal, udi)
+            cls.notify("Add", product)
             print 'add',udi
-        elif signal=='DeviceRemoved':
-            pass#cls.__manager.update(udi)
-            #cls.panel(signal, udi)
+        elif signal=='DeviceRemoved':            cls.notify("Remove", product)
             print 'remove',udi
         elif signal=='NewCapability':
-            pass#cls.__manager.update(udi)
-            #[cap]=args
-            #cls.panel(signal, udi, cap)
+            cls.notify("Modify", product)
             print 'new',udi
