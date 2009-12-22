@@ -32,6 +32,8 @@ class DeviceManager(object):
         cls.__devices[device.getUDI()]=device
     def getDeviceObj(cls, udi):
         return cls.__devices[udi]
+    def getDeviceProduct(cls, udi):
+        return cls.__devices[udi].getProduct()
     def getAllDevices(cls):
         return cls.__devices
     def loop(cls):
