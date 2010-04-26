@@ -48,14 +48,13 @@ class Daemon(object):
         #errfile.close()
 
     def addDevSigRecv(cls, udi):
-        cls.__bus.add_signal_receiver(lambda *args: cls.propertyModified(udi, *args),
-                                      "PropertyModified",
-				      "org.freedesktop.Hal.Device",
-				      "org.freedesktop.Hal",
-				      udi)
+        cls.__bus.add_signal_receiver(lambda *args: cls.propertyModified(udi, *args),"PropertyModified","org.freedesktop.Hal.Device","org.freedesktop.Hal",udi)
 
     def propertyModified(cls, udi, num_changed, change_list):
         '''this method is called when signals on the Device interface is received'''
+        print 'in modified'
+        print udi,num_changed,change_list
+
         n=num_changed #alias
         list=change_list #alias
 
