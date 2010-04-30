@@ -1,19 +1,24 @@
 #!/bin/env python
-import locale
 import os
 import sys
 import logging
-import getPkgList
+
 import logger
+import getPkgList
+
 
 def LocalesRun( func, localestr = 'en_GB.UTF-8' ):
+    """
+    LocalesRun sets environment values and restore it after function.
+    Currently, it is mainly used to strict "pkg info" keywords...
+"""
     old = os.environ['LC_MESSAGES']
     os.environ['LC_MESSAGES'] = localestr
     value = func()
     os.environ['LC_MESSAGES'] = old
     return value
 
-class Package:
+class Package( object ):
     """
     This class execute "pkg install | uninstall | list | info | search,
     provides an interface to PackageDrv
@@ -37,15 +42,13 @@ class Package:
     getShortName(self,name):
     """
 
-    pkgdata = None
-
     def __init__( self, name, pkgname = None ):
         self.name = name
 
         if pkgname:
             if self.validate( pkgname ):
                 self.pkgname = pkgname
-                self.update_pkglist( {self.name:self.pkgname} )
+                getPkgList.update_pkglist( {self.name:self.pkgname} )
             else:
                 logging.debug( 'Discard ' + pkgname )
                 pkgname = None
