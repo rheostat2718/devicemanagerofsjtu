@@ -4,7 +4,7 @@ import sys
 import logging
 
 import logger
-import getPkgList
+from pkglist import *
 
 
 def LocalesRun( func, localestr = 'en_GB.UTF-8' ):
@@ -26,11 +26,8 @@ class Package( object ):
     __init__(self,name):
     select(self,list):
     validate(self,pkgname):
-    update_pkglist(self,dict):
-    search_pkglist(self):
     search(self):
     get_pkglist(self):
-    clear_pkglist(self):
     GetNameList(self,lines,filter=None):
     GetFMRI(self,lines,filter=None):
     GetLatestVersion(self,lines,filter=None):
@@ -48,7 +45,7 @@ class Package( object ):
         if pkgname:
             if self.validate( pkgname ):
                 self.pkgname = pkgname
-                getPkgList.update_pkglist( {self.name:self.pkgname} )
+                combineDict( {self.name:self.pkgname} )
             else:
                 logging.debug( 'Discard ' + pkgname )
                 pkgname = None
@@ -73,35 +70,10 @@ class Package( object ):
         logging.info( self.name + " not found in " + pkgname )
         return False
 
-    def update_pkglist( self, dict ):
-        """
-        update pkg-drv dict with data in dict
-        """
-        getPkgList.updateDict( getPkgList.outputfilename, dict )
-
-
-    def search_pkglist( self ):
-        """
-        search pkgdev.list for self.name, return pkgname or None
-        """
-        logging.debug( 'search_pkglist ' + self.name )
-        try:
-            lines = open( 'pkgdev.list', 'r' ).readlines()
-        except IOError:
-            return None
-        for line in lines:
-            list = line.split()
-            try:
-                if self.name == list[0]:
-                    ret = list[1]
-                    return ret
-            except IndexError :
-                pass
-        return None
-
     def search( self ):
         logging.debug( 'search ' + self.name )
-        pkgname = self.search_pkglist()
+        if pkgDict.has_key( self.name ):
+            return pkgDict[self.name]
         if pkgname:
             return pkgname
         pkgname = self.get_pkglist()
@@ -116,21 +88,10 @@ class Package( object ):
         list = self.GetNameList( text )
         if list:
             pkg = self.select( list )
-            self.update_pkglist( {self.name:pkg} )
+            combineDict( {self.name:pkg} )
         else:
             pkg = None
         return pkg
-
-    def clear_pkglist( self ):
-        """
-        remove cache file
-        return 0 as succeed, 1 as failed
-        """
-        try:
-            open( 'pkgdev.list', 'w' )
-        except:
-            return - 1
-        return 0
 
     def GetNameList( self, lines, filter = None ):
         """
@@ -204,6 +165,7 @@ class Package( object ):
                     pkg[prefix] = version
             except ValueError:
                 continue
+
         pkglist = []
         for prefix in pkg.keys():
             pkglist.append( prefix + '@' + pkg[prefix] )
@@ -211,23 +173,21 @@ class Package( object ):
         return pkglist
 
     def try_install( self ):
+        logging.debug( "try_install" + self.pkgname )
         return self.install( True )
 
     def try_uninstall( self ):
+        logging.debug( "try_uninstall" + self.pkgname )
         return self.uninstall( True )
 
     def install( self , trial = False ):
         if trial:
             EXarg = '-n '
-            logging.debug( "try_install" + self.pkgname )
         else:
-            EXarg = ' '
             logging.debug( "install" + self.pkgname )
+            EXarg = ''
 
-        try:
-            ret = os.system( 'pfexec pkg install -v ' + EXarg + self.pkgname )
-        except:
-            ret = -1
+        ret = os.system( 'pkg install -v ' + EXarg + self.pkgname )
 
         if ret == 0:
             logging.info( 'install finished' )
@@ -238,15 +198,11 @@ class Package( object ):
     def uninstall( self, trial = False ):
         if trial:
             EXarg = '-n '
-            logging.debug( "try_uninstall" + self.pkgname )
         else:
-            EXarg = ' '
+            EXarg = ''
             logging.debug( "uninstall" + self.pkgname )
 
-        try:
-            ret = os.system( 'pfexec pkg uninstall -v ' + EXarg + self.pkgname )
-        except:
-            ret = -1
+        ret = os.system( 'pkg uninstall -v ' + EXarg + self.pkgname )
 
         if ret == 0:
             logging.info( 'uninstall finished' )
@@ -302,7 +258,7 @@ class Package( object ):
     def dbg_rebuild_index( self ):
         # sometimes pkg asks you to rebuild its index, this function just run the script
         try:
-            ret = os.system( 'pfexec pkg rebuild-index' )
+            ret = os.system( 'pkg rebuild-index' )
             return ret
         except:
             pass
@@ -314,12 +270,17 @@ class Package( object ):
         return
 
     def ispackage( self ):
-        return ( os.system( 'pfexec pkginfo -q ' + self.pkgname ) == 0 )
+        return ( os.system( 'pkginfo -q ' + self.pkgname ) == 0 )
 
 if __name__ == '__main__':
     def usage():
-        print sys.argv[0], '[driver_name [pkgname]]'
+        #print sys.argv[0], '[-i | -a | -d] [driver_name [pkgname]] '
+        print sys.argv[0], '[-i | -a | -d] [driver_name [pkgname]] '
+        sys.exit( 2 )
+
+    # config logging level 
     logging.basicConfig( level = 0 )
+
     try:
         if len( sys.argv ) == 3:
             p = Package( sys.argv[1], sys.argv[2] )
