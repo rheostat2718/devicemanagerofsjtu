@@ -78,6 +78,12 @@ def combineDict( cacheddict, userdict, removeChange = False ):
     if removeChange:
         userdict = {}
 
+def updateFile( filename, newDict ):
+    oldDict = loadDict( filename )
+    combineDict( oldDict, newDict )
+    dumpDict( filename, oldDict )
+
+
 if __name__ == '__main__':
     p = getDrvList()
     q = getContentDict( p )
