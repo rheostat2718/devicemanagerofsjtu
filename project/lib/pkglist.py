@@ -1,12 +1,13 @@
 import os, sys
 
 outputfile = "pkgbuff"
-dict = None
+listfile = 'pkglist'
+pkgDict = {} #only one instance
 
-"""
-use pkg search to get all available package names
-"""
 def getDrvList( verbose = False ):
+    """
+    use pkg search to get all available package names
+    """
     if verbose:
         print 'pkg search'
     text = os.popen( 'pkg search -lr drv' ).readlines()
@@ -18,16 +19,19 @@ def getDrvList( verbose = False ):
     list.sort()
     return list
 
-"""
-customize string list dumper (test only)
-"""
-def dumpList( filename, list ):
+def dumpList( filename = listfile, list ):
+    """
+    customize string list dumper (test only)
+    """
     f = open( filename, 'w' )
     for item in list:
         f.write( item + '\n' )
     f.close()
 
 def getContentDict( list , verbose = False ):
+    """
+    use pkg content to collect drv-pkg relation
+    """
     dict = {}
     count = 0
     total = len( list )
@@ -50,47 +54,71 @@ def getContentDict( list , verbose = False ):
 
     return dict
 
-def dumpDict( filename, dict ):
+def dumpDict( filename = outputfile, dict = pkgDict ):
+    """
+    dump dict into file
+    """
     f = open( filename, 'w' )
     for key in dict.keys():
         f.write( key + ' ' + dict[key] + '\n' )
     f.close()
 
-"""
-call loadDict to get cached package-driver infomation.
-"""
-def loadDict( filename ):
-    data = open( filename, 'r' ).readlines()
-    ret = {}
+def loadDict( filename = outputfile ):
+    """
+    call loadDict to get cached package-driver infomation.
+    """
+    pkgDict = {}
+    try:
+        data = open( filename, 'r' ).readlines()
+    except IOError:
+        return pkgDict
     for line in data:
         ( key, value ) = line.strip().split( ' ', 1 )
-        ret[key] = value
-    return ret
+        pkgDict[key] = value
+    return pkgDict
 
-def combineDict( cacheddict, userdict, removeChange = False ):
+def fastload():
+    """
+    try use pkgDict at first 
+    """
+    if not pkgDict:
+        return pkgDict
+    else:
+        return loadDict()
+
+def combineDict( userdict, removeChange = False ):
     """
     update cacheddict with user-defined data, changes are made in cacheddict
     """
     for key in userdict.keys():
-        cacheddict[key] = userdict[key]
+        pkgDict[key] = userdict[key]
     if removeChange:
         userdict = {}
 
-def removeKey( cacheddict, keylist ):
+def removeKey( keylist ):
     """
     remove a list of keys from dict
     """
     for key in keylist:
-        if key in cacheddict.keys():
-            cacheddict.pop( key )
-"""
-very slow process...
-should use a new thread...
-"""
+        if key in pkgDict.keys():
+            pkgDict.pop( key )
+
+def removeDump():
+    pkgDict = {}
+    dumpDict()
+
 def run():
+    """
+    very slow process...
+    should use a new thread...
+    """
     p = getDrvList( True )
     q = getContentDict( p, True )
     dumpDict( outputfile, q )
+    combineDict( q )
+
+#by default load pkgDict
+fastload()
 
 if __name__ == '__main__':
     run()
