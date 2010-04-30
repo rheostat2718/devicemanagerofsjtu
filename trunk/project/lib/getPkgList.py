@@ -1,7 +1,7 @@
 import os, sys
-from aifc import data
 
-outputfile = "pkgdev.list2"
+outputfile = "pkgbuff"
+dict = None
 
 """
 use pkg search to get all available package names
@@ -34,16 +34,14 @@ def getContentDict( list , verbose = False ):
     for pkgname in list:
         count += 1
         if verbose:
-            print '(', count, '/', total, ')', 'pkg contents', pkgname
+            print '(', count, '/', total, ')', 'pkg contents', pkgname, 'found : ', len( dict.keys() )
 
-        text = os.popen( 'pkg contents -r -t file ' + pkgname + ' | grep "kernel\/drv"' ).readlines()
+        text = os.popen( 'pkg contents -r -t file ' + pkgname ).readlines()
         for line in text:
-            if line.find( '/kernel/drv' ) == -1:
+            if line.find( r'kernel/drv' ) == -1:
                 continue
-
             # get driver name
             line = line.strip().split( '/' )[-1]
-
             # exclude configure file
             if line.find( '.' ) != -1:
                 continue
@@ -69,24 +67,31 @@ def loadDict( filename ):
         ret[key] = value
     return ret
 
-"""
-update cacheddict with user-defined data, changes are made in cacheddict
-"""
 def combineDict( cacheddict, userdict, removeChange = False ):
+    """
+    update cacheddict with user-defined data, changes are made in cacheddict
+    """
     for key in userdict.keys():
         cacheddict[key] = userdict[key]
     if removeChange:
         userdict = {}
 
-def updateFile( filename, newDict ):
-    oldDict = loadDict( filename )
-    combineDict( oldDict, newDict )
-    dumpDict( filename, oldDict )
-
-
-if __name__ == '__main__':
-    p = getDrvList()
-    q = getContentDict( p )
+def removeKey( cacheddict, keylist ):
+    """
+    remove a list of keys from dict
+    """
+    for key in keylist:
+        if key in cacheddict.keys():
+            cacheddict.pop( key )
+"""
+very slow process...
+should use a new thread...
+"""
+def run():
+    p = getDrvList( True )
+    q = getContentDict( p, True )
     dumpDict( outputfile, q )
 
+if __name__ == '__main__':
+    run()
 
