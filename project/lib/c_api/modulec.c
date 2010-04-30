@@ -28,8 +28,9 @@ static PyObject * getModuleInfo(PyObject * self, PyObject *id) {
   PyDict_SetItem(info,Py_BuildValue("s","name"),Py_BuildValue("s",mi.mi_name));
   PyDict_SetItem(info,Py_BuildValue("s","size"),Py_BuildValue("l",mi.mi_size));
   PyDict_SetItem(info,Py_BuildValue("s","rev"),Py_BuildValue("i",mi.mi_rev));
-/*FIXME: mi_base corrupts modctl(), But we do not need it, usually...
-  PyDict_SetItem(info,Py_BuildValue("s","addr"),Py_BuildValue("l",mi.mi_base));
+/*
+ * FIXME: mi_base corrupts modctl(), so set MI_INFO_NOBASE, and comment out:
+ * PyDict_SetItem(info,Py_BuildValue("s","addr"),Py_BuildValue("l",mi.mi_base));
  */
   for (;k<MODMAXLINK;k++) {
     if (mi.mi_msinfo[k].msi_linkinfo[0] == '\0') break;
@@ -81,34 +82,19 @@ static PyObject * getMajorName(PyObject *self, PyObject *arg) {
     return Py_BuildValue("s",name);
 }
 
-//Return the last major number in the range of permissible major numbers.
-static PyObject * getModReserve(PyObject *self, PyObject *arg) {
-  long max_dev = -1,id;
-  if (!PyArg_Parse(arg,"(i)",&id)) return NULL;
-  if (modctl(MODRESERVED, NULL, &max_dev) < 0) return NULL;
-  return Py_BuildValue("i",max_dev);
-}
-
-/*Return the sizeof of the device id.*/
+/*Return size of the device id.*/
 static PyObject * getDevicePath(PyObject *self,PyObject *arg) {
 }
 
-static PyObject * getFrameBufferName(PyObject *self,PyObject *arg) {
-  char path[MAXPATHLEN];
-  if (!PyArg_Parse(arg,"")) return NULL;
-  if (modctl(MODGETFBNAME,path) < 0) return NULL;
-  return Py_BuildValue("s",path);
-}
 static struct PyMethodDef modulec_methods[] = {
     {"getModuleInfo",getModuleInfo,1},
     {"getModuleId",getModuleId,1},
-//TODO:FIXME    {"getModReserve",getModReserve,1},//why always failed?
     {"getModPath",getModPath,0},
     {"getModPathLen",getModPathLen,0},
-//TODO:TEST IT    {"getMajorName",getMajorName,1},
+    {"getMajorName",getMajorName,1},
+
 //TODO:FIGURE IT OUT {"getDevicePath",getDevicePath,1}, //device related, mayport to device.c
-//TODO:... {"getDevfsPath",getDevfsPath,1}
-//TODO:TEST IT    {"getFrameBufferName",getFrameBufferName,0},
+//TODO:FIGURE IT OUT {"getDevfsPath",getDevfsPath,1}
     {NULL,NULL}
 };
 
