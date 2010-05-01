@@ -1,15 +1,14 @@
 #!/bin/env python2.6
-import os,sys
-ret = os.system("python2.6 build.py build")
-if ret != 0:
-    sys.exit()
 import di
-print dir(di)
+print dir( di )
 print di.DI_BUS_DOWN
-print dir(di.Node)
-n = di.Node()
-print n.get_info()
-l = n.get_child()
-print len(l)
-for i in range(len(l)):
-    print l[i].get_info()
+print dir( di.Node )
+root = di.Node()
+print root.get_info()
+children = root.get_child()
+print len( children )
+for child in children:
+    print child.get_info()
+    proplist = child.get_prop()
+    for prop in proplist:
+        print prop.get_name(), prop.get_type()
