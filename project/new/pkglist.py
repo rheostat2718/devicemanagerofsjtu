@@ -19,7 +19,7 @@ def getDrvList( verbose = False ):
     list.sort()
     return list
 
-def dumpList( filename = listfile, list ):
+def dumpList( filename = listfile, list = [] ):
     """
     customize string list dumper (test only)
     """
@@ -38,8 +38,7 @@ def getContentDict( list , verbose = False ):
     for pkgname in list:
         count += 1
         if verbose:
-            print '(', count, '/', total, ')', 'pkg contents', pkgname, 'found : ', len( dict.keys() )
-
+            print '(', count, '/', total, ')', 'pkg contents', pkgname, '|',
         text = os.popen( 'pkg contents -r -t file ' + pkgname ).readlines()
         for line in text:
             if line.find( r'kernel/drv' ) == -1:
@@ -51,7 +50,8 @@ def getContentDict( list , verbose = False ):
                 continue
 
             dict[line] = pkgname
-
+            print '#',
+        print '|'
     return dict
 
 def dumpDict( filename = outputfile, dict = pkgDict ):
@@ -67,12 +67,17 @@ def loadDict( filename = outputfile ):
     """
     call loadDict to get cached package-driver infomation.
     """
-    pkgDict = {}
+    #create file if it is not exist
+    os.system( "touch " + filename );
+    if pkgDict:
+        pkgDict = {}
     try:
         data = open( filename, 'r' ).readlines()
     except IOError:
         return pkgDict
     for line in data:
+        if line[0] == '#':
+            continue
         ( key, value ) = line.strip().split( ' ', 1 )
         pkgDict[key] = value
     return pkgDict
@@ -104,8 +109,7 @@ def removeKey( keylist ):
             pkgDict.pop( key )
 
 def removeDump():
-    pkgDict = {}
-    dumpDict()
+    dumpDict( outputfile, {} )
 
 def run():
     """

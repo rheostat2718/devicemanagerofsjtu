@@ -5,18 +5,7 @@ import logging
 
 import logger
 from pkglist import *
-
-
-def LocalesRun( func, localestr = 'en_GB.UTF-8' ):
-    """
-    LocalesRun sets environment values and restore it after function.
-    Currently, it is mainly used to strict "pkg info" keywords...
-"""
-    old = os.environ['LC_MESSAGES']
-    os.environ['LC_MESSAGES'] = localestr
-    value = func()
-    os.environ['LC_MESSAGES'] = old
-    return value
+from tools import localerun
 
 class Package( object ):
     """
@@ -290,4 +279,4 @@ if __name__ == '__main__':
             usage()
     except IndexError:
         usage()
-    print LocalesRun( p.info )
+    print localerun( p.info )

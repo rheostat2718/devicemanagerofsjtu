@@ -30,24 +30,12 @@ class BaseDriver:
 
     def backup( self, filename ):
         #store configuration in case of data corruption during driver operation
-        pass
+        logging.DEBUG( "backup" + self.drvname )
 
     def restore( self, filename ):
         #restore configuration from filename 
-        pass
+        logging.DEBUG( "restore" + self.drvname )
 
-    def Touch_Reconfigure():
-        """
-        static method:
-
-        tell system to detect hardware changes in the next boot
-        by executing 'touch /reconfigure'
-        
-        warning: you may need root permission to execute it,
-        check the return value to see whether it succeed.
-        """
-        logging.DEBUG( "touch reconfigure" )
-        return os.system( 'touch /reconfigure' )
 
 class LocatedDriver( BaseDriver ):
     """
