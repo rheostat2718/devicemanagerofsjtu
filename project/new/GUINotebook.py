@@ -75,25 +75,26 @@ class DeviceNoteRight(gtk.Notebook):
 
         self.abstract=DeviceAbstractInfo(device)
         self.detail=DeviceDetailTable(device)
-        #self.driver=DriverInfoFrame(device.getDriver())
+        self.driver=DriverInfo()
         self.table0.attach(self.abstract,0,1,0,1)
-        self.table0.set_border_width(10)
+        self.table0.set_border_width(5)
         self.table1.attach(self.detail,0,1,0,1)
-        self.table1.set_border_width(10)
-        #self.table2.attach(self.driver,0,1,0,1)
+        self.table1.set_border_width(5)
+        self.table2.attach(self.driver,0,1,0,1)
+        self.table2.set_border_width(5)
         self.abstract.show()
         self.detail.show()
-        #self.driver.show()
+        self.driver.show()
         self.table0.show()
         self.table1.show()
         self.table2.show()
 
 class DeviceAbstractInfo(gtk.VBox):
     def __init__(self, device):
-        gtk.VBox.__init__(self, False, 10)
+        gtk.VBox.__init__(self, False, 5)
 
         frame_top=gtk.Frame("Device")
-        self.pack_start(frame_top, False, False, 20)
+        self.pack_start(frame_top, False, False, 5)
         frame_top.show()
 
         table=gtk.Table(device.get_key_info_length(),2, False)
@@ -151,6 +152,17 @@ class DeviceDetailTable(KeyAndValue):
         except:
             pass
 
-class DriverInfoFrame(object):
-    pass
+class DriverInfo(gtk.VBox):
+    def __init__(self):
+        gtk.VBox.__init__(self, False, 10)
+
+        frame_top=gtk.Frame("Module")
+        self.pack_start(frame_top, False, False, 5)
+        frame_top.show()
+
+        frame_buttom=gtk.Frame("Package")
+        self.pack_start(frame_buttom, False, False, 20)
+        frame_buttom.show()
+
+
 
