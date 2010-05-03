@@ -33,7 +33,7 @@ class Daemon(object):
             self.add_dev_sig_recv(name)
             device_dbus_obj=self.bus.get_object('org.freedesktop.Hal', name)
             properties=device_dbus_obj.GetAllProperties(dbus_interface="org.freedesktop.Hal.Device")
-            if manager!=None
+            if manager!=None:
                 self.manager.append_device(Device(name, properties))
 
     def add_dev_sig_recv(self, udi):
