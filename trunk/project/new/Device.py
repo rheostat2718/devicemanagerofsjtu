@@ -47,9 +47,13 @@ class Device(object):
     def get(self, key):
         '''get key info'''
         if self.key_info.has_key(key):
-            return key_info[key]
+            return self.key_info[key]
         else:
             return "None"
+
+    def get_key_info_length(self):
+        '''get key info length'''
+        return len(self.key_info)
 
     def has_children(self):
         '''check if has chilren'''
