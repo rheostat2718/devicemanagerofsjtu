@@ -27,12 +27,12 @@ class DeviceManagerGUI(gtk.Window):
         menu_bar.show()
 
         # device common & tree
-        #device_common=DeviceCommonList(manager.get_device("root"),self)
+        device_common=DeviceCommonList(manager.get_device("root"),self)
         device_tree=DeviceTree(manager.get_device("root"), self)
 
         # body
         hpan=gtk.HPaned()
-        self.note_left=DeviceNoteLeft(device_tree)
+        self.note_left=DeviceNoteLeft(device_tree, device_common)
         self.note_right=DeviceNoteRight()
         hpan.add1(self.note_left)
         hpan.add2(self.note_right)

@@ -38,7 +38,7 @@ class DeviceCommonList(gtk.ScrolledWindow):
             self.store.append(None, [dev, udi])
 
         self.view=gtk.TreeView(self.store)
-        self.column=gtk.TreeViewColumn('Device')
+        self.column=gtk.TreeViewColumn('Devices')
         self.view.append_column(self.column)
 
         self.cell=gtk.CellRendererText()
@@ -57,14 +57,14 @@ class DeviceCommonList(gtk.ScrolledWindow):
         selection=self.view.get_selection()
         (model, itr)=selection.get_selected()
         device=self.store.get_value(itr, 1)
-        self.gui.updateNote(self.gui.manager.getDeviceObj(device))
+        self.gui.update_note(self.gui.manager.get_device(device))
 
     def find_udi(self, udi, dev):
-        m=re.search(udi, dev.getUDI())
+        m=re.search(udi, dev.udi)
         if m is not None:
             return dev.udi
-        if dev.hasChildren():
-            for child in dev.get_children():
+        if dev.has_children():
+            for child in dev.children:
                 r_udi=self.find_udi(udi, child)
                 if r_udi is not None:
                     return r_udi
