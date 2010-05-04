@@ -91,8 +91,23 @@ static PyObject * getMajorName(PyObject *self, PyObject *arg) {
 }
 
 /*Return size of the device id.*/
-static PyObject * getDevicePath(PyObject *self,PyObject *arg) {
+//static PyObject * getDevicePath(PyObject *self,PyObject *arg) {
+//}
+/*
+static PyObject * getMinorName(PyObject *self, PyObject *arg) {
+	  char path[MAXPATHLEN];
+	  if (!PyArg_Parse(arg,"")) return NULL;
+	  if (modctl(MODGETMINORNAME, NULL, path) != 0) return NULL;
+	  return Py_BuildValue("s",path);
 }
+
+static PyObject * getMinorNameLen(PyObject *self, PyObject *arg) {
+	  int len;
+	  if (!PyArg_Parse(arg,"")) return NULL;
+	  if (modctl(MODSIZEOF_MINORNAME, NULL, &len) != 0) return NULL;
+	  return Py_BuildValue("i",len);
+}
+*/
 
 static struct PyMethodDef modulec_methods[] = {
     {"getModuleInfo",getModuleInfo,1},
@@ -100,9 +115,11 @@ static struct PyMethodDef modulec_methods[] = {
     {"getModPath",getModPath,0},
     {"getModPathLen",getModPathLen,0},
     {"getMajorName",getMajorName,1},
-
-//TODO:FIGURE IT OUT {"getDevicePath",getDevicePath,1}, //device related, mayport to device.c
-//TODO:FIGURE IT OUT {"getDevfsPath",getDevfsPath,1}
+    //Never use those faulty functions
+/*    {"getMinorName",getMinorName,0},
+    {"getMinorNameLen",getMinorNameLen,0}
+    {"getDevicePath",getDevicePath,1}, //device related, mayport to device.c
+    {"getDevfsPath",getDevfsPath,1}*/
     {NULL,NULL}
 };
 
