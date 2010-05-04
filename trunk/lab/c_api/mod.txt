@@ -1,11 +1,8 @@
 #define	MODSIZEOF_DEVID		10
 #define	MODGETDEVID		11
 devid2paths xx
-#define	MODSIZEOF_MINORNAME	12
-#define	MODGETMINORNAME		13
 
 #define	MODGETDEVFSPATH_LEN	22
-
 #define	MODGETDEVFSPATH		23
 
 #define	MODGETDEVPOLICY		27
@@ -13,6 +10,8 @@ devid2paths xx
 #define	MODGETDEVFSPATH_MI_LEN	38
 #define	MODGETDEVFSPATH_MI	39
 
+
+// For faulty device
 #define	MODRETIRE		40
 di_retire_device()
 
@@ -22,12 +21,3 @@ di_retire_T
 #define	MODISRETIRED		42
 
 ptrconf -b ����Module :  modctr parameter
-/*
- * devname subcmds for MODDEVNAME
- */
-#define	MODDEVNAME_LOOKUPDOOR	0
-#define	MODDEVNAME_DEVFSADMNODE	1
-#define	MODDEVNAME_NSMAPS	2
-#define	MODDEVNAME_PROFILE	3
-#define	MODDEVNAME_RECONFIG	4
-#define	MODDEVNAME_SYSAVAIL	5

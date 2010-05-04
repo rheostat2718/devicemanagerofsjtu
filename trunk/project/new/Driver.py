@@ -131,6 +131,7 @@ class Driver( BaseDriver ):
     def getModuleId( self ):
         """
         invoke 'c_api.modulec.getModuleId'
+        -1 will be returned if not found.
         """
         return modulec.getModuleId( self.drvname )
 
@@ -176,6 +177,31 @@ class Driver( BaseDriver ):
         ret = tools.run_remdrv( self.drvname, removeConfigure = removeFile )
         return ( ret == 0 )
 
+    def load( self ):
+        """
+        Load modules
+        return value: 0 for succeed, anything else for failed
+        """
+        if not self.existDrv():
+            return False
+        logging.debug( "load module " + self.drvname )
+
+        path = self.getShortPath()
+        ret = os.system( 'modload -p ' + path )
+        return ( ret == 0 )
+
+    def unload( self ):
+        """
+        Unload modules
+        return value: 0 for succeed, anything else for failed
+        """
+        logging.debug( "unload module " + self.drvname )
+        mid = self.getModuleId()
+        if mid == -1:
+            return False
+
+        ret = os.system( 'modunload -i ' + str( mid ) )
+        return ( ret == 0 )
 
 def usage():
     print "Usage: python drv.py {install | uninstall} drvname"
