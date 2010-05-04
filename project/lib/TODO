@@ -1,4 +1,3 @@
 add menu "Package"
-add menu "Remove Item"
 add menu "Choose a driver from list (only packages available in List)"
 
