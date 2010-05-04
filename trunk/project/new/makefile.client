@@ -1,0 +1,17 @@
+CC=gcc
+LD=gcc
+PYINC=/usr/include/python2.4
+COMPOPT=-g -c -I$(PYINC) -fpic
+LINKOPT=-shared -g
+
+TODO: client.so
+
+client.so:client.o
+	$(LD) client.o $(LINKOPT) -o client.so
+client.o:client.c
+	$(CC) client.c $(COMPOPT) -o client.o
+
+clean:
+	rm -f core *.o
+cleanall:clean
+	rm -f *.so
