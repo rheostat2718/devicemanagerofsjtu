@@ -1,5 +1,6 @@
 #!/bin/python2.6
 import os
+import sys
 import logging
 #import logger
 import c_api.modulec as modulec
@@ -27,23 +28,23 @@ class BaseDriver( object ):
         return dict
 
     def install( self ):
-        logging.DEBUG( "install" + self.drvname )
+        logging.debug( "install" + self.drvname )
 
     def uninstall( self ):
-        logging.DEBUG( "uninstall" + self.drvname )
+        logging.debug( "uninstall" + self.drvname )
 
     def update( self ):
-        logging.DEBUG( "update" + self.drvname )
+        logging.debug( "update" + self.drvname )
 
     def backup( self, filename ):
         " use tar to backup the drv directory"
         #store configuration in case of data corruption during driver operation
-        logging.DEBUG( "backup" + self.drvname )
+        logging.debug( "backup" + self.drvname )
 
     def restore( self, filename ):
         " use tar to restore the drv directory"
         #restore configuration from filename 
-        logging.DEBUG( "restore" + self.drvname )
+        logging.debug( "restore" + self.drvname )
 
     def list_backup( self ):
         " list all backups "
@@ -132,3 +133,74 @@ class Driver( BaseDriver ):
         invoke 'c_api.modulec.getModuleId'
         """
         return modulec.getModuleId( self.drvname )
+
+    def install( self, args = '', filelist = [], src = None, dst = None ):
+        """
+        call run_adddrv to install drivers.
+        args: 'add_drv' arguments except for driver name
+        return value: 0 for succeed, anything else for failed
+        """
+        BaseDriver.install( self )
+        if os.geteuid() != 0:
+            return - 1
+
+        if not self.existDrv():
+            if ( not src ) or ( not dst ) or ( not filelist ):
+                return False
+
+            for filename in filelist:
+                if src[-1] != '/':
+                    src = src + '/'
+                srcfile = src + filename
+                if dst[-1] != '/':
+                    dst = dst + '/'
+                dstfile = dst + filename
+                ret = os.system( 'cp ' + srcfile + ' ' + dstfile )
+
+        import tools
+        #here args are not used
+        ret = tools.run_adddrv( self.drvname )
+        return ( ret == 0 )
+
+    def uninstall( self, removeFile = False ):
+        """
+       invoke rem_drv to remove drivers.
+       return value: 0 for succeed, anything else for failed
+       """
+
+        BaseDriver.uninstall( self )
+        if os.geteuid() != 0:
+            return - 1
+
+        import tools
+        ret = tools.run_remdrv( self.drvname, removeConfigure = removeFile )
+        return ( ret == 0 )
+
+
+def usage():
+    print "Usage: python drv.py {install | uninstall} drvname"
+    print "                        info drvname"
+
+if __name__ == '__main__':
+    try:
+        if sys.argv[1] == 'install':
+            print Driver( sys.argv[2] ).install()
+        elif sys.argv[1] == 'uninstall':
+            print Driver( sys.argv[2] ).uninstall()
+        elif sys.argv[1] == 'info':
+            print Driver( sys.argv[2] ).info()
+        else:
+            usage()
+    except IndexError:
+        usage()
+
+"""
+Device Driver Manager
+
+Tested methods:
+[info] usage: Driver.py info sppp
+
+Implementing methods:
+[install] drv.py install sppp
+[uninstall] drv.py uninstall sppp
+"""

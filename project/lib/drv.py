@@ -3,7 +3,7 @@
 import sys
 import traceback
 
-    def dbg_Reload_Module( self ):
+    def reload( self ):
         """
             Unload old modules, then reload it
             return value: 0 for succeed, anything else for failed
@@ -28,7 +28,7 @@ import traceback
 
         return 0
 
-    def dbg_Load_Module( self ):
+    def load( self ):
         """
             Load modules
             return value: 0 for succeed, anything else for failed
@@ -43,7 +43,7 @@ import traceback
         ret = os.system( 'modload -p ' + path )
         return ret
 
-    def dbg_Unload_Module( self ):
+    def unload( self ):
         """
             Unload modules
             return value: 0 for succeed, anything else for failed
@@ -59,54 +59,6 @@ import traceback
             return - 1
 
         ret = os.system( 'modunload -i ' + str( mid ) )
-        return ret
-
-    def install( self, args ):
-        """
-            invoke add_drv to install drivers.
-            args: 'add_drv' arguments except for driver name
-            return value: 0 for succeed, anything else for failed
-            Exception: None
-        """
-        logging.debug( 'install driver ' + self.drvname )
-        if self.dev_subpath:
-            path = '/usr/kernel/drv/' + self.dev_subpath + '/'
-        else:
-            path = '/usr/kernel/drv/'
-
-        logging.info( 'Follow these steps:' )
-        logging.info( 'copy device driver binary into ' + path )
-        logging.info( 'copy device driver configures *.conf into /usr/kernel/drv' )
-
-        #pause()
-        ret = os.system( 'add_drv ' + args + ' ' + self.drvname )
-        #WARNING: add_drv does not support STREAM devices according to (816-4855.pdf)
-        #reference to sad, autopush
-
-        if ret == 0:
-            BaseDriver.Touch_Reconfigure()
-            logging.info( 'changes may take effect in the next reboot' )
-        else:
-            logging.error( 'Cannot install module ' + self.drvname )
-
-        return ret
-
-    def uninstall( self ):
-        """
-            invoke rem_drv to remove drivers.
-            return value: 0 for succeed, anything else for failed
-            Exception: None
-        """
-        logging.debug( 'uninstall ' + self.drvname )
-
-        ret = os.system( 'rem_drv ' + self.drvname )
-
-        if ret == 0:
-            BaseDriver.Touch_Reconfigure()
-            logging.info( 'changes may take effect in the next reboot' )
-        else:
-            logging.error( 'Cannot remove module ' + self.drvname )
-
         return ret
 
 class PackageDriver( Driver ):
@@ -156,31 +108,3 @@ class PackageDriver( Driver ):
         if self.pkg:
             dict['package'] = self.pkg.info()
         return dict
-
-def usage():
-    print "Usage: python drv.py {install | uninstall} drvname"
-    print "                        info drvname"
-
-if __name__ == '__main__':
-    try:
-        if sys.argv[1] == 'install':
-            PackageDriver( sys.argv[2] ).install()
-        elif sys.argv[1] == 'uninstall':
-            PackageDriver( sys.argv[2] ).uninstall()
-        elif sys.argv[1] == 'info':
-            print PackageDriver( sys.argv[2] ).info()
-        else:
-            usage()
-    except IndexError:
-        usage()
-
-"""
-Device Driver Manager
-
-Tested methods:
-[info] usage: drv.py info sppp
-
-Implementing methods:
-[install] drv.py install sppp -v | -q
-[uninstall] drv.py uninstall sppp -v | -q
-"""
