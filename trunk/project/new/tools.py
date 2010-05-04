@@ -42,16 +42,27 @@ def run_devfsadm():
         return False
     return ( ret == 0 )
 
-def run_remdrv( drvname, basedir = None ):
+def run_remdrv( drvname, basedir = None, removeConfigure = False ):
+    if os.geteuid() != 0:
+        return - 1
     logging.debug( 'rem_drv ' + drvname )
     if basedir:
         opt = " -b " + basedir + ' '
     else:
         opt = ' '
+    #original configure file will be removed if use -C
+    if removeConfigure:
+        opt = opt + ' -C '
     ret = os.system( 'rem_drv ' + opt + drvname )
     return ret
 
 def run_adddrv( drvname, basedir = None, classname = None, identifyname = None, permission = None, noload = False, policy = None, privilege = None, verbose = True ):
+    """
+    you may need to copy driver file to drv directory.
+    A configure file may be needed.
+    """
+    if os.geteuid() != 0:
+        return - 1
     logging.debug( 'add_drv ' + drvname )
     if basedir:
         opt = " -b " + basedir + ' '
@@ -78,6 +89,8 @@ def run_adddrv( drvname, basedir = None, classname = None, identifyname = None, 
     return ret
 
 def run_updatedrv( drvname, basedir = None, change = None, identifyname = None, permission = None, noload = False, policy = None, privilege = None, verbose = True ):
+    if os.geteuid() != 0:
+        return - 1
     logging.debug( 'update_drv ' + drvname )
     if basedir:
         opt = " -b " + basedir + ' '
@@ -94,7 +107,7 @@ def run_updatedrv( drvname, basedir = None, change = None, identifyname = None, 
         elif change == 'd':
             opt = opt + ' -d '
         else:
-            return - 1
+            return - 2
         if identifyname:
             #seperated by white space
             opt = opt + " -i '" + identifyname + "' "
