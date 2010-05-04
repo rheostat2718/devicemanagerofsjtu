@@ -3,6 +3,14 @@
 #include <stdio.h>
 #include <string.h>
 
+static PyObject* booleanFromValue(int value) {
+	if (value) {
+		Py_RETURN_TRUE;
+	}
+	else {
+		Py_RETURN_FALSE;
+	}
+}
 /**
  * this function gets specific module infomation according to module-id
  * @param self : unused
@@ -22,14 +30,14 @@ static PyObject * getModuleInfo(PyObject * self, PyObject *id) {
   if (modctl(MODINFO,n,&mi) < 0) return NULL;
   mi.mi_name[MODMAXNAMELEN-1] = '\0';
   PyDict_SetItem(info, Py_BuildValue("s","id"),Py_BuildValue("i",mi.mi_id));
-  PyDict_SetItem(info, Py_BuildValue("s","LOADED"),Py_BuildValue("i",((mi.mi_state & MI_LOADED)?1:0)));
-  PyDict_SetItem(info, Py_BuildValue("s","INSTALLED"),Py_BuildValue("i",((mi.mi_state & MI_INSTALLED)?1:0)));
+  PyDict_SetItem(info, Py_BuildValue("s","LOADED"),booleanFromValue(mi.mi_state & MI_LOADED));
+  PyDict_SetItem(info, Py_BuildValue("s","INSTALLED"),booleanFromValue(mi.mi_state & MI_INSTALLED));
   PyDict_SetItem(info,Py_BuildValue("s","loadcnt"),Py_BuildValue("i",mi.mi_loadcnt));
   PyDict_SetItem(info,Py_BuildValue("s","name"),Py_BuildValue("s",mi.mi_name));
   PyDict_SetItem(info,Py_BuildValue("s","size"),Py_BuildValue("l",mi.mi_size));
   PyDict_SetItem(info,Py_BuildValue("s","rev"),Py_BuildValue("i",mi.mi_rev));
 /*
- * FIXME: mi_base corrupts modctl(), so set MI_INFO_NOBASE, and comment out:
+ * FIXME: mi_base corrupts modctl(), so we set MI_INFO_NOBASE, and comment out this line:
  * PyDict_SetItem(info,Py_BuildValue("s","addr"),Py_BuildValue("l",mi.mi_base));
  */
   for (;k<MODMAXLINK;k++) {
