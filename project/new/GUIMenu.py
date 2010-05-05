@@ -73,7 +73,7 @@ class GUIMenu( gtk.MenuBar ):
         self.append( help_item_ )
 
     def test( self, info ):
-        print 'menu test: ', info
+        self.manager.daemon.send("test","hi",info,"bye",info);
 
     def clearCache( self , info ):
         import pkglist
