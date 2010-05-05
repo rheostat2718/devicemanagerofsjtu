@@ -2,7 +2,9 @@ import os, sys
 
 outputfile = "pkgbuff"
 listfile = 'pkglist'
-pkgDict = {} #only one instance
+
+class StaticData( object ):
+    pkgDict = {} #only one instance
 
 def getDrvList( verbose = False ):
     """
@@ -52,9 +54,10 @@ def getContentDict( list , verbose = False ):
             dict[line] = pkgname
             print '#',
         print '|'
+    StaticData.pkgDict = dict
     return dict
 
-def dumpDict( filename = outputfile, dict = pkgDict ):
+def dumpDict( filename = outputfile, dict = StaticData.pkgDict ):
     """
     dump dict into file
     """
@@ -69,34 +72,34 @@ def loadDict( filename = outputfile ):
     """
     #create file if it is not exist
     os.system( "touch " + filename );
-    if pkgDict:
-        pkgDict = {}
+    dict = {}
     try:
         data = open( filename, 'r' ).readlines()
     except IOError:
-        return pkgDict
+        return StaticData.pkgDict
+
     for line in data:
         if line[0] == '#':
             continue
         ( key, value ) = line.strip().split( ' ', 1 )
-        pkgDict[key] = value
-    return pkgDict
+        dict[key] = value
+
+    return dict
 
 def fastload():
     """
     try use pkgDict at first 
     """
-    if not pkgDict:
-        return pkgDict
-    else:
-        return loadDict()
+    if not StaticData.pkgDict:
+        StaticData.pkgDict = loadDict()
+    return StaticData.pkgDict
 
 def combineDict( userdict, removeChange = False ):
     """
     update cacheddict with user-defined data, changes are made in cacheddict
     """
     for key in userdict.keys():
-        pkgDict[key] = userdict[key]
+        StaticData.pkgDict[key] = userdict[key]
     if removeChange:
         userdict = {}
 
@@ -106,7 +109,7 @@ def removeKey( keylist ):
     """
     for key in keylist:
         if key in pkgDict.keys():
-            pkgDict.pop( key )
+            StaticData.pkgDict.pop( key )
 
 def removeDump():
     dumpDict( outputfile, {} )

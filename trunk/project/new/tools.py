@@ -122,3 +122,43 @@ def run_updatedrv( drvname, basedir = None, change = None, identifyname = None, 
     if basedir:
         reconfigure()
     return ret
+
+def rebuildIndex():
+    # sometimes pkg asks you to rebuild its index, this function just run the script
+    if os.geteuid() != 0:
+        return False
+    logging.debug( 'update_drv ' + drvname )
+    ret = os.system( 'pkg rebuild-index' )
+    return ( ret == 0 )
+
+def pkg_install( pkgname, trial = False, visible = '-v' , refresh = True, index = True ):
+    if not pkgname:
+        return - 2
+    if os.geteuid() != 0:
+        return - 1
+    logging.debug( 'pkg install ' + pkgname )
+    #possible visible is "-v" "-q" ""
+    opt = ' ' + visible + ' '
+    if not refresh:
+        opt = opt + ' --no-refresh '
+    if not index:
+        opt = opt + ' --no-index '
+    if trial:
+        opt = opt + ' -n '
+    ret = os.system( 'pkg install ' + opt + pkgname )
+    return ret
+
+def pkg_uninstall( pkgname, trial = False, visible = '-v' , index = True ):
+    if not pkgname:
+        return - 2
+    if os.geteuid() != 0:
+        return - 1
+    logging.debug( 'pkg uninstall ' + pkgname )
+    #possible visible is "-v" "-q" ""
+    opt = ' ' + visible + ' '
+    if not index:
+        opt = opt + ' --no-index '
+    if trial:
+        opt = opt + ' -n '
+    ret = os.system( 'pkg uninstall ' + opt + pkgname )
+    return ret
