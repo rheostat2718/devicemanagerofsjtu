@@ -6,69 +6,69 @@ import sys
 import gtk
 import pynotify
 
-import client as tunnel
+import c_api.client as tunnel
 
 from Device import Device
 
-class Daemon(object):
-    def __init__(self, manager=None):
-        if manager!=None:
-            self.manager=manager
+class Daemon( object ):
+    def __init__( self, manager = None ):
+        if manager != None:
+            self.manager = manager
         else:
-            self.manager=None
+            self.manager = None
 
-        DBusGMainLoop(set_as_default=True)
+        DBusGMainLoop( set_as_default = True )
 
-        self.bus=dbus.SystemBus()
-        obj=self.bus.get_object('org.freedesktop.Hal','/org/freedesktop/Hal/Manager')
-        self.hal_manager=dbus.Interface(obj, 'org.freedesktop.Hal.Manager')
+        self.bus = dbus.SystemBus()
+        obj = self.bus.get_object( 'org.freedesktop.Hal', '/org/freedesktop/Hal/Manager' )
+        self.hal_manager = dbus.Interface( obj, 'org.freedesktop.Hal.Manager' )
 
-        self.hal_manager.connect_to_signal('DeviceAdded',   lambda *args:self.handle('DeviceAdded', *args))
-        self.hal_manager.connect_to_signal('DeviceRemoved', lambda *args:self.handle('DeviceRemoved', *args))
-        self.hal_manager.connect_to_signal('NewCapability', lambda *args:self.handle('NewCapability', *args))
+        self.hal_manager.connect_to_signal( 'DeviceAdded', lambda * args:self.handle( 'DeviceAdded', *args ) )
+        self.hal_manager.connect_to_signal( 'DeviceRemoved', lambda * args:self.handle( 'DeviceRemoved', *args ) )
+        self.hal_manager.connect_to_signal( 'NewCapability', lambda * args:self.handle( 'NewCapability', *args ) )
 
-        device_names=self.hal_manager.GetAllDevices()
+        device_names = self.hal_manager.GetAllDevices()
 
-        self.icon=gtk.StatusIcon()
-        self.icon.set_from_stock(gtk.STOCK_ABOUT)
+        self.icon = gtk.StatusIcon()
+        self.icon.set_from_stock( gtk.STOCK_ABOUT )
 
         for name in device_names:
-            self.add_dev_sig_recv(name)
-            device_dbus_obj=self.bus.get_object('org.freedesktop.Hal', name)
-            properties=device_dbus_obj.GetAllProperties(dbus_interface="org.freedesktop.Hal.Device")
-            if manager!=None:
-                self.manager.append_device(Device(name, properties))
+            self.add_dev_sig_recv( name )
+            device_dbus_obj = self.bus.get_object( 'org.freedesktop.Hal', name )
+            properties = device_dbus_obj.GetAllProperties( dbus_interface = "org.freedesktop.Hal.Device" )
+            if manager != None:
+                self.manager.append_device( Device( name, properties ) )
 
-    def add_dev_sig_recv(self, udi):
-        self.bus.add_signal_receiver(lambda *args: self.property_modified(udi, *args), "PropertyModified", "org.freedesktop.Hal.Device", "org.freedesktop.Hal", udi)
+    def add_dev_sig_recv( self, udi ):
+        self.bus.add_signal_receiver( lambda * args: self.property_modified( udi, *args ), "PropertyModified", "org.freedesktop.Hal.Device", "org.freedesktop.Hal", udi )
 
-    def property_modified(self, udi, num_changed, change_list):
+    def property_modified( self, udi, num_changed, change_list ):
         #TODO
         print 'in property_modified'
-        print udi, num_changed,change_list
+        print udi, num_changed, change_list
         pass
 
-    def loop(self):
-        self.loop=gobject.MainLoop()
+    def loop( self ):
+        self.loop = gobject.MainLoop()
         self.loop.run()
 
-    def send(self, cmd, t1, i1, t2, i2):
-        if tunnel.send(cmd)=="success":
-            self.notify(t1,i1)
+    def send( self, cmd, t1, i1, t2, i2 ):
+        if tunnel.send( cmd ) == "success":
+            self.notify( t1, i1 )
         else:
-            self.notify(t2,i2)
+            self.notify( t2, i2 )
 
-    def notify(self, title, info):
-        pynotify.init('dev')
-        n=pynotify.Notification(title, info)
-        n.attach_to_status_icon(self.icon)
+    def notify( self, title, info ):
+        pynotify.init( 'dev' )
+        n = pynotify.Notification( title, info )
+        n.attach_to_status_icon( self.icon )
         n.show()
 
-    def handle(self, signal, udi, *args):
+    def handle( self, signal, udi, *args ):
         #TODO
-        self.notify(str(signal), str(udi))
+        self.notify( str( signal ), str( udi ) )
         pass
 
-if __name__=='__main__':
-    d=Daemon(None)
+if __name__ == '__main__':
+    d = Daemon( None )
     d.loop()

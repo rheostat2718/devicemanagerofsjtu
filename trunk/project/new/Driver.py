@@ -118,14 +118,14 @@ class Driver( BaseDriver ):
     def info( self ):
         #driver location information
         dict = BaseDriver.info( self )
-        try:
-            mid = self.getModuleId()
-            print mid
-            kinfo = modulec.getModuleInfo( mid )
-            for key in kinfo.keys():
-                dict['module.' + key] = kinfo[key]
-        except SystemError:
-            pass #currently not loaded in kernel
+        mid = self.getModuleId()
+        if mid != -1:
+            try:
+                kinfo = modulec.getModuleInfo( mid )
+                for key in kinfo.keys():
+                    dict['module.' + key] = kinfo[key]
+            except SystemError:
+                pass
         return dict
 
     def getModuleId( self ):
