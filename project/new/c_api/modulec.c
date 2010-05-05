@@ -54,6 +54,9 @@ static PyObject * getModuleInfo(PyObject * self, PyObject *id) {
 }
 
 
+/**
+ * Return -1 if not found.
+ */
 static PyObject * getModuleId(PyObject * self, PyObject *arg) {
   struct modinfo mi;
   int id= -1;
@@ -62,7 +65,7 @@ static PyObject * getModuleId(PyObject * self, PyObject *arg) {
   mi.mi_id = mi.mi_nextid = id;
   mi.mi_info = MI_INFO_ALL | MI_INFO_NOBASE;
   do {
-    if (modctl(MODINFO, id, &mi) < 0) return Py_BuildValue("",id);
+    if (modctl(MODINFO, id, &mi) < 0) return Py_BuildValue("i",-1);
     id = mi.mi_id;
   } while (strcmp(name, mi.mi_name) != 0);
   return Py_BuildValue("i",id);

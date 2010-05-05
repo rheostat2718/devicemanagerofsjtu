@@ -1,12 +1,6 @@
-class Package( BaseDriver ):
     def __init__( self, drvname ):
         BaseDriver.__init__( self, drvname )
-        if 1:
-            import IPS
-            self.ispkg = True
-            self.pkg = IPS.Package( self.drvname )
-            if not self.pkg.pkgname:
-                self.ispkg = False
+        self.pkg = IPS.Package( self.drvname )
 
     def install( self ):
         logging.debug( 'install ' + self.pkg.name )
@@ -39,9 +33,3 @@ class Package( BaseDriver ):
         else:
             ret = os.system( 'pkgrm -n ' + filename )
         return ret
-
-    def info( self ):
-        dict = Driver.info( self )
-        if self.pkg:
-            dict['package'] = self.pkg.info()
-        return dict
