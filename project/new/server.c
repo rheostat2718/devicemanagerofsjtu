@@ -1,10 +1,13 @@
-#include <Python.h>
+//gcc  -Wall -o notify notify.c `pkg-config gtk+-2.0 libnotify --libs --cflags`
+
 
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <door.h>
+#include <gtk/gtk.h>
+#include <libnotify/notify.h>
 //#include "ssp.h" //Solaris stuff
 
 static void serv_proc(void * pcookie, 
@@ -13,10 +16,10 @@ static void serv_proc(void * pcookie,
         door_desc_t *dp, 
         uint_t ndesc);
 
-int main(int argc, char * argv[]){
-    Py_Initialize();
+void on_status_icon(GtkStatusIcon *icon, char *title, char *info);
 
-    PyRun_SimpleString("print 'in python'");
+int main(int argc, char * argv[]){
+    gtk_init(&argc, &argv);
 
     int fd;
     int tempfd;
@@ -28,10 +31,18 @@ int main(int argc, char * argv[]){
     close (tempfd); //close the file before attaching it to fd
 
     fattach(fd, "tmp_door"); //associate door descriptor with an existing file
-    while(1)
-        pause(); //do nothing; the real work is implemented in the server threads
-}
 
+    GtkStatusIcon *icon;
+
+    if (!notify_init("notify"))
+        g_warning("failed  to init notify");
+
+    icon=gtk_status_icon_new_from_stock(GTK_STOCK_INFO);
+
+    gtk_main();
+    return 0;
+}
+i
 static 
 void serv_proc(void * pcookie, 
            char * argp, 
@@ -44,5 +55,11 @@ void serv_proc(void * pcookie,
     if (door_return (res, sizeof(res), NULL, 0)==-1)
         printf("door_return failure\n");
 
-    PyRun_SimpleString("print 'in python'");
+}
+
+void
+on_status_icon(GtkStatusIcon *icon, char *title, char *info)
+{
+    NotifyNotification *tray=notify_notification_new_with_status_icon(title, info, GTK_STOCK_INFO, icon);
+    notify_notification_show(tray, NULL);
 }
