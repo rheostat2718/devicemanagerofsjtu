@@ -1,7 +1,3 @@
-    def __init__( self, drvname ):
-        BaseDriver.__init__( self, drvname )
-        self.pkg = IPS.Package( self.drvname )
-
     def install( self ):
         logging.debug( 'install ' + self.pkg.name )
         if not self.pkg.pkgname:
