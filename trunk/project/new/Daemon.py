@@ -5,6 +5,9 @@ import gobject
 import sys
 import gtk
 import pynotify
+
+import client as tunnel
+
 from Device import Device
 
 class Daemon(object):
@@ -48,6 +51,12 @@ class Daemon(object):
     def loop(self):
         self.loop=gobject.MainLoop()
         self.loop.run()
+
+    def send(self, cmd, t1, i1, t2, i2):
+        if tunnel.send(cmd)=="success":
+            self.notify(t1,i1)
+        else:
+            self.notify(t2,i2)
 
     def notify(self, title, info):
         pynotify.init('dev')
