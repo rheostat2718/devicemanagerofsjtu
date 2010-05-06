@@ -1,19 +1,3 @@
-    def install( self ):
-        logging.debug( 'install ' + self.pkg.name )
-        if not self.pkg.pkgname:
-            ret = -1
-        else:
-            ret = self.pkg.install()
-        return ret
-
-    def uninstall( self ):
-        logging.debug( 'uninstall ' + self.pkg.name )
-        if not self.pkg.pkgname:
-            ret = -1
-        else:
-            ret = self.pkg.uninstall()
-        return ret
-
     def dbg_install_from_file( self, filename ):
         logging.debug( 'install from file ' + filename )
         if not os.path.isfile( filename ):

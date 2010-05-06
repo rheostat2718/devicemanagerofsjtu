@@ -34,7 +34,8 @@ def getContentDict( list , verbose = False ):
     """
     use pkg content to collect drv-pkg relation
     """
-    dict = {}
+    dict = StaticData.pkgDict
+    dict.clear()
     count = 0
     total = len( list )
     for pkgname in list:
@@ -54,13 +55,13 @@ def getContentDict( list , verbose = False ):
             dict[line] = pkgname
             print '#',
         print '|'
-    StaticData.pkgDict = dict
     return dict
 
 def dumpDict( filename = outputfile, dict = StaticData.pkgDict ):
     """
     dump dict into file
     """
+    print dict
     f = open( filename, 'w' )
     for key in dict.keys():
         f.write( key + ' ' + dict[key] + '\n' )
@@ -72,12 +73,13 @@ def loadDict( filename = outputfile ):
     """
     #create file if it is not exist
     os.system( "touch " + filename );
-    dict = {}
     try:
         data = open( filename, 'r' ).readlines()
     except IOError:
         return StaticData.pkgDict
 
+    dict = StaticData.pkgDict
+    dict.clear()
     for line in data:
         if line[0] == '#':
             continue
@@ -108,7 +110,7 @@ def removeKey( keylist ):
     remove a list of keys from dict
     """
     for key in keylist:
-        if key in pkgDict.keys():
+        if key in StaticData.pkgDict.keys():
             StaticData.pkgDict.pop( key )
 
 def removeDump():
@@ -124,7 +126,7 @@ def run():
     dumpDict( outputfile, q )
     combineDict( q )
 
-#by default load pkgDict
+#by default load pkgDict     
 fastload()
 
 if __name__ == '__main__':

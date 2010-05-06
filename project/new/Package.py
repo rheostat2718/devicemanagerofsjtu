@@ -23,8 +23,8 @@ class Package( object ):
     try_install(self):
     try_uninstall(self):
     info(self):
-    install( self , trial = False):
-    uninstall( self , trial = False):
+    install( self ):
+    uninstall( self ):
     getShortName(self,name):
     """
     def __init__( self, drvname, pkgname = None ):
@@ -98,12 +98,12 @@ class Package( object ):
         """
         execute "pkg search -lr <name>" to get package name list
         """
-        logging.debug( 'get_pkglist ' + self.name )
         text = os.popen( 'pkg search -lr ' + self.name ).readlines()
         list = self.GetNameList( text )
         if list:
             pkg = self.select( list )
             combineDict( {self.name:pkg} )
+            dumpDict()
         else:
             pkg = None
         return pkg
@@ -177,21 +177,25 @@ class Package( object ):
             return list[0][5:]
 
     def info( self ):
-        logging.debug( 'info' )
+        import tools
+        return tools.localerun( self.info_nolocale )
+
+    def info_nolocale( self ):
         if not self.pkgname:
             return {}
-        dict = {'package.name':self.pkgname}
+        dict = {}
+
         shortname = self.getShortName( self.pkgname )
-        if self.ispackage():
-            output = os.popen( 'pkginfo -l ' + shortname )
-        else:
-            output = os.popen( 'pkg info -r ' + shortname )
+
+        #if self.ispackage():
+        #    output = os.popen( 'pkginfo -l ' + shortname )
+        output = os.popen( 'pkg info -r ' + shortname )
         for line in output:
             try:
                 attr, value = line.split( ':', 1 )
                 attr = attr.strip()
                 value = value.strip()
-                dict[attr] = value
+                dict['package.' + attr] = value
             except:
                 pass
         return dict
@@ -241,3 +245,8 @@ if __name__ == '__main__':
         print p.try_install()
     else:
         usage()
+
+"""
+use hermon to test it
+python Package.py -i hermon
+"""
