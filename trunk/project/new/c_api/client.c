@@ -11,16 +11,16 @@ send(PyObject *self, PyObject *args){
     char *msg, res[64];
     if (! PyArg_Parse(args, "(s)", &msg))
         return NULL;
-    
+
     int fd;
-    
+
     door_arg_t door_args ={0};//zero all members
-    
-    fd=open("tmp_door", O_RDWR);
+
+    fd=open("c_api/111", O_RDWR);
     door_args.data_ptr=msg;
     door_args.data_size=sizeof(msg)*strlen(msg);
 
-    //skipping desc_ptr and desc_num. both were zero initialized 
+    //skipping desc_ptr and desc_num. both were zero initialized
     door_args.rbuf=(char*)&res; // the result will be written to rbuf
     door_args.rsize=sizeof(res);
     if(door_call(fd, &door_args)==0)
@@ -42,4 +42,4 @@ void initclient()
 {
     (void) Py_InitModule("client", client_methods);
 }
-    
+
