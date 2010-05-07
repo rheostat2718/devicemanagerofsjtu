@@ -15,8 +15,7 @@ send(PyObject *self, PyObject *args){
     int fd;
 
     door_arg_t door_args ={0};//zero all members
-
-    fd=open("c_api/111", O_RDWR);
+    fd=open("111", O_RDWR);
     door_args.data_ptr=msg;
     door_args.data_size=sizeof(msg)*strlen(msg);
 

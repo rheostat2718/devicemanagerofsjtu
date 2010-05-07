@@ -8,7 +8,7 @@ This file provides a list of tools.
 def reconfigure():
     """
     Tell system to detect hardware changes in the next boot by executing 'touch /reconfigure'.
-    You should be root to call it. 
+    You should be root to call it.
     return value returns whether the call succeeded.
     """
     if os.geteuid() != 0:
@@ -17,7 +17,7 @@ def reconfigure():
         logging.debug( 'reconfigure' )
         fd = os.open( '/reconfigure', os.O_WRONLY | os.O_CREAT )
         os.close( fd )
-    except OSError:
+    except:
         return False
     return True
 
