@@ -26,10 +26,14 @@ def localerun( func, localestr = 'en_GB.UTF-8' ):
     LocalesRun sets environment values and restore it after function.
     Currently, it is mainly used to restrict "pkg info" keywords...
 """
-    old = os.environ['LC_MESSAGES']
+    ret = False
+    if os.environ.has_key( 'LC_MESSAGES' ):
+        ret = True
+        old = os.environ['LC_MESSAGES']
     os.environ['LC_MESSAGES'] = localestr
     value = func()
-    os.environ['LC_MESSAGES'] = old
+    if ret:
+        os.environ['LC_MESSAGES'] = old
     return value
 
 def run_devfsadm():

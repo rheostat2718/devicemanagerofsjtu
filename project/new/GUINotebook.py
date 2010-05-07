@@ -3,6 +3,8 @@
 import pygtk
 pygtk.require( "2.0" )
 import gtk
+import thread
+import gobject
 
 class DeviceNoteLeft( gtk.Notebook ):
     def __init__( self, device_tree, device_common = None ):
@@ -157,21 +159,28 @@ class DriverInfo( gtk.VBox ):
         gtk.VBox.__init__( self, False, 10 )
 
         frame_top = gtk.Frame( "Module" )
+        frame_bottom = gtk.Frame( "Package" )
         self.pack_start( frame_top, True, True, 5 )
+        self.pack_start( frame_bottom, True, True, 5 )
+
         self.drvname = ''
         if device.property_.has_key( "info.solaris.driver" ):
             self.drvname = device.property_["info.solaris.driver"]
             self.module = ModuleTable( self.drvname )
+            self.package = NullTable( self.drvname )
             frame_top.add( self.module )
+            frame_bottom.add( self.package )
             self.module.show()
+            self.package.show()
+            thread.start_new( PackageThread, ( self, self.drvname, None, ) )
 
         frame_top.show()
+        frame_bottom.show()
 
-
-        frame_buttom = gtk.Frame( "Package" )
-        self.pack_start( frame_buttom, True, True, 5 )
-        #self.package = PackageTable()
-        frame_buttom.show()
+def PackageThread( drvinfo, drvname, pkgname ):
+    import Package
+    drvinfo.package = Package.Package()
+    #gobject.idle_add( self.manager.notify, info, "start" )    
 
 class ModuleTable( KeyAndValue ):
     def __init__( self, drvname ):
@@ -180,8 +189,13 @@ class ModuleTable( KeyAndValue ):
         self.info = self.drv.info()
         KeyAndValue.__init__( self, self.info )
 
+class NullTable( KeyAndValue ):
+    def __init__( self, drvname ):
+        KeyAndValue.__init__( self, {'name':drvname} )
+
 class PackageTable( KeyAndValue ):
-    def __init__( self, pkgname ):
-        pass
-
-
+    def __init__( self, drvname, pkgname = None ):
+        import Package
+        self.pkg = Package.Package( drvname, pkgname )
+        self.info = self.pkg.info()
+        KeyAndValue.__init__( self, self.info )

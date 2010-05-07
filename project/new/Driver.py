@@ -19,7 +19,7 @@ class BaseDriver( object ):
             self.locateDrvConf()
 
     def info( self ):
-        dict = {'name':self.drvname} #short-name
+        dict = {'locate.name':self.drvname} #short-name
         dict['locate.drvfile'] = self.getDrvPath()
         #dict['short path'] = self.getShortPath()
         dict['locate.conffile'] = self.getConfPath()
