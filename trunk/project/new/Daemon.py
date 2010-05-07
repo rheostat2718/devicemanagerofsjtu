@@ -48,26 +48,48 @@ class Daemon( object ):
         print udi, num_changed, change_list
         pass
 
-    def loop( self ):
-        self.loop = gobject.MainLoop()
-        self.loop.run()
+    #def loop( self ):
+    #    self.loop = gobject.MainLoop()
+    #    self.loop.run()
 
-    def send( self, cmd, t1, i1, t2, i2 ):
-        if tunnel.send( cmd ) == "success":
-            self.notify( t1, i1 )
+    def send( self, cmd, t1=None, i1=None, t2=None, i2=None ):
+        if (self.manager.server==False):
+            import threading
+            thread=threading.Thread(target=self.start_server)
+            thread.start()
+            self.manager.server=True
+
+            import time
+            time.sleep(1)
+
+        if t1!=None:
+            result=tunnel.send(cmd)
+            print result
+            if result == "success":
+                gobject.idle_add(self.notify, t1, i1 )
+            else:
+                gobject.idle_add(self.notify, t2, i2 )
         else:
-            self.notify( t2, i2 )
+            tunnel.send(cmd)
 
     def notify( self, title, info ):
-        pynotify.init( 'dev' )
+        print "pynotify init:", pynotify.init('dev')
         n = pynotify.Notification( title, info )
         n.attach_to_status_icon( self.icon )
         n.show()
+        print "pynotify done"
 
     def handle( self, signal, udi, *args ):
         #TODO
         self.notify( str( signal ), str( udi ) )
         pass
+
+    def start_server(self):
+        import os
+        #print "server start"
+        os.system('gksu c_api/server')
+        #print "server end"
+
 
 if __name__ == '__main__':
     d = Daemon( None )

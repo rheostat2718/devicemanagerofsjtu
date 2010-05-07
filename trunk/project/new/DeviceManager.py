@@ -17,6 +17,7 @@ class DeviceManager( object ):
         self.build_device_tree()
 
         self.gui = DeviceManagerGUI( self )
+        self.server=False
 
     def build_device_tree( self ):
         for k, device in self.devices.items():
@@ -39,18 +40,18 @@ class DeviceManager( object ):
     def get_device_product( self, udi ):
         return self.devices[udi].get( "product" )
 
-    def loop( self ):
-        import threading
-
-        self.threads = []
-        self.threads.append( threading.Thread( target = self.daemon.loop ) )
-
-        for t in self.threads:
-            t.start()
+    #def loop( self ):
+    #    import threading
+    #    self.threads = []
+    #    self.threads.append( threading.Thread( target = self.daemon.loop ) )
+    #    for t in self.threads:
+    #        t.start()
 
     def notify( self, title, info ):
         self.daemon.notify( title, info )
 
+    def send(self, cmd, t1, i1, t2, i2):
+        self.daemon.send(cmd, t1, i1, t2,t2)
     def quit( self ):
         sys.exit( 0 )
 

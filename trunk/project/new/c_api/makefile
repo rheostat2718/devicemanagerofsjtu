@@ -4,8 +4,9 @@ PYINC=/usr/include/python2.4
 COMPOPT=-g -c -I$(PYINC) -fpic
 LINKOPT=-shared -g
 PYTHON=/bin/python2.4
+PYLIB=/usr/bin
 
-TODO:modulec.so client.so server;
+TODO: modulec.so client.so server;
 
 all:TODO;
 
@@ -22,17 +23,18 @@ client.o:client.c
 	$(CC) client.c $(COMPOPT) -o client.o
 
 server:server.o
-	gcc server.o -L$(PYLIB) -lpython2.4 -g -o server
+	gcc server.o -L/usr/include/python2.4 -lpython2.4 -g -o server
 
-server.o:server.c
-	gcc server.c -c -g -I$(PYINC)
+server.o:
+	gcc server.c -c -g -I/usr/include/python2.4
 
 test:modulectest;
 
 modulectest:
-	$(PYTHON) moduleTest.py 
+	$(PYTHON) moduleTest.py
 
 clean:
 	rm -f core *.o *.pyc *.c~ *.py~
+
 cleanall:clean
 	rm -f *.so server

@@ -42,6 +42,9 @@ class DeviceManagerGUI(gtk.Window):
         self.show_all()
 
     def destroy(self, widget, data=None):
+        if self.manager.server==True:
+            self.manager.daemon.send('quit')
+
         gtk.main_quit()
 
     def update_note(self, device):
