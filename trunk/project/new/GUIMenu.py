@@ -3,6 +3,7 @@ pygtk.require( "2.0" )
 import gtk
 import gobject
 import thread
+import logging
 
 class GUIMenu( gtk.MenuBar ):
     def __init__( self, gui, manager = None ):
@@ -98,7 +99,10 @@ class GUIMenu( gtk.MenuBar ):
 
     def reconf( self, info ):
         import tools
-        thread.start_new_thread( threadShortRun, ( self, info, tools.reconfigure ) )
+        tools.reconfigure()
+        self.manager.send('reconf','Reconfigure','succeeded','failed')
+        #import tools
+        #thread.start_new_thread( threadShortRun, ( self, info, tools.reconfigure ) )
 
     def pkginstall( self, info ):
         pass
@@ -115,17 +119,15 @@ def threadLongRun( self, info, func ):
             gobject.idle_add( self.manager.notify, info, "start" )
     ret = func()
     if self.manager:
-        if self.manager.notify:
-            if ( ret == True ) or ( ret == 0 ):
-                gobject.idle_add( self.manager.notify, info, "finished" )
-            else:
-                gobject.idle_add( self.manager.notify, info, "failed" )
+        if ( ret == True ) or ( ret == 0 ):
+            gobject.idle_add( self.manager.notify, info, "finished" )
+        else:
+            gobject.idle_add( self.manager.notify, info, "failed" )
 
 def threadShortRun( self, info, func ):
-    func()
+    ret=func()
     if self.manager:
-        if self.manager.notify:
-            if ( ret == True ) or ( ret == 0 ):
-                gobject.idle_add( self.manager.notify, info, "finished" )
-            else:
-                gobject.idle_add( self.manager.notify, info, "failed" )
+        if ( ret == True ) or ( ret == 0 ):
+            gobject.idle_add( self.manager.notify, info, "finished" )
+        else:
+            gobject.idle_add( self.manager.notify, info, "failed" )

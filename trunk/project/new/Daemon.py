@@ -30,7 +30,7 @@ class Daemon( object ):
         device_names = self.hal_manager.GetAllDevices()
 
         self.icon = gtk.StatusIcon()
-        self.icon.set_from_stock( gtk.STOCK_ABOUT )
+        self.icon.set_from_stock( gtk.STOCK_INFO )
 
         for name in device_names:
             self.add_dev_sig_recv( name )
@@ -52,7 +52,7 @@ class Daemon( object ):
     #    self.loop = gobject.MainLoop()
     #    self.loop.run()
 
-    def send( self, cmd, t1=None, i1=None, t2=None, i2=None ):
+    def send( self, cmd, title=None, info_succ=None, info_fail=None ):
         if (self.manager.server==False):
             import threading
             thread=threading.Thread(target=self.start_server)
@@ -62,22 +62,21 @@ class Daemon( object ):
             import time
             time.sleep(1)
 
-        if t1!=None:
+        if title!=None:
             result=tunnel.send(cmd)
             print result
             if result == "success":
-                gobject.idle_add(self.notify, t1, i1 )
+                gobject.idle_add(self.notify, title, info_succ )
             else:
-                gobject.idle_add(self.notify, t2, i2 )
+                gobject.idle_add(self.notify, title, info_fail )
         else:
             tunnel.send(cmd)
 
     def notify( self, title, info ):
-        print "pynotify init:", pynotify.init('dev')
+        pynotify.init('devicemanager')
         n = pynotify.Notification( title, info )
         n.attach_to_status_icon( self.icon )
         n.show()
-        print "pynotify done"
 
     def handle( self, signal, udi, *args ):
         #TODO

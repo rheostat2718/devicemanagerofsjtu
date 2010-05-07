@@ -50,8 +50,8 @@ class DeviceManager( object ):
     def notify( self, title, info ):
         self.daemon.notify( title, info )
 
-    def send(self, cmd, t1, i1, t2, i2):
-        self.daemon.send(cmd, t1, i1, t2,t2)
+    def send(self, cmd, title=None, info_succ=None, info_fail=None):
+        self.daemon.send(cmd, title, info_succ, info_fail)
     def quit( self ):
         sys.exit( 0 )
 
