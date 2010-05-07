@@ -1,4 +1,4 @@
-#!/bin/env python2.6
+#!/bin/env python2.4
 import os
 import logging
 """
@@ -11,8 +11,9 @@ def reconfigure():
     You should be root to call it.
     return value returns whether the call succeeded.
     """
+    print 'os.geteuid()=',os.geteuid()
     if os.geteuid() != 0:
-        return False
+        print 'false'
     try:
         logging.debug( 'reconfigure' )
         fd = os.open( '/reconfigure', os.O_WRONLY | os.O_CREAT )
@@ -135,7 +136,7 @@ def rebuildIndex():
     ret = os.system( 'pkg rebuild-index' )
     return ( ret == 0 )
 
-def pkg_install( pkgname, trial = False, visible = '-v' , refresh = True, index = True ):
+def pkg_install( send, pkgname, trial = False, visible = '-v' , refresh = True, index = True ):
     if not pkgname:
         return - 2
     if os.geteuid() != 0:
@@ -149,7 +150,7 @@ def pkg_install( pkgname, trial = False, visible = '-v' , refresh = True, index 
         opt = opt + ' --no-index '
     if trial:
         opt = opt + ' -n '
-    ret = os.system( 'pkg install ' + opt + pkgname )
+    send( 'pkg install ' + opt + pkgname, "pkg_install","success","fail" )
     return ret
 
 def pkg_uninstall( pkgname, trial = False, visible = '-v' , index = True ):

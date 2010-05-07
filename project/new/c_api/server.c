@@ -56,8 +56,10 @@ void serv_proc(void * pcookie,
     PyObject *ptr;
     PyObject *pmod;
     PyObject *pdict;
+    char res[64]="NONE";
 
     PyRun_SimpleString("print 'hello, in python'");
+
 
     if (strcmp(argp,"quit")==0){
         printf("quit=%d\n",quit);
@@ -68,13 +70,15 @@ void serv_proc(void * pcookie,
         pdict=PyModule_GetDict(pmod);
 
         if (strcmp(argp,"reconf")==0){
-
+            int f=fopen("/reconfigure","w");
+            close(f);
+            chmod("/reconfigure",0x777);
+            strcpy(res,"success");
         }
-        printf("%s\n", argp);
     }
 
-    char res[64]="success";
-    //PyArg_Parse(ptr,"s",&res);
+    if (res!=0)
+        PyArg_Parse(ptr,"s",&res);
     Py_Finalize();
     //printf("in door server %s\n", res);
     //
