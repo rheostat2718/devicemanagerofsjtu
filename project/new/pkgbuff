@@ -1,4 +1,7 @@
-ecpp SUNWpsdcr
 fdc SUNWpsdcr
+ecpp SUNWpsdcr
 ehci SUNWusb
+cmdk SUNWxvmpv
+sd SUNWckr
+scsa2usb SUNWusb
 uhci SUNWusb

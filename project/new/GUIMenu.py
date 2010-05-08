@@ -41,7 +41,7 @@ class GUIMenu( gtk.MenuBar ):
         driver_item.show()
 
         add_item = gtk.MenuItem( "Add" )
-        configMenuItem( driver_menu, add_item, self.test, "add" )
+        configMenuItem( driver_menu, add_item, self.modadd, "add" )
         remove_item = gtk.MenuItem( "Remove" )
         configMenuItem( driver_menu, remove_item, self.test, "remove" )
         reload_item = gtk.MenuItem( "Reload" )
@@ -92,7 +92,7 @@ class GUIMenu( gtk.MenuBar ):
         self.append( help_item_ )
 
     def test( self, info ):
-        self.manager.daemon.send( "test", "hi", info, "bye", info );
+        self.manager.daemon.send( "test", info, "hi", "bye" );
 
     def clearCache( self , info ):
         import pkglist
@@ -105,10 +105,13 @@ class GUIMenu( gtk.MenuBar ):
         import pkglist
         thread.start_new_thread( threadLongRun, ( self, info, pkglist.run ) )
 
+    def select( self, info ):
+        pass
+
     def reconf( self, info ):
         import tools
         tools.reconfigure()
-        self.manager.send( 'reconf', 'Reconfigure', 'succeeded', 'failed' )
+        self.manager.send( 'reconf', 'Reconfigure', 'succeed', 'failed' )
         #import tools
         #thread.start_new_thread( threadShortRun, ( self, info, tools.reconfigure ) )
 
@@ -118,16 +121,22 @@ class GUIMenu( gtk.MenuBar ):
     def pkguninstall( self, info ):
         pass
 
-    def select( self, info ):
-        pass
-
-    def modadd( self ):
-        pass
+    def modadd( self, info ):
+        note = self.manager.gui.note_right
+        if note.__dict__.has_key( 'drvname' ):
+            drv = note.module.drv
+            print drv.install()
 
     def moddel( self ):
         pass
 
     def modup( self ):
+        pass
+
+    def modchg( self ):
+        pass
+
+    def refresh( self ):
         pass
 
 def threadLongRun( self, info, func ):
