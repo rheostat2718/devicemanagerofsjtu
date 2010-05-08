@@ -19,7 +19,7 @@ def test():
     except SystemError:
         print 'caught expecting SystemError'
 
-    print 'test ( 4 / 4 ) getModPathLen(), getModPathLen()'
+    print 'test ( 4 / 4 ) getModPath(), getModPathLen()'
     print 'module path len', modulec.getModPathLen()
     print 'module path', modulec.getModPath()
 

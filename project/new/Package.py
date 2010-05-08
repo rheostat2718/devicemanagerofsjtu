@@ -45,7 +45,7 @@ class Package( object ):
         pkg = []
         for line in lines:
             line = line[:-1]
-            print line
+            #print line
             try:
                 index, action, value, package = line.split()
                 if ( action != 'file' ) | ( not index ) | ( not package ):
@@ -64,7 +64,7 @@ class Package( object ):
         pkg = {}
         for line in lines:
             line = line[:-1]
-            print line
+            #print line
             try:
                 index, action, value, package = line.split()
                 if ( action != 'file' ) | ( not index ) | ( not package ):

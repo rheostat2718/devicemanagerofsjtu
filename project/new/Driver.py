@@ -19,11 +19,10 @@ class BaseDriver( object ):
             self.locateDrvConf()
 
     def info( self ):
-        dict = {'locate.name':self.drvname} #short-name
-        dict['locate.drvfile'] = self.getDrvPath()
-        #dict['short path'] = self.getShortPath()
-        dict['locate.conffile'] = self.getConfPath()
-        dict['locate.exist_drifile'] = self.existDrv()
+        dict = {'locate.name':self.drvname}
+        dict['locate.driver_file'] = self.getDrvPath()
+        dict['locate.configure_file'] = self.getConfPath()
+        dict['locate.exist_drvfile'] = self.existDrv()
         dict['locate.exist_conffile'] = self.existConf()
         return dict
 
@@ -65,13 +64,11 @@ class BaseDriver( object ):
         self.env_bit = os.popen( 'isainfo -b' ).readlines()[0][:2]
 
         self.dev_instset = os.popen( 'isainfo -k' ).readlines()[0][:-1]
-        self.dev_machine = os.popen( 'uname -m' ).readlines()[0][:-1]
         self.dev_process = os.popen( 'uname -p' ).readlines()[0].strip()
         subdict = {'amd64':'amd64/', 'sparcv9':'sparcv9/', 'i386':''}
         self.dev_subpath = subdict[self.dev_instset]
 
         #print 'dev_instset', self.dev_instset
-        #print 'dev_machine', self.dev_machine
         #print 'dev_process', self.dev_process
         #print 'dev_subpath', self.dev_subpath
 
@@ -92,7 +89,9 @@ class BaseDriver( object ):
         /kernel/drv /usr/kernel/drv /platform/xxxx/kernel/drv ... /  {amd64/,sparcv9/,}
         
         """
-        dirlist = ['/kernel/drv', '/usr/kernel/drv', '/platform/' + self.dev_machine + '/kernel/drv']
+        dirlist = modulec.getModPath().split()
+        dirlist = [dir + '/drv' for dir in dirlist]
+        #dirlist = ['/kernel/drv', '/usr/kernel/drv', '/platform/' + self.dev_machine + '/kernel/drv']
 
         for directory in dirlist:
             if not directory:
@@ -104,8 +103,12 @@ class BaseDriver( object ):
                 return True
 
         #use a default path here:
-        self.path = dirlist[1] + '/' + self.dev_subpath
-        self.confpath = dirlist[1] + '/'
+        if dirlist:
+            self.path = dirlist[0] + '/' + self.dev_subpath
+            self.confpath = dirlist[0] + '/'
+        else:
+            self.path = ''
+            self.confpath = ''
         return False
 
     def getShortPath( self ):
@@ -127,6 +130,16 @@ class Driver( BaseDriver ):
             except SystemError:
                 pass
         return dict
+
+    def key_info( self ):
+        dict = self.info()
+        key_dict = {}
+        keyword = {'locate.name':'driver', 'locate.exist_drvfile':'exist', 'module.LOADED':'load'}
+
+        for key in keyword.keys():
+            if key_dict.has_key( key ):
+                key_dict[key] = dict[keyword[key]]
+        return key_dict
 
     def getModuleId( self ):
         """
