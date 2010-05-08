@@ -247,6 +247,6 @@ if __name__ == '__main__':
         usage()
 
 """
-use hermon to test it
+use case to test:
 python Package.py -i hermon
 """
