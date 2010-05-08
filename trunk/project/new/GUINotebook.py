@@ -5,24 +5,26 @@ pygtk.require( "2.0" )
 import gtk
 import thread
 import gobject
+import threading
 
 class DeviceNoteLeft( gtk.Notebook ):
     def __init__( self, device_tree, device_common = None ):
         gtk.Notebook.__init__( self )
         self.set_tab_pos( gtk.POS_TOP )
 
-        if device_common != None:
+        if device_common:
             #common
             label = gtk.Label( "Common" )
             self.table0 = gtk.Table( 1, 1, False )
             self.table0.attach( device_common, 0, 1, 0, 1 )
             self.append_page( self.table0, label )
 
-        #device tree
-        label = gtk.Label( "Tree" )
-        self.table1 = gtk.Table( 1, 1, False )
-        self.table1.attach( device_tree, 0, 1, 0, 1 )
-        self.append_page( self.table1, label )
+        if device_tree:
+            #device tree
+            label = gtk.Label( "Tree" )
+            self.table1 = gtk.Table( 1, 1, False )
+            self.table1.attach( device_tree, 0, 1, 0, 1 )
+            self.append_page( self.table1, label )
 
         self.set_size_request( 300, 400 )
 
@@ -32,24 +34,44 @@ class DeviceNoteRight( gtk.Notebook ):
         self.set_tab_pos( gtk.POS_TOP )
 
         #abstract
-        label = gtk.Label( "Abstract" )
         self.table0 = gtk.Table( 1, 1, False )
-        self.append_page( self.table0, label )
+        self.append_page( self.table0, gtk.Label( "Abstract" ) )
 
         #detail
-        label = gtk.Label( "Detail" )
         self.table1 = gtk.Table( 1, 1, False )
-        self.append_page( self.table1, label )
+        self.append_page( self.table1, gtk.Label( "Detail" ) )
 
-        #driver info
-        label = gtk.Label( "Driver" )
+        #module
         self.table2 = gtk.Table( 1, 1, False )
-        self.append_page( self.table2, label )
+        self.append_page( self.table2, gtk.Label( "Module" ) )
 
-        self.device = None
+        #package1
+        self.table3 = gtk.Table( 1, 1, False )
+        self.append_page( self.table3, gtk.Label( "Package" ) )
+
+        self.table0.set_border_width( 5 )
+        self.table1.set_border_width( 5 )
+        self.table2.set_border_width( 5 )
+        self.table3.set_border_width( 5 )
 
         self.connect( "switch-page", self.pageCallback )
         self.set_size_request( 400, 400 )
+
+        self.device = None
+        self.callid = 0
+        self.lock = threading.Lock()
+        self.clearPackageItem()
+
+    def clearPackageItem( self ):
+        self.lock.acquire()
+        self.callid = self.callid + 1
+        self.once = True
+        try:
+            self.package.destroy()
+        except:
+            pass
+        self.package = None
+        self.lock.release()
 
     def pageCallback( self, page, pagenum, par ):
         if self.device != None:
@@ -57,39 +79,86 @@ class DeviceNoteRight( gtk.Notebook ):
 
     def update( self, device ):
         if device == None:
-            return 0;
-        self.device = device
+            return
 
         try:
             self.abstract.destroy()
+            del self.abstract
         except:
             pass
 
         try:
             self.detail.destroy()
+            del self.detail
         except:
             pass
 
         try:
-            self.driver.destroy()
+            self.module.destroy()
+            del self.module
         except:
             pass
 
+        try:
+            self.fpackage.destroy()
+            del self.fpackage
+        except:
+            pass
+
+        self.device = device
+        self.drvname = ''
+        if device.property_.has_key( "info.solaris.driver" ):
+            self.drvname = device.property_["info.solaris.driver"]
+
         self.abstract = DeviceAbstractInfo( device )
         self.detail = DeviceDetailTable( device )
-        self.driver = DriverInfo( device )
+        if self.drvname:
+            self.module = ModuleTable( self.drvname )
+        else:
+            self.module = NullTable( self.drvname )
+        self.fpackage = NullTable( self.drvname )
+
+
         self.table0.attach( self.abstract, 0, 1, 0, 1 )
-        self.table0.set_border_width( 5 )
         self.table1.attach( self.detail, 0, 1, 0, 1 )
-        self.table1.set_border_width( 5 )
-        self.table2.attach( self.driver, 0, 1, 0, 1 )
-        self.table2.set_border_width( 5 )
+        self.table2.attach( self.module, 0, 1, 0, 1 )
         self.abstract.show()
         self.detail.show()
-        self.driver.show()
+        self.module.show()
         self.table0.show()
         self.table1.show()
         self.table2.show()
+
+        self.lock.acquire()
+        if self.package:
+            self.table3.attach( self.package, 0, 1, 0, 1 )
+        else:
+            self.table3.attach( self.fpackage, 0, 1, 0, 1 )
+
+        if self.package:
+            self.package.show()
+        else:
+            self.fpackage.show()
+        self.table3.show()
+        id = self.callid
+        self.lock.release()
+
+        if self.once:
+            thread.start_new_thread( self.PackageThread, ( id, ) )
+
+    def PackageThread( self, callid ):
+        if self.drvname:
+            self.once = False
+            if not self.package:
+                import Package
+                pkg = PackageTable( self.drvname )
+                self.lock.acquire()
+                if callid != self.callid:
+                    self.lock.release()
+                    thread.exit()
+                self.lock.release()
+                self.package = pkg
+                gobject.idle_add( self.update, self.device )
 
 class DeviceAbstractInfo( gtk.VBox ):
     def __init__( self, device ):
@@ -143,8 +212,11 @@ class KeyAndValue( gtk.ScrolledWindow ):
             self.refresh( hash )
 
     def refresh( self, hash = None ):
-        for ( k, v ) in hash.items():
-            self.store.append( [k, v] )
+        if hash:
+            hashlist = hash.keys()
+            hashlist.sort()
+            for k in hashlist:
+                self.store.append( [k, hash[k]] )
 
 class DeviceDetailTable( KeyAndValue ):
     def __init__( self, device ):
@@ -154,34 +226,6 @@ class DeviceDetailTable( KeyAndValue ):
         except:
             pass
 
-class DriverInfo( gtk.VBox ):
-    def __init__( self, device ):
-        gtk.VBox.__init__( self, False, 10 )
-
-        frame_top = gtk.Frame( "Module" )
-        frame_bottom = gtk.Frame( "Package" )
-        self.pack_start( frame_top, True, True, 5 )
-        self.pack_start( frame_bottom, True, True, 5 )
-
-        self.drvname = ''
-        if device.property_.has_key( "info.solaris.driver" ):
-            self.drvname = device.property_["info.solaris.driver"]
-            self.module = ModuleTable( self.drvname )
-            self.package = NullTable( self.drvname )
-            frame_top.add( self.module )
-            frame_bottom.add( self.package )
-            self.module.show()
-            self.package.show()
-            thread.start_new( PackageThread, ( self, self.drvname, None, ) )
-
-        frame_top.show()
-        frame_bottom.show()
-
-def PackageThread( drvinfo, drvname, pkgname ):
-    import Package
-    drvinfo.package = Package.Package()
-    #gobject.idle_add( self.manager.notify, info, "start" )    
-
 class ModuleTable( KeyAndValue ):
     def __init__( self, drvname ):
         import Driver
@@ -190,8 +234,11 @@ class ModuleTable( KeyAndValue ):
         KeyAndValue.__init__( self, self.info )
 
 class NullTable( KeyAndValue ):
-    def __init__( self, drvname ):
-        KeyAndValue.__init__( self, {'name':drvname} )
+    def __init__( self, drvname = None ):
+        if drvname:
+            KeyAndValue.__init__( self, {'module.Name':drvname, '':'running pkg info to gather package information...' } )
+        else:
+            KeyAndValue.__init__( self, {} )
 
 class PackageTable( KeyAndValue ):
     def __init__( self, drvname, pkgname = None ):

@@ -53,7 +53,7 @@ def getContentDict( list , verbose = False ):
                 continue
 
             dict[line] = pkgname
-            print '#',
+            print '#'
         print '|'
     return dict
 
@@ -61,7 +61,7 @@ def dumpDict( filename = outputfile, dict = StaticData.pkgDict ):
     """
     dump dict into file
     """
-    print dict
+    #print dict
     f = open( filename, 'w' )
     for key in dict.keys():
         f.write( key + ' ' + dict[key] + '\n' )

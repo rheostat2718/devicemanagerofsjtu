@@ -113,6 +113,15 @@ class GUIMenu( gtk.MenuBar ):
     def select( self, info ):
         pass
 
+    def modadd( self ):
+        pass
+
+    def moddel( self ):
+        pass
+
+    def modup( self ):
+        pass
+
 def threadLongRun( self, info, func ):
     if self.manager:
         if self.manager.notify:
