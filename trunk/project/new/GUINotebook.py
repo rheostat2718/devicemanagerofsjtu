@@ -147,6 +147,7 @@ class DeviceNoteRight( gtk.Notebook ):
         self.lock.release()
 
         if self.once:
+            self.gui.manager.notify('Pkg', 'gathering information')
             thread.start_new_thread( self.PackageThread, ( id, ) )
 
     def PackageThread( self, callid ):
@@ -154,13 +155,14 @@ class DeviceNoteRight( gtk.Notebook ):
             self.once = False
             if not self.package:
                 import Package
-                pkg = PackageTable( self.drvname )
+                pkg = PackageTable( self.gui, self.drvname )
                 self.lock.acquire()
                 if callid != self.callid:
                     self.lock.release()
                     thread.exit()
                 self.lock.release()
                 self.package = pkg
+                self.gui.manager.notify('Pkg','finished gathering')
                 gobject.idle_add( self.update, self.device )
 
 class DeviceAbstractInfo( gtk.VBox ):
@@ -270,13 +272,39 @@ class ModuleTable( gtk.Table ):
 class NullTable( KeyAndValue ):
     def __init__( self, drvname = None ):
         if drvname:
-            KeyAndValue.__init__( self, {'module.Name':drvname, '':'running pkg info to gather package information...' } )
+            KeyAndValue.__init__( self, {'module.Name':drvname, 'status':'running pkg info to gather package information...' } )
         else:
             KeyAndValue.__init__( self, {} )
 
-class PackageTable( KeyAndValue ):
-    def __init__( self, drvname, pkgname = None ):
+class PackageTable( gtk.Table ):
+    def __init__( self, gui, drvname, pkgname = None ):
+        self.gui=gui
+        gtk.Table.__init__(self, 10,2, False)
+
+        b_install=gtk.Button('PKG Install')
+        b_install.connect('clicked', self.callback_install, None)
+        b_install.show()
+        self.attach(b_install, 0,1,9,10)
+
+        b_uninstall=gtk.Button('PKG Uninstall')
+        b_uninstall.connect('clicked',self.callback_uninstall,None)
+        b_uninstall.show()
+        self.attach(b_uninstall,1,2,9,10)
+
+        self.show()
+
         import Package
         self.pkg = Package.Package( drvname, pkgname )
         self.info = self.pkg.info()
-        KeyAndValue.__init__( self, self.info )
+        kv=KeyAndValue( self.info )
+        kv.show()
+        self.attach(kv, 0,2,0,9)
+
+
+
+    def callback_install(self, widget, data=None):
+        self.gui.menu_bar.pkginstall(data)
+
+    def callback_uninstall(self, widge, data=None):
+        self.gui.menu_bar.pkguninstall(data)
+

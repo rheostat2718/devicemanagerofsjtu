@@ -1,4 +1,6 @@
-ecpp SUNWpsdcr
 fdc SUNWpsdcr
-vgatext SUNWckr
+kb8042 SUNWckr
+ecpp SUNWpsdcr
+fd SUNWpsdcr
 mouse8042 SUNWckr
+vgatext SUNWckr
