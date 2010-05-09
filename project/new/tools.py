@@ -1,6 +1,6 @@
 #!/bin/env python2.4
 import os
-import logging
+#import logging
 """
 This file provides a list of tools.
 """
@@ -11,16 +11,16 @@ def reconfigure():
     You should be root to call it.
     return value returns whether the call succeeded.
     """
-    print 'os.geteuid()=',os.geteuid()
-    if os.geteuid() != 0:
-        print 'false'
-    try:
-        logging.debug( 'reconfigure' )
-        fd = os.open( '/reconfigure', os.O_WRONLY | os.O_CREAT )
-        os.close( fd )
-    except:
-        return False
-    return True
+    #print 'os.geteuid()=',os.geteuid()
+    #if os.geteuid() != 0:
+    #    print 'false'
+    #try:
+    #logging.debug( 'reconfigure' )
+    #    fd = os.open( '/reconfigure', os.O_WRONLY | os.O_CREAT )
+    #    os.close( fd )
+    #except:
+    #    return False
+    #return True
 
 def localerun( func, localestr = 'en_GB.UTF-8' ):
     """
@@ -41,7 +41,7 @@ def run_devfsadm():
     if os.geteuid() != 0:
         return False
     try:
-        logging.debug( 'devfsadm' )
+        #logging.debug( 'devfsadm' )
         ret = os.system( "devfsadm -v" )
     except OSError:
         return False
@@ -50,7 +50,7 @@ def run_devfsadm():
 def run_remdrv( drvname, basedir = None, removeConfigure = False ):
     if os.geteuid() != 0:
         return - 1
-    logging.debug( 'rem_drv ' + drvname )
+    #logging.debug( 'rem_drv ' + drvname )
     if basedir:
         opt = " -b " + basedir + ' '
     else:
@@ -61,14 +61,14 @@ def run_remdrv( drvname, basedir = None, removeConfigure = False ):
     ret = os.system( 'rem_drv ' + opt + drvname )
     return ret
 
-def run_adddrv( drvname, basedir = None, classname = None, identifyname = None, permission = None, noload = False, policy = None, privilege = None, verbose = True ):
+def run_adddrv( send, drvname, basedir = None, classname = None, identifyname = None, permission = None, noload = False, policy = None, privilege = None, verbose = True ):
     """
     you may need to copy driver file to drv directory.
     A configure file may be needed.
     """
-    if os.geteuid() != 0:
-        return - 1
-    logging.debug( 'add_drv ' + drvname )
+    #if os.geteuid() != 0:
+    #    return - 1
+    #logging.debug( 'add_drv ' + drvname )
     if basedir:
         opt = " -b " + basedir + ' '
     else:
@@ -88,15 +88,16 @@ def run_adddrv( drvname, basedir = None, classname = None, identifyname = None, 
         opt = opt + " -P '" + privilege + "' "
     if verbose:
         opt = opt + " -v "
-    ret = os.system( 'add_drv ' + opt + drvname )
+    #ret = os.system( 'add_drv ' + opt + drvname )
+    send('CMD:add_drv'+opt+drvname, "Add Driver", "success", "failed")
     if basedir:
-        reconfigure()
-    return ret
+        send('reconf')
+    #return ret
 
 def run_updatedrv( drvname, basedir = None, change = None, identifyname = None, permission = None, noload = False, policy = None, privilege = None, verbose = True ):
     if os.geteuid() != 0:
         return - 1
-    logging.debug( 'update_drv ' + drvname )
+    #logging.debug( 'update_drv ' + drvname )
     if basedir:
         opt = " -b " + basedir + ' '
     else:
@@ -132,7 +133,7 @@ def rebuildIndex():
     # sometimes pkg asks you to rebuild its index, this function just run the script
     if os.geteuid() != 0:
         return False
-    logging.debug( 'update_drv ' + drvname )
+    ##logging.debug( 'update_drv ' + drvname )
     ret = os.system( 'pkg rebuild-index' )
     return ( ret == 0 )
 
@@ -141,7 +142,7 @@ def pkg_install( send, pkgname, trial = False, visible = '-v' , refresh = True, 
         return - 2
     if os.geteuid() != 0:
         return - 1
-    logging.debug( 'pkg install ' + pkgname )
+    #logging.debug( 'pkg install ' + pkgname )
     #possible visible is "-v" "-q" ""
     opt = ' ' + visible + ' '
     if not refresh:
@@ -158,7 +159,7 @@ def pkg_uninstall( pkgname, trial = False, visible = '-v' , index = True ):
         return - 2
     if os.geteuid() != 0:
         return - 1
-    logging.debug( 'pkg uninstall ' + pkgname )
+    #logging.debug( 'pkg uninstall ' + pkgname )
     #possible visible is "-v" "-q" ""
     opt = ' ' + visible + ' '
     if not index:

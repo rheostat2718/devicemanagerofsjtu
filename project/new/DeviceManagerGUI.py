@@ -22,7 +22,8 @@ class DeviceManagerGUI( gtk.Window ):
         vbox.show()
 
         # menu
-        menu_bar = GUIMenu( self, manager )
+        self.menu_bar = GUIMenu( self, manager )
+        menu_bar=self.menu_bar
         vbox.pack_start( menu_bar, False, False, 0 )
         menu_bar.show()
 
@@ -33,7 +34,7 @@ class DeviceManagerGUI( gtk.Window ):
         # body
         hpan = gtk.HPaned()
         self.note_left = DeviceNoteLeft( device_tree, device_common )
-        self.note_right = DeviceNoteRight()
+        self.note_right = DeviceNoteRight(self)
         hpan.add1( self.note_left )
         hpan.add2( self.note_right )
         hpan.show()

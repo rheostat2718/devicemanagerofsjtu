@@ -51,14 +51,14 @@ void serv_proc(void * pcookie,
            uint_t ndesc)
 {
     Py_Initialize();
-    PyRun_SimpleString("import sys,os");
-    PyRun_SimpleString("sys.path.append(os.getcwd())");
-    PyObject *ptr;
-    PyObject *pmod;
-    PyObject *pdict;
+    //PyRun_SimpleString("import sys,os");
+    //PyRun_SimpleString("sys.path.append(os.getcwd())");
+    //PyObject *ptr;
+    //PyObject *pmod;
+    //PyObject *pdict;
     char res[64]="NONE";
 
-    PyRun_SimpleString("print 'hello, in python'");
+    //PyRun_SimpleString("print 'hello, in python'");
 
 
     if (strcmp(argp,"quit")==0){
@@ -66,19 +66,35 @@ void serv_proc(void * pcookie,
         sem_post(&quit);
         printf("quit=%d\n",quit);
     } else {
-        pmod=PyImport_ImportModule("tools");
-        pdict=PyModule_GetDict(pmod);
-
+        //pmod=PyImport_ImportModule("tools");
+        //pdict=PyModule_GetDict(pmod);
+        //
+        printf("not quit\ncmd:%s\n",argp);
+        if (strncmp(argp,"CMD:",4)==0){
+            printf("%s\n",argp);
+            char *cmd=strtok(argp,":");
+            cmd=strtok(NULL, ":");
+            printf("in door server, run:%s\n",cmd);
+            int error=system(cmd);
+            if (error==0)
+                strcpy(res,"success");
+            else
+                strcpy(res,"fail");
+        }
         if (strcmp(argp,"reconf")==0){
+            printf("reconfigure\n");
+
             int f=fopen("/reconfigure","w");
             close(f);
-            chmod("/reconfigure",0x777);
-            strcpy(res,"success");
+            if (chmod("/reconfigure",0x777)!=-1)
+                strcpy(res,"success");
+            else
+                strcpy(res,"fail");
         }
     }
 
-    if (res!=0)
-        PyArg_Parse(ptr,"s",&res);
+    //if (res!=0)
+    //    PyArg_Parse(ptr,"s",&res);
     Py_Finalize();
     //printf("in door server %s\n", res);
     //

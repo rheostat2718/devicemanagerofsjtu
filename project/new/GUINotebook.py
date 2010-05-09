@@ -29,8 +29,11 @@ class DeviceNoteLeft( gtk.Notebook ):
         self.set_size_request( 300, 400 )
 
 class DeviceNoteRight( gtk.Notebook ):
-    def __init__( self ):
+    def __init__( self, gui  ):
         gtk.Notebook.__init__( self )
+        self.gui=gui
+
+
         self.set_tab_pos( gtk.POS_TOP )
 
         #abstract
@@ -113,7 +116,7 @@ class DeviceNoteRight( gtk.Notebook ):
         self.abstract = DeviceAbstractInfo( device )
         self.detail = DeviceDetailTable( device )
         if self.drvname:
-            self.module = ModuleTable( self.drvname )
+            self.module = ModuleTable( self.gui, self.drvname )
         else:
             self.module = NullTable( self.drvname )
         self.fpackage = NullTable( self.drvname )
@@ -226,12 +229,43 @@ class DeviceDetailTable( KeyAndValue ):
         except:
             pass
 
-class ModuleTable( KeyAndValue ):
-    def __init__( self, drvname ):
+class ModuleTable( gtk.Table ):
+    def __init__( self,gui, drvname ):
+        self.gui=gui
+        gtk.Table.__init__(self, 10, 4, False)
+
         import Driver
         self.drv = Driver.Driver( drvname )
         self.info = self.drv.info()
-        KeyAndValue.__init__( self, self.info )
+        kv = KeyAndValue( self.info )
+        kv.show()
+        self.attach(kv, 0, 4, 0, 9)
+
+        b_add=gtk.Button('Add')
+        b_add.connect('clicked', self.callback_add, drvname)
+        b_add.show()
+        self.attach(b_add, 0, 1, 9, 10)
+
+        b_rem=gtk.Button('Remove')
+        b_rem.connect('clicked', self.callback_rem, drvname)
+        b_rem.show()
+        self.attach(b_rem, 1,2,9,10)
+
+        b_reload=gtk.Button('Reload')
+        b_reload.show()
+        self.attach(b_reload, 2,3,9,10)
+
+        b_change=gtk.Button('Change')
+        b_change.show()
+        self.attach(b_change, 3,4,9,10)
+
+        self.show()
+    def callback_add(self, widget, data=None):
+        self.gui.menu_bar.modadd(data)
+
+    def callback_rem(self, wighet, data=None):
+        self.gui.menu_bar.moddel(data)
+
 
 class NullTable( KeyAndValue ):
     def __init__( self, drvname = None ):
