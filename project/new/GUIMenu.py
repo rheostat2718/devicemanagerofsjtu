@@ -13,6 +13,14 @@ class GUIMenu( gtk.MenuBar ):
         self.manager = manager
         self.createMenu()
 
+    def about(self, data=None):
+        label = gtk.Label("Device Manager is a graphic management tool under Open Solaris.\n Copyright © 2009-2010 Shanghai Jiaotong University\nhttp://code.google.com/p/devicemanagerofsjtu")
+        dialog = gtk.Dialog("About Device Manager",None,gtk.DIALOG_MODAL |        gtk.DIALOG_DESTROY_WITH_PARENT, None)
+        dialog.vbox.pack_start(label)
+        label.show()
+
+        cancelbutton=dialog.add_button(gtk.STOCK_CLOSE,gtk.RESPONSE_CANCEL)
+        response = dialog.run()
     def createMenu( self ):
 
         def configMenuItem( menu, item, callback, args ):
@@ -84,7 +92,7 @@ class GUIMenu( gtk.MenuBar ):
         configMenuItem( help_menu, help_item, self.test, "Help" )
         configMenuItem( help_menu, gtk.MenuItem(), self.test, "seperator" )
         about_item = gtk.MenuItem( "About" )
-        configMenuItem( help_menu, about_item, self.test, "About" )
+        configMenuItem( help_menu, about_item, self.about, "About" )
 
         self.append( device_item )
         self.append( driver_item )

@@ -74,3 +74,4 @@ class DeviceManagerGUI( gtk.Window ):
         self.note_right.clearPackageItem()
         self.note_right.update( device )
 
+
