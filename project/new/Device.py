@@ -34,7 +34,7 @@ class Device( object ):
             self.key_info["product"] = str( property_["info.product"] )
 
         if property_.has_key( "info.solaris.driver" ):
-            self.key_info["type"] = str( property_["info.solaris.driver"] )
+            self.key_info["driver"] = str( property_["info.solaris.driver"] )
 
         if property_.has_key( "info.udi" ):
             self.udi = property_["info.udi"]

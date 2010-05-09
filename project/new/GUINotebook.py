@@ -147,7 +147,8 @@ class DeviceNoteRight( gtk.Notebook ):
         self.lock.release()
 
         if self.once:
-            self.gui.manager.notify('Pkg', 'gathering information')
+            if self.drvname:
+                gobject.idle_add(self.gui.manager.notify,'Pkg', 'gathering information')
             thread.start_new_thread( self.PackageThread, ( id, ) )
 
     def PackageThread( self, callid ):
@@ -162,7 +163,7 @@ class DeviceNoteRight( gtk.Notebook ):
                     thread.exit()
                 self.lock.release()
                 self.package = pkg
-                self.gui.manager.notify('Pkg','finished gathering')
+                gobject.idle_add( self.gui.manager.notify,'Pkg','finished gathering')
                 gobject.idle_add( self.update, self.device )
 
 class DeviceAbstractInfo( gtk.VBox ):
