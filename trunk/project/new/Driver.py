@@ -1,7 +1,7 @@
 #!/bin/python2.6
 import os
 import sys
-import logging
+#import #logging
 #import logger
 import c_api.modulec as modulec
 
@@ -27,23 +27,28 @@ class BaseDriver( object ):
         return dict
 
     def install( self ):
-        logging.debug( "install" + self.drvname )
+        pass
+        #logging.debug( "install" + self.drvname )
 
     def uninstall( self ):
-        logging.debug( "uninstall" + self.drvname )
+        pass
+        #logging.debug( "uninstall" + self.drvname )
 
     def update( self ):
-        logging.debug( "update" + self.drvname )
+        pass
+        #logging.debug( "update" + self.drvname )
 
     def backup( self, filename ):
         " use tar to backup the drv directory"
+        pass
         #store configuration in case of data corruption during driver operation
-        logging.debug( "backup" + self.drvname )
+        #logging.debug( "backup" + self.drvname )
 
     def restore( self, filename ):
         " use tar to restore the drv directory"
-        #restore configuration from filename 
-        logging.debug( "restore" + self.drvname )
+        pass
+        #restore configuration from filename
+        #logging.debug( "restore" + self.drvname )
 
     def list_backup( self ):
         " list all backups "
@@ -87,7 +92,7 @@ class BaseDriver( object ):
         Automatically find the path of device file
         find in:
         /kernel/drv /usr/kernel/drv /platform/xxxx/kernel/drv ... /  {amd64/,sparcv9/,}
-        
+
         """
         dirlist = modulec.getModPath().split()
         dirlist = [dir + '/drv' for dir in dirlist]
@@ -148,15 +153,15 @@ class Driver( BaseDriver ):
         """
         return modulec.getModuleId( self.drvname )
 
-    def install( self, args = '', filelist = [], src = None, dst = None ):
+    def install( self,send, args = '', filelist = [], src = None, dst = None ):
         """
         call run_adddrv to install drivers.
         args: 'add_drv' arguments except for driver name
         return value: 0 for succeed, anything else for failed
         """
-        BaseDriver.install( self )
-        if os.geteuid() != 0:
-            return - 1
+        #BaseDriver.install( self )
+        #if os.geteuid() != 0:
+        #    return - 1
 
         if not self.existDrv():
             if ( not src ) or ( not dst ) or ( not filelist ):
@@ -169,11 +174,11 @@ class Driver( BaseDriver ):
                 if dst[-1] != '/':
                     dst = dst + '/'
                 dstfile = dst + filename
-                ret = os.system( 'cp ' + srcfile + ' ' + dstfile )
+                ret = send( 'CMD:cp ' + srcfile + ' ' + dstfile )
 
         import tools
         #here args are not used
-        ret = tools.run_adddrv( self.drvname )
+        ret = tools.run_adddrv(send, self.drvname )
         return ( ret == 0 )
 
     def uninstall( self, removeFile = False ):
@@ -197,7 +202,7 @@ class Driver( BaseDriver ):
         """
         if not self.existDrv():
             return False
-        logging.debug( "load module " + self.drvname )
+        #logging.debug( "load module " + self.drvname )
 
         path = self.getShortPath()
         ret = os.system( 'modload -p ' + path )
@@ -208,7 +213,7 @@ class Driver( BaseDriver ):
         Unload modules
         return value: 0 for succeed, anything else for failed
         """
-        logging.debug( "unload module " + self.drvname )
+        #logging.debug( "unload module " + self.drvname )
         mid = self.getModuleId()
         if mid == -1:
             return False

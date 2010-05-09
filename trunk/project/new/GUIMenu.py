@@ -3,7 +3,7 @@ pygtk.require( "2.0" )
 import gtk
 import gobject
 import thread
-import logging
+#import logging
 
 class GUIMenu( gtk.MenuBar ):
     def __init__( self, gui, manager = None ):
@@ -109,8 +109,8 @@ class GUIMenu( gtk.MenuBar ):
         pass
 
     def reconf( self, info ):
-        import tools
-        tools.reconfigure()
+        #import tools
+        #tools.reconfigure()
         self.manager.send( 'reconf', 'Reconfigure', 'succeed', 'failed' )
         #import tools
         #thread.start_new_thread( threadShortRun, ( self, info, tools.reconfigure ) )
@@ -124,8 +124,11 @@ class GUIMenu( gtk.MenuBar ):
     def modadd( self, info ):
         note = self.manager.gui.note_right
         if note.__dict__.has_key( 'drvname' ):
-            drv = note.module.drv
-            print drv.install()
+            try:
+                drv = note.module.drv
+                print drv.install(self.manager.send)
+            except:
+                self.manager.notify("add driver","failed due to no driver attributes")
 
     def moddel( self ):
         pass
