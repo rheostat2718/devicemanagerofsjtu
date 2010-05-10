@@ -52,28 +52,28 @@ class Daemon( object ):
     #    self.loop = gobject.MainLoop()
     #    self.loop.run()
 
-    def send( self, cmd, title=None, info_succ=None, info_fail=None ):
-        if (self.manager.server==False):
+    def send( self, cmd, title = None, info_succ = "succeeded", info_fail = "failed" ):
+        if ( self.manager.server == False ):
             import threading
-            thread=threading.Thread(target=self.start_server)
+            thread = threading.Thread( target = self.start_server )
             thread.start()
-            self.manager.server=True
+            self.manager.server = True
 
             import time
-            time.sleep(1)
+            time.sleep( 1 )
 
-        if title!=None:
-            result=tunnel.send(cmd)
+        if title != None:
+            result = tunnel.send( cmd )
             print result
             if result == "success":
-                gobject.idle_add(self.notify, title, info_succ )
+                gobject.idle_add( self.notify, title, "succeeded" )
             else:
-                gobject.idle_add(self.notify, title, info_fail )
+                gobject.idle_add( self.notify, title, "failed" )
         else:
-            tunnel.send(cmd)
+            tunnel.send( cmd )
 
     def notify( self, title, info ):
-        pynotify.init('devicemanager')
+        pynotify.init( 'devicemanager' )
         n = pynotify.Notification( title, info )
         n.attach_to_status_icon( self.icon )
         n.show()
@@ -83,10 +83,10 @@ class Daemon( object ):
         self.notify( str( signal ), str( udi ) )
         pass
 
-    def start_server(self):
+    def start_server( self ):
         import os
         #print "server start"
-        os.system('gksu c_api/server')
+        os.system( 'gksu c_api/server' )
         #print "server end"
 
 

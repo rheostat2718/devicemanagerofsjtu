@@ -1,6 +1,16 @@
 fdc SUNWpsdcr
 kb8042 SUNWckr
+power SUNWckr
 ecpp SUNWpsdcr
+uhci SUNWusb
+asy SUNWpsdcr
+mpt SUNWckr
+ehci SUNWusb
+pci_pci SUNWckr
 fd SUNWpsdcr
 mouse8042 SUNWckr
+cmdk SUNWxvmpv
+pcie_pci SUNWckr
+e1000g SUNWintgige
 vgatext SUNWckr
+sd SUNWckr

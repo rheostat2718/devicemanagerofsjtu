@@ -11,16 +11,12 @@ class GUIMenu( gtk.MenuBar ):
 
         self.gui = gui
         self.manager = manager
+        if manager:
+            self.opt = manager.opt
+        else:
+            self.opt = None
         self.createMenu()
 
-    def about(self, data=None):
-        label = gtk.Label("Device Manager is a graphic management tool under Open Solaris.\n Copyright © 2009-2010 Shanghai Jiaotong University\nhttp://code.google.com/p/devicemanagerofsjtu")
-        dialog = gtk.Dialog("About Device Manager",None,gtk.DIALOG_MODAL |        gtk.DIALOG_DESTROY_WITH_PARENT, None)
-        dialog.vbox.pack_start(label)
-        label.show()
-
-        cancelbutton=dialog.add_button(gtk.STOCK_CLOSE,gtk.RESPONSE_CANCEL)
-        response = dialog.run()
     def createMenu( self ):
 
         def configMenuItem( menu, item, callback, args ):
@@ -36,7 +32,7 @@ class GUIMenu( gtk.MenuBar ):
         device_item.show()
 
         refresh_item = gtk.MenuItem( "Refresh" )
-        configMenuItem( device_menu, refresh_item, self.test, "refresh" )
+        configMenuItem( device_menu, refresh_item, self.opt.refresh, "refresh" )
         configMenuItem( device_menu, gtk.MenuItem(), self.test, "seperator" )
         exit_item = gtk.MenuItem( "Exit" )
         configMenuItem( device_menu, exit_item, self.gui.destroy, None )
@@ -49,18 +45,18 @@ class GUIMenu( gtk.MenuBar ):
         driver_item.show()
 
         add_item = gtk.MenuItem( "Add" )
-        configMenuItem( driver_menu, add_item, self.modadd, "add" )
+        configMenuItem( driver_menu, add_item, self.opt.modadd, "add" )
         remove_item = gtk.MenuItem( "Remove" )
-        configMenuItem( driver_menu, remove_item, self.test, "remove" )
+        configMenuItem( driver_menu, remove_item, self.opt.moddel, "remove" )
         reload_item = gtk.MenuItem( "Reload" )
-        configMenuItem( driver_menu, reload_item, self.test, "reload" )
+        configMenuItem( driver_menu, reload_item, self.opt.modup, "reload" )
         update_item = gtk.MenuItem( "Change" )
-        configMenuItem( driver_menu, update_item, self.test, "update" )
+        configMenuItem( driver_menu, update_item, self.opt.modchg, "update" )
         configMenuItem( driver_menu, gtk.MenuItem(), self.test, "seperator" )
         install_item = gtk.MenuItem( "Install from package" )
-        configMenuItem( driver_menu, install_item, self.test, "install" )
+        configMenuItem( driver_menu, install_item, self.opt.pkginstall, "install" )
         uninstall_item = gtk.MenuItem( "Uninstall from package" )
-        configMenuItem( driver_menu, uninstall_item, self.test, "uninstall" )
+        configMenuItem( driver_menu, uninstall_item, self.opt.pkguninstall, "uninstall" )
 
         #tools menu
         tools_menu = gtk.Menu()
@@ -70,16 +66,16 @@ class GUIMenu( gtk.MenuBar ):
         tools_item.show()
 
         reconf_item = gtk.MenuItem( "Reconfigure" )
-        configMenuItem( tools_menu, reconf_item, self.reconf, "reconfigure" )
+        configMenuItem( tools_menu, reconf_item, self.opt.reconf, "reconfigure" )
         configMenuItem( tools_menu, gtk.MenuItem(), self.test, "seperator" )
         clear_cache_item = gtk.MenuItem( "Clear Cache" )
-        configMenuItem( tools_menu, clear_cache_item, self.clearCache, "clear cache" )
+        configMenuItem( tools_menu, clear_cache_item, self.opt.clearCache, "clear cache" )
         edit_cache_item = gtk.MenuItem( "Edit Cache" )
-        configMenuItem( tools_menu, edit_cache_item, self.editCache, "edit cache" )
+        configMenuItem( tools_menu, edit_cache_item, self.opt.editCache, "edit cache" )
         reload_cache_item = gtk.MenuItem( "Reload Cache" )
-        configMenuItem( tools_menu, reload_cache_item, self.reloadCache, "reload cache" )
+        configMenuItem( tools_menu, reload_cache_item, self.opt.reloadCache, "reload cache" )
         select_item = gtk.MenuItem( "Manually select package to install" )
-        configMenuItem( tools_menu, select_item, self.select, "select" )
+        configMenuItem( tools_menu, select_item, self.opt.select, "select" )
 
         # help menu
         help_menu = gtk.Menu()
@@ -89,10 +85,10 @@ class GUIMenu( gtk.MenuBar ):
         help_item_.show()
 
         help_item = gtk.MenuItem( "Help" )
-        configMenuItem( help_menu, help_item, self.test, "Help" )
+        configMenuItem( help_menu, help_item, self.opt.help, "Help" )
         configMenuItem( help_menu, gtk.MenuItem(), self.test, "seperator" )
         about_item = gtk.MenuItem( "About" )
-        configMenuItem( help_menu, about_item, self.about, "About" )
+        configMenuItem( help_menu, about_item, self.opt.about, "About" )
 
         self.append( device_item )
         self.append( driver_item )
@@ -101,70 +97,3 @@ class GUIMenu( gtk.MenuBar ):
 
     def test( self, info ):
         self.manager.daemon.send( "test", info, "hi", "bye" );
-
-    def clearCache( self , info ):
-        import pkglist
-        thread.start_new_thread( threadShortRun, ( self, info, pkglist.removeDump ) )
-
-    def editCache( self, info ):
-        pass
-
-    def reloadCache( self, info ):
-        import pkglist
-        thread.start_new_thread( threadLongRun, ( self, info, pkglist.run ) )
-
-    def select( self, info ):
-        pass
-
-    def reconf( self, info ):
-        #import tools
-        #tools.reconfigure()
-        self.manager.send( 'reconf', 'Reconfigure', 'succeed', 'failed' )
-        #import tools
-        #thread.start_new_thread( threadShortRun, ( self, info, tools.reconfigure ) )
-
-    def pkginstall( self, info ):
-        pass
-
-    def pkguninstall( self, info ):
-        pass
-
-    def modadd( self, info ):
-        note = self.manager.gui.note_right
-        if note.__dict__.has_key( 'drvname' ):
-            try:
-                drv = note.module.drv
-                print drv.install(self.manager.send)
-            except:
-                self.manager.notify("add driver","failed due to no driver attributes")
-
-    def moddel( self ):
-        pass
-
-    def modup( self ):
-        pass
-
-    def modchg( self ):
-        pass
-
-    def refresh( self ):
-        pass
-
-def threadLongRun( self, info, func ):
-    if self.manager:
-        if self.manager.notify:
-            gobject.idle_add( self.manager.notify, info, "start" )
-    ret = func()
-    if self.manager:
-        if ( ret == True ) or ( ret == 0 ):
-            gobject.idle_add( self.manager.notify, info, "finished" )
-        else:
-            gobject.idle_add( self.manager.notify, info, "failed" )
-
-def threadShortRun( self, info, func ):
-    ret = func()
-    if self.manager:
-        if ( ret == True ) or ( ret == 0 ):
-            gobject.idle_add( self.manager.notify, info, "finished" )
-        else:
-            gobject.idle_add( self.manager.notify, info, "failed" )
