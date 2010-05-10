@@ -10,7 +10,7 @@ helpdoc = """
 Device Manager Document:
 
 To install / remove drivers, you may need root privileges.
-To get package info or install / uninstall packages, network connection is needed.  
+To get package info or install / uninstall packages, network connection is needed.
 
 """
 
@@ -61,7 +61,7 @@ class Operation( object ):
         if note.__dict__.has_key( 'drvname' ):
             try:
                 pkg = note.package.pkg
-                print pkg.install( self.manager.send )
+                pkg.install( self.manager.send )
             except AttributeError:
                 gobject.idle_add( self.manager.notify, "package install", "failed due to no package attributes" )
 
@@ -70,7 +70,7 @@ class Operation( object ):
         if note.__dict__.has_key( 'drvname' ):
             try:
                 pkg = note.package.pkg
-                print pkg.uninstall( self.manager.send )
+                pkg.uninstall( self.manager.send )
             except AttributeError:
                 gobject.idle_add( self.manager.notify, "package uninstall", "failed due to no package attributes" )
 
@@ -105,7 +105,7 @@ class Operation( object ):
         pass
 
     def refresh( self, info ):
-        pass
+        self.manager.gui.refresh(None)
 
     def about( self, info ):
 

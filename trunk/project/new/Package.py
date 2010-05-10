@@ -11,7 +11,7 @@ class Package( object ):
     """
     This class execute "pkg install | uninstall | list | info | search,
     provides an interface to PackageDrv
-    
+
     __init__(self,name):
     select(self,list):
     validate(self,pkgname):

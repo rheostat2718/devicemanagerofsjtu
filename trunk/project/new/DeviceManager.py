@@ -20,6 +20,10 @@ class DeviceManager( object ):
         self.gui = DeviceManagerGUI( self )
         self.server = False
 
+    def update(self):
+        self.daemon.update()
+        self.build_device_tree()
+
     def build_device_tree( self ):
         for k, device in self.devices.items():
             if str( device.get( "parent" ) ) == 'None':
