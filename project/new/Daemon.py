@@ -23,9 +23,20 @@ class Daemon( object ):
         obj = self.bus.get_object( 'org.freedesktop.Hal', '/org/freedesktop/Hal/Manager' )
         self.hal_manager = dbus.Interface( obj, 'org.freedesktop.Hal.Manager' )
 
-        self.hal_manager.connect_to_signal( 'DeviceAdded', lambda * args:self.handle( 'DeviceAdded', *args ) )
-        self.hal_manager.connect_to_signal( 'DeviceRemoved', lambda * args:self.handle( 'DeviceRemoved', *args ) )
-        self.hal_manager.connect_to_signal( 'NewCapability', lambda * args:self.handle( 'NewCapability', *args ) )
+        try:
+            self.hal_manager.connect_to_signal( 'DeviceAdded', lambda * args:self.handle( 'DeviceAdded', *args ) )
+        except:
+            pass
+
+        try:
+            self.hal_manager.connect_to_signal( 'DeviceRemoved', lambda * args:self.handle( 'DeviceRemoved', *args ) )
+        except:
+            pass
+
+        try:
+            self.hal_manager.connect_to_signal( 'NewCapability', lambda * args:self.handle( 'NewCapability', *args ) )
+        except:
+            pass
 
         device_names = self.hal_manager.GetAllDevices()
 
@@ -33,18 +44,35 @@ class Daemon( object ):
         self.icon.set_from_stock( gtk.STOCK_INFO )
 
         for name in device_names:
-            self.add_dev_sig_recv( name )
+            try:
+                self.add_dev_sig_recv( name )
+                device_dbus_obj = self.bus.get_object( 'org.freedesktop.Hal', name )
+                properties = device_dbus_obj.GetAllProperties( dbus_interface = "org.freedesktop.Hal.Device" )
+
+                d=Device(name, properties)
+                if manager != None:
+                    self.manager.append_device( d )
+
+                self.add_dev_sig_recv( name )
+            except:
+                pass
+
+
+    def update(self):
+        device_names = self.hal_manager.GetAllDevices()
+        self.manager.device={}
+        for name in device_names:
             device_dbus_obj = self.bus.get_object( 'org.freedesktop.Hal', name )
             properties = device_dbus_obj.GetAllProperties( dbus_interface = "org.freedesktop.Hal.Device" )
-            if manager != None:
-                self.manager.append_device( Device( name, properties ) )
+            d=Device(name, properties)
+            self.manager.append_device(d)
+            self.add_dev_sig_recv(name)
+
 
     def add_dev_sig_recv( self, udi ):
         self.bus.add_signal_receiver( lambda * args: self.property_modified( udi, *args ), "PropertyModified", "org.freedesktop.Hal.Device", "org.freedesktop.Hal", udi )
 
     def property_modified( self, udi, num_changed, change_list ):
-        #TODO
-        print 'in property_modified'
         print udi, num_changed, change_list
         pass
 
@@ -52,25 +80,28 @@ class Daemon( object ):
     #    self.loop = gobject.MainLoop()
     #    self.loop.run()
 
-    def send( self, cmd, title = None, info_succ = "succeeded", info_fail = "failed" ):
+    def send(self, cmd, title = None, info_succ = "succeeded", info_fail = "failed" ):
+        import threading
         if ( self.manager.server == False ):
-            import threading
-            thread = threading.Thread( target = self.start_server )
-            thread.start()
+            m_thread = threading.Thread( target = self.start_server )
+            m_thread.start()
             self.manager.server = True
+        m_thread=threading.Thread(target=self._send, args=(cmd, title, info_succ, info_fail,))
+        m_thread.start()
+        #gobject.idle_add(self._send, cmd,title,info_succ, info_fail)
 
+    def _send(self, cmd, title, info_succ, info_fail):
+        if self.manager.server:
             import time
-            time.sleep( 1 )
-
-        if title != None:
-            result = tunnel.send( cmd )
-            print result
-            if result == "success":
-                gobject.idle_add( self.notify, title, "succeeded" )
+            time.sleep(1)
+        if title!=None:
+            result=tunnel.send(cmd)
+            if result=='success':
+                gobject.idle_add(self.notify,title,"succeeded")
             else:
-                gobject.idle_add( self.notify, title, "failed" )
+                gobject.idle_add(self.notify,title,"failed")
         else:
-            tunnel.send( cmd )
+            tunnel.send(cmd)
 
     def notify( self, title, info ):
         pynotify.init( 'devicemanager' )
@@ -79,8 +110,7 @@ class Daemon( object ):
         n.show()
 
     def handle( self, signal, udi, *args ):
-        #TODO
-        self.notify( str( signal ), str( udi ) )
+        self.notify( str( signal ), self.manager.get_device(udi).get('product') )
         pass
 
     def start_server( self ):

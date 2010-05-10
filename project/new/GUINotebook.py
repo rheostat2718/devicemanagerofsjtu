@@ -11,6 +11,8 @@ class DeviceNoteLeft( gtk.Notebook ):
     def __init__( self, device_tree, device_common = None ):
         gtk.Notebook.__init__( self )
         self.set_tab_pos( gtk.POS_TOP )
+        self.common=device_common
+        self.tree=device_tree
 
         if device_common:
             #common
@@ -27,6 +29,7 @@ class DeviceNoteLeft( gtk.Notebook ):
             self.append_page( self.table1, label )
 
         self.set_size_request( 300, 400 )
+
 
 class DeviceNoteRight( gtk.Notebook ):
     def __init__( self, gui ):
@@ -80,7 +83,7 @@ class DeviceNoteRight( gtk.Notebook ):
         if self.device != None:
             self.update( self.device )
 
-    def update( self, device ):
+    def update( self, device=None ):
         if device == None:
             return
 

@@ -12,6 +12,7 @@ from GUIDeviceCommon import *
 class DeviceManagerGUI( gtk.Window ):
     def __init__( self, manager = None ):
         gtk.Window.__init__( self, gtk.WINDOW_TOPLEVEL )
+        self.set_title('Device Manager')
         self.manager = manager
 
         # signal
@@ -51,7 +52,8 @@ class DeviceManagerGUI( gtk.Window ):
         device_tree = DeviceTree( manager.get_device( "root" ), self )
 
         # body
-        hpan = gtk.HPaned()
+        self.hpan = gtk.HPaned()
+        hpan=self.hpan
         self.note_left = DeviceNoteLeft( device_tree, device_common )
         self.note_right = DeviceNoteRight(self)
         hpan.add1( self.note_left )
@@ -59,10 +61,30 @@ class DeviceManagerGUI( gtk.Window ):
         hpan.show()
         vbox.pack_start( hpan, True, True, 0 )
 
+        self.vbox=vbox
         self.show_all()
 
     def refresh(self, widget, data=None):
-        self.menu_bar.refresh()
+        self.manager.update()
+        self.note_left.destroy()
+        self.note_right.destroy()
+
+        device_common = DeviceCommonList( self.manager.get_device( "root" ), self )
+        device_tree = DeviceTree( self.manager.get_device( "root" ), self )
+
+        self.hpan.destroy()
+
+
+        self.hpan=gtk.HPaned()
+        self.note_left = DeviceNoteLeft( device_tree, device_common )
+        self.note_right = DeviceNoteRight(self)
+        self.hpan.add1( self.note_left )
+        self.hpan.add2( self.note_right )
+        self.hpan.show()
+        self.vbox.pack_start( self.hpan, True, True, 0 )
+        self.show_all()
+        gobject.idle_add(self.manager.notify, "Refresh", "Done")
+
 
     def destroy( self, widget, data = None ):
         if self.manager.server==True:
