@@ -13,6 +13,7 @@ class Package( object ):
     provides an interface to PackageDrv
 
     __init__(self,name):
+    setPkgname(self,pkgname):
     select(self,list):
     validate(self,pkgname):
     search(self):
@@ -27,7 +28,7 @@ class Package( object ):
     uninstall( self ):
     getShortName(self,name):
     """
-    def __init__( self, drvname, pkgname = None ):
+    def __init__( self, drvname = None, pkgname = None ):
         self.name = drvname
 
         if pkgname:
@@ -38,8 +39,11 @@ class Package( object ):
                 pkgname = None
 
         if not pkgname:
-            self.pkgname = self.search()
+            if drvname:
+                self.pkgname = self.search()
             #print self.pkgname
+    def setPkgname( self, pkgname ):
+        self.pkgname = pkgname
 
     def GetFMRI( self, lines, filter = None ):
         pkg = []
@@ -247,5 +251,6 @@ if __name__ == '__main__':
 
 """
 use case to test:
-python Package.py -i hermon
+python Package.py -i xxx
+xxx is device name
 """
