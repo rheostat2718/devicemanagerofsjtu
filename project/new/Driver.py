@@ -7,6 +7,11 @@ import c_api.modulec as modulec
 
 backupdir = '/usr/devicemanager/bak/'
 
+def getDrvList():
+    dirlist = modulec.getModPath().split()
+    dirlist = [dir + '/drv' for dir in dirlist]
+    return dirlist
+
 class BaseDriver( object ):
     """
     Driver class which can locate driver file
@@ -105,8 +110,9 @@ class BaseDriver( object ):
         /kernel/drv /usr/kernel/drv /platform/xxxx/kernel/drv ... /  {amd64/,sparcv9/,}
 
         """
-        dirlist = modulec.getModPath().split()
-        dirlist = [dir + '/drv' for dir in dirlist]
+        #dirlist = modulec.getModPath().split()
+        #dirlist = [dir + '/drv' for dir in dirlist]
+        dirlist = getDrvList()
         #dirlist = ['/kernel/drv', '/usr/kernel/drv', '/platform/' + self.dev_machine + '/kernel/drv']
 
         for directory in dirlist:
@@ -164,7 +170,7 @@ class Driver( BaseDriver ):
         """
         return modulec.getModuleId( self.drvname )
 
-    def install( self, send, args = '', filelist = [], src = None, dst = None ):
+    def install( self, send, filelist = [], src = None, dst = None, *arg ):
         """
         call run_adddrv to install drivers.
         args: 'add_drv' arguments except for driver name
@@ -172,22 +178,22 @@ class Driver( BaseDriver ):
         """
         BaseDriver.install( self )
 
-        if not self.existDrv():
-            if ( not src ) or ( not dst ) or ( not filelist ):
-                return False
-
+        if src and dst and filelist:
+            print '1'
+            if src[-1] != '/':
+                src = src + '/'
+            if dst[-1] != '/':
+                dst = dst + '/'
             for filename in filelist:
-                if src[-1] != '/':
-                    src = src + '/'
                 srcfile = src + filename
-                if dst[-1] != '/':
-                    dst = dst + '/'
                 dstfile = dst + filename
-                ret = send( 'CMD:cp ' + srcfile + ' ' + dstfile )
+                send( 'CMD:cp ' + srcfile + ' ' + dstfile )
+        elif not self.existDrv():
+            return False
 
         import tools
         #here args are not used
-        ret = tools.run_adddrv( send, self.drvname )
+        ret = tools.run_adddrv( send, self.drvname, arg )
         return ( ret == 0 )
 
     def uninstall( self, send, removeFile = False ):
