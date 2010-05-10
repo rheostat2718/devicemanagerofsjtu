@@ -76,7 +76,7 @@ class Operation( object ):
         pkg.install( self.manager.send )
 
     def reconf( self, info ):
-        self.manager.send( 'reconf', 'Reconfigure', 'succeed', 'failed' )
+        self.manager.send( 'reconf', 'Reconfigure', 'succeeded', 'failed' )
 
     def pkginstall( self, info ):
         note = self.manager.gui.note_right

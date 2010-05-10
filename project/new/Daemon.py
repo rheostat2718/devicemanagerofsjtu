@@ -80,9 +80,9 @@ class Daemon( object ):
     #    self.loop = gobject.MainLoop()
     #    self.loop.run()
 
-    def send( self, cmd, title = None, info_succ = "succeed", info_fail = "failed" ):
+    def send( self, cmd, title = None, info_succ = "succeeded", info_fail = "failed" ):
         import threading
-        if ( self.manager.server == False ):
+        if ( self.manager.server == False):
             m_thread = threading.Thread( target = self.start_server )
             m_thread.start()
             self.manager.server = True
@@ -90,15 +90,24 @@ class Daemon( object ):
         m_thread.start()
         #gobject.idle_add(self._send, cmd,title,info_succ, info_fail)
 
-    def _send( self, cmd, title, info_succ, info_fail ):
-        while not self.manager.server:
-            pass
+    def _send( self, cmd, title, info_succ='succeeded', info_fail='failed' ):
+        if self.manager.server:
+            import time
+            time.sleep(1)
         if title != None:
-            result = tunnel.send( cmd )
-            if result == 'success':
-                gobject.idle_add( self.notify, title, info_succ )
+            result=tunnel.send( cmd )
+            #result='succeeded'
+            if result == 'succeeded':
+                gobject.idle_add( self.notify, title, 'succeeded' )
+            if result == 'wait':
+                gobject.idle_add( self.notify, title, 'please wait, it\'s running for you')
+                import time
+                while result=='wait':
+                    time.sleep(1)
+                    result=tunnel.send('query')
+                gobject.idle_add(self.notify, title,result)
             else:
-                gobject.idle_add( self.notify, title, info_fail )
+                gobject.idle_add( self.notify, title, 'failed' )
         else:
             tunnel.send( cmd )
 
