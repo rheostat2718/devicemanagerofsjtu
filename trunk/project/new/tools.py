@@ -50,12 +50,37 @@ def run_remdrv( send, drvname, basedir = None, removeConfigure = False ):
     send( 'CMD:rem_drv' + opt + drvname, "Remove Driver" )
     #return ret
 
-def run_adddrv( send, drvname, basedir = None, classname = None, identifyname = None, permission = None, noload = False, policy = None, privilege = None, verbose = True ):
+def run_adddrv( send, drvname, args ):
     """
     you may need to copy driver file to drv directory.
     A configure file may be needed.
     """
     #logging.debug( 'add_drv ' + drvname )
+    args = args[0]
+    #print 'args = ', args
+    basedir = None
+    if len( args ) > 1:
+        classname = args[0]
+    else:
+        classname = None
+    if len( args ) > 2:
+        identifyname = args[1]
+    else:
+        identifyname = None
+    if len( args ) > 3:
+        permission = args[2]
+    else:
+        permission = None
+    noload = False
+    if len( args ) > 4:
+        policy = args[3]
+    else:
+        policy = None
+    if len( args ) > 5:
+        privilege = args[4]
+    else:
+        privilege = None
+    verbose = True
     if basedir:
         opt = " -b " + basedir + ' '
     else:
@@ -77,9 +102,9 @@ def run_adddrv( send, drvname, basedir = None, classname = None, identifyname = 
         opt = opt + " -v "
     #ret = os.system( 'add_drv ' + opt + drvname )
     send( 'CMD:add_drv' + opt + drvname, "Add Driver" )
+    #print( 'CMD:add_drv' + opt + drvname, "Add Driver" )
     if basedir:
         send( 'reconf' )
-    #return ret
 
 def run_updatedrv( send, drvname, basedir = None, change = None, identifyname = None, permission = None, noload = False, policy = None, privilege = None, verbose = True ):
     #logging.debug( 'update_drv ' + drvname )

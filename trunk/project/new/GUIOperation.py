@@ -124,16 +124,22 @@ class Operation( object ):
                 gobject.idle_add( self.manager.notify, "update driver", "failed due to no driver attributes" )
 
     def modchg( self, info ):
+        drvname = None
+        try:
+            drvname = self.manager.gui.note_right.drvname
+        except AttributeError:
+            pass
         import GUISelect
-        dialog = GUISelect.argDialog( self.manager.gui )
+
+        dialog = GUISelect.argDialog( self.manager.gui, drvname )
         ret = dialog.run()
-        if not ret[0]:
+        if not ret[0] or not ret[1]:
             return
-        print ret
+        #print ret
+        #src = 2, dst  = 3 file = 4 cimpp=56789
         import Driver
-        drv = Driver.Driver()
-        pkg.setPkgname( ret )
-        pkg.install( self.manager.send )
+        drv = Driver.Driver( ret[1] )
+        drv.install( self.manager.send, ret[4], ret[2], ret[3], ret[5:9] )
 
     def refresh( self, info ):
         self.manager.gui.refresh( None )
