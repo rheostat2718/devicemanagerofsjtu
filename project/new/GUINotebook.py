@@ -29,9 +29,9 @@ class DeviceNoteLeft( gtk.Notebook ):
         self.set_size_request( 300, 400 )
 
 class DeviceNoteRight( gtk.Notebook ):
-    def __init__( self, gui  ):
+    def __init__( self, gui ):
         gtk.Notebook.__init__( self )
-        self.gui=gui
+        self.gui = gui
 
 
         self.set_tab_pos( gtk.POS_TOP )
@@ -148,7 +148,7 @@ class DeviceNoteRight( gtk.Notebook ):
 
         if self.once:
             if self.drvname:
-                gobject.idle_add(self.gui.manager.notify,'Pkg', 'gathering information')
+                gobject.idle_add( self.gui.manager.notify, 'Pkg', 'gathering information' )
             thread.start_new_thread( self.PackageThread, ( id, ) )
 
     def PackageThread( self, callid ):
@@ -163,7 +163,7 @@ class DeviceNoteRight( gtk.Notebook ):
                     thread.exit()
                 self.lock.release()
                 self.package = pkg
-                gobject.idle_add( self.gui.manager.notify,'Pkg','finished gathering')
+                gobject.idle_add( self.gui.manager.notify, 'Pkg', 'finished gathering' )
                 gobject.idle_add( self.update, self.device )
 
 class DeviceAbstractInfo( gtk.VBox ):
@@ -233,41 +233,44 @@ class DeviceDetailTable( KeyAndValue ):
             pass
 
 class ModuleTable( gtk.Table ):
-    def __init__( self,gui, drvname ):
-        self.gui=gui
-        gtk.Table.__init__(self, 10, 4, False)
+    def __init__( self, gui, drvname ):
+        self.gui = gui
+        gtk.Table.__init__( self, 10, 4, False )
 
         import Driver
         self.drv = Driver.Driver( drvname )
         self.info = self.drv.info()
         kv = KeyAndValue( self.info )
         kv.show()
-        self.attach(kv, 0, 4, 0, 9)
+        self.attach( kv, 0, 4, 0, 9 )
 
-        b_add=gtk.Button('Add')
-        b_add.connect('clicked', self.callback_add, drvname)
+        b_add = gtk.Button( 'Add' )
+        b_add.connect( 'clicked', self.callback_add, drvname )
         b_add.show()
-        self.attach(b_add, 0, 1, 9, 10)
+        self.attach( b_add, 0, 1, 9, 10 )
 
-        b_rem=gtk.Button('Remove')
-        b_rem.connect('clicked', self.callback_rem, drvname)
+        b_rem = gtk.Button( 'Remove' )
+        b_rem.connect( 'clicked', self.callback_rem, drvname )
         b_rem.show()
-        self.attach(b_rem, 1,2,9,10)
+        self.attach( b_rem, 1, 2, 9, 10 )
 
-        b_reload=gtk.Button('Reload')
+        b_reload = gtk.Button( 'Reload' )
         b_reload.show()
-        self.attach(b_reload, 2,3,9,10)
+        self.attach( b_reload, 2, 3, 9, 10 )
 
-        b_change=gtk.Button('Change')
+        b_change = gtk.Button( 'Change' )
         b_change.show()
-        self.attach(b_change, 3,4,9,10)
+        self.attach( b_change, 3, 4, 9, 10 )
 
         self.show()
-    def callback_add(self, widget, data=None):
-        self.gui.menu_bar.modadd(data)
+    def callback_add( self, widget, data = None ):
+        self.gui.manager.opt.modadd( data )
 
-    def callback_rem(self, wighet, data=None):
-        self.gui.menu_bar.moddel(data)
+    def callback_rem( self, widget, data = None ):
+        self.gui.manager.opt.moddel( data )
+
+    def callback_update( self, widget, data = None ):
+        self.gui.manager.opt.modup( data )
 
 
 class NullTable( KeyAndValue ):
@@ -279,33 +282,51 @@ class NullTable( KeyAndValue ):
 
 class PackageTable( gtk.Table ):
     def __init__( self, gui, drvname, pkgname = None ):
-        self.gui=gui
-        gtk.Table.__init__(self, 10,2, False)
+        self.gui = gui
+        gtk.Table.__init__( self, 10, 2, False )
 
-        b_install=gtk.Button('PKG Install')
-        b_install.connect('clicked', self.callback_install, None)
+        b_install = gtk.Button( 'PKG Install' )
+        b_install.connect( 'clicked', self.callback_install, None )
         b_install.show()
-        self.attach(b_install, 0,1,9,10)
+        self.attach( b_install, 0, 1, 9, 10 )
 
-        b_uninstall=gtk.Button('PKG Uninstall')
-        b_uninstall.connect('clicked',self.callback_uninstall,None)
+        b_uninstall = gtk.Button( 'PKG Uninstall' )
+        b_uninstall.connect( 'clicked', self.callback_uninstall, None )
         b_uninstall.show()
-        self.attach(b_uninstall,1,2,9,10)
+        self.attach( b_uninstall, 1, 2, 9, 10 )
 
         self.show()
 
         import Package
         self.pkg = Package.Package( drvname, pkgname )
         self.info = self.pkg.info()
-        kv=KeyAndValue( self.info )
+        kv = KeyAndValue( self.info )
         kv.show()
-        self.attach(kv, 0,2,0,9)
+        self.attach( kv, 0, 2, 0, 9 )
 
 
 
-    def callback_install(self, widget, data=None):
-        self.gui.menu_bar.pkginstall(data)
+    def callback_install( self, widget, data = None ):
+        self.gui.manager.opt.pkginstall( data )
 
-    def callback_uninstall(self, widge, data=None):
-        self.gui.menu_bar.pkguninstall(data)
+    def callback_uninstall( self, widge, data = None ):
+        self.gui.manager.opt.pkguninstall( data )
 
+    def threadLongRun( self, info, func ):
+        if self.manager:
+            if self.manager.notify:
+                gobject.idle_add( self.manager.notify, info, "start" )
+        ret = func()
+        if self.manager:
+            if ( ret == True ) or ( ret == 0 ):
+                gobject.idle_add( self.manager.notify, info, "finished" )
+            else:
+                gobject.idle_add( self.manager.notify, info, "failed" )
+
+    def threadShortRun( self, info, func ):
+        ret = func()
+        if self.manager:
+            if ( ret == True ) or ( ret == 0 ):
+                gobject.idle_add( self.manager.notify, info, "finished" )
+            else:
+                gobject.idle_add( self.manager.notify, info, "failed" )

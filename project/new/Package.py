@@ -88,11 +88,11 @@ class Package( object ):
         logging.info( str( len( pkglist ) ) + ' matches:' )
         return pkglist
 
-    def try_install( self ):
-        return tools.pkg_install( self.pkgname, trial = True )
+    def try_install( self, send ):
+        return tools.pkg_install( send, self.pkgname, trial = True )
 
-    def try_uninstall( self ):
-        return tools.pkg_uninstall( self.pkgname, trial = True )
+    def try_uninstall( self, send ):
+        return tools.pkg_uninstall( send, self.pkgname, trial = True )
 
     def get_pkglist( self ):
         """
@@ -162,12 +162,11 @@ class Package( object ):
         pkgname = self.get_pkglist()
         return pkgname
 
+    def install( self , send ):
+        return tools.pkg_install( send, self.pkgname )
 
-    def install( self , trial = False ):
-        return tools.pkg_install( self.pkgname )
-
-    def uninstall( self, trial = False ):
-        return tools.pkg_uninstall( self.pkgname )
+    def uninstall( self, send ):
+        return tools.pkg_uninstall( send, self.pkgname )
 
     def getShortName( self, name ):
         list = name.split( '@' )

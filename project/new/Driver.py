@@ -5,6 +5,8 @@ import sys
 #import logger
 import c_api.modulec as modulec
 
+backupdir = '/usr/devicemanager/bak/'
+
 class BaseDriver( object ):
     """
     Driver class which can locate driver file
@@ -26,6 +28,10 @@ class BaseDriver( object ):
         dict['locate.exist_conffile'] = self.existConf()
         return dict
 
+    def specify( self, drvname ):
+        self.drvname = drvname
+        self.confname = drvname + '.conf'
+
     def install( self ):
         pass
         #logging.debug( "install" + self.drvname )
@@ -39,20 +45,25 @@ class BaseDriver( object ):
         #logging.debug( "update" + self.drvname )
 
     def backup( self, filename ):
-        " use tar to backup the drv directory"
-        pass
-        #store configuration in case of data corruption during driver operation
+        " use tar/cp to backup the drv directory"
         #logging.debug( "backup" + self.drvname )
+        if not os.path.exists( backupdir ):
+            os.system( "mkdir -v " + backupdir )
+        if self.existConf():
+            os.system( "cp " + self.confpath + " " + backupdir + confname )
+        #store configuration in case of data corruption during driver operation
 
     def restore( self, filename ):
-        " use tar to restore the drv directory"
-        pass
-        #restore configuration from filename
+        " use tar/cp to restore the drv directory"
         #logging.debug( "restore" + self.drvname )
+        os.system( "cp " + backupdir + confname + ' ' + self.confpath )
+        #restore configuration from filename
 
     def list_backup( self ):
-        " list all backups "
-        pass
+        "get a list all backups "
+        ret = os.popen( 'ls ' + backupdir + '*.conf -1' ).readlines()
+        ret = [line.strip() for line in ret]
+        return ret
 
     def getDrvPath( self ):
         return self.path + self.drvname
@@ -153,15 +164,13 @@ class Driver( BaseDriver ):
         """
         return modulec.getModuleId( self.drvname )
 
-    def install( self,send, args = '', filelist = [], src = None, dst = None ):
+    def install( self, send, args = '', filelist = [], src = None, dst = None ):
         """
         call run_adddrv to install drivers.
         args: 'add_drv' arguments except for driver name
         return value: 0 for succeed, anything else for failed
         """
-        #BaseDriver.install( self )
-        #if os.geteuid() != 0:
-        #    return - 1
+        BaseDriver.install( self )
 
         if not self.existDrv():
             if ( not src ) or ( not dst ) or ( not filelist ):
@@ -178,21 +187,25 @@ class Driver( BaseDriver ):
 
         import tools
         #here args are not used
-        ret = tools.run_adddrv(send, self.drvname )
+        ret = tools.run_adddrv( send, self.drvname )
         return ( ret == 0 )
 
-    def uninstall( self, removeFile = False ):
+    def uninstall( self, send, removeFile = False ):
         """
        invoke rem_drv to remove drivers.
        return value: 0 for succeed, anything else for failed
        """
 
         BaseDriver.uninstall( self )
-        if os.geteuid() != 0:
-            return - 1
 
         import tools
-        ret = tools.run_remdrv( self.drvname, removeConfigure = removeFile )
+        ret = tools.run_remdrv( send, self.drvname, removeConfigure = removeFile )
+        return ( ret == 0 )
+
+    def update( self, send, args = '' ):
+        import tools
+        #here args are not used
+        ret = tools.run_updatedrv( send, self.drvname )
         return ( ret == 0 )
 
     def load( self ):

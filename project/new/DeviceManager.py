@@ -7,6 +7,7 @@ import gobject
 from Device import Device
 from Daemon import Daemon
 from DeviceManagerGUI import DeviceManagerGUI
+from GUIOperation import Operation
 
 gobject.threads_init()
 
@@ -15,9 +16,9 @@ class DeviceManager( object ):
         self.devices = {}
         self.daemon = Daemon( self )
         self.build_device_tree()
-
+        self.opt = Operation( self )
         self.gui = DeviceManagerGUI( self )
-        self.server=False
+        self.server = False
 
     def build_device_tree( self ):
         for k, device in self.devices.items():
@@ -50,8 +51,8 @@ class DeviceManager( object ):
     def notify( self, title, info ):
         self.daemon.notify( title, info )
 
-    def send(self, cmd, title=None, info_succ=None, info_fail=None):
-        self.daemon.send(cmd, title, info_succ, info_fail)
+    def send( self, cmd, title = None, info_succ = None, info_fail = None ):
+        self.daemon.send( cmd, title, info_succ, info_fail )
     def quit( self ):
         sys.exit( 0 )
 
