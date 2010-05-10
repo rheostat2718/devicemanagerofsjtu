@@ -96,4 +96,5 @@ class GUIMenu( gtk.MenuBar ):
         self.append( help_item_ )
 
     def test( self, info ):
-        self.manager.daemon.send( "test", info, "hi", "bye" );
+        if info != "seperator":
+            self.manager.daemon.send( "test", info, "hi", "bye" );

@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+#coding:utf-8
 import pygtk
 pygtk.require( "2.0" )
 import gtk
@@ -7,11 +7,23 @@ import gobject
 import thread
 
 helpdoc = """
-Device Manager Document:
+Device Manager Usage:
 
-To install / remove drivers, you may need root privileges.
-To get package info or install / uninstall packages, network connection is needed.
+Device -> Refresh : refresh device trees and device info.
+Device -> Exit : exit the program.
+Driver -> Add : execute add_drv.
+Driver -> Remove : execute rem_drv.
+Driver -> Reload : execute update_drv.
 
+Driver -> Install from packages : use pkg install to install / update driver files.
+Driver -> Uninstall from packages : use pkg uninstall to remove driver files.
+Tools -> Reconfigure : execute touch reconfigure.
+Tools -> Clear cache : clean up cache file.
+Tools -> Edit cache : manually edit cache file.
+Tools -> Reload cache : generate cache file from remote package repository.
+Tools -> Manually select package to install : select from a driver-related package list to install.
+Help -> Help : display this document.
+Help -> About : display about document.
 """
 
 class Operation( object ):
@@ -41,38 +53,48 @@ class Operation( object ):
 
     def clearCache( self , info ):
         import pkglist
-        thread.start_new_thread( threadShortRun, ( self, info, pkglist.removeDump ) )
+        thread.start_new_thread( self.threadShortRun, ( info, pkglist.removeDump ) )
 
     def editCache( self, info ):
-        pass
+        import pkglist
+        thread.start_new_thread( self.threadLongRun, ( info, pkglist.editCache ) )
 
     def reloadCache( self, info ):
         import pkglist
-        thread.start_new_thread( threadLongRun, ( self, info, pkglist.run ) )
+        thread.start_new_thread( self.threadLongRun, ( info, pkglist.run ) )
 
     def select( self, info ):
-        pass
+        import GUISelect
+        dialog = GUISelect.selectDialog( self.manager.gui )
+        ret = dialog.run()
+        if not ret:
+            return
+        #print ret
+        import Package
+        pkg = Package.Package()
+        pkg.setPkgname( ret )
+        pkg.install( self.manager.send )
 
     def reconf( self, info ):
         self.manager.send( 'reconf', 'Reconfigure', 'succeed', 'failed' )
 
     def pkginstall( self, info ):
         note = self.manager.gui.note_right
-        if note.__dict__.has_key( 'drvname' ):
-            try:
-                pkg = note.package.pkg
-                pkg.install( self.manager.send )
-            except AttributeError:
-                gobject.idle_add( self.manager.notify, "package install", "failed due to no package attributes" )
+        func = None
+        try:
+            func = note.package.pkg.install
+        except AttributeError:
+            self.manager.notify( "Package install", "Failed due to no related package." )
+        func( self.manager.send )
 
     def pkguninstall( self, info ):
         note = self.manager.gui.note_right
-        if note.__dict__.has_key( 'drvname' ):
-            try:
-                pkg = note.package.pkg
-                pkg.uninstall( self.manager.send )
-            except AttributeError:
-                gobject.idle_add( self.manager.notify, "package uninstall", "failed due to no package attributes" )
+        func = None
+        try:
+            func = note.package.pkg.uninstall
+        except AttributeError:
+            self.manager.notify( "Package uninstall", "Failed due to no related package." )
+        func( self.manager.send )
 
     def modadd( self, info ):
         note = self.manager.gui.note_right
@@ -95,29 +117,53 @@ class Operation( object ):
     def modup( self, info ):
         note = self.manager.gui.note_right
         if note.__dict__.has_key( 'drvname' ):
-            #try:
+            try:
                 drv = note.module.drv
                 print drv.update( self.manager.send )
-            #except:
-                #gobject.idle_add( self.manager.notify, "update driver", "failed due to no driver attributes" )
+            except AttributeError:
+                gobject.idle_add( self.manager.notify, "update driver", "failed due to no driver attributes" )
 
     def modchg( self, info ):
-        pass
+        import GUISelect
+        dialog = GUISelect.argDialog( self.manager.gui )
+        ret = dialog.run()
+        if not ret[0]:
+            return
+        print ret
+        import Driver
+        drv = Driver.Driver()
+        pkg.setPkgname( ret )
+        pkg.install( self.manager.send )
 
     def refresh( self, info ):
-        self.manager.gui.refresh(None)
+        self.manager.gui.refresh( None )
 
     def about( self, info ):
 
-        label = gtk.Label( "Device Manager is a graphic management tool under Open Solaris.\n Copyright © 2009-2010 Shanghai Jiaotong University\nhttp://code.google.com/p/devicemanagerofsjtu" )
+        label = gtk.Label( "Device Manager is a graphic device management tool under OpenSolaris.\n Copyright © 2009-2010 Shanghai Jiaotong University.\nLatest source code can be downloaded at : http://devicemanagerofsjtu.googlecode.com/svn/ \n and at opensolaris community :" )
         dialog = gtk.Dialog( "About Device Manager", None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, None )
         dialog.vbox.pack_start( label )
         label.show()
-        cancelbutton = gtk.Button( "Cancel" )
-        cancelbutton.connect( "clicked", gtk.main_quit, None )
-        dialog.add( cancelbutton )
-        cancelbutton.show()
+
+        btncan = gtk.Button( 'Close' , stock = gtk.STOCK_CLOSE )
+        dialog.action_area.pack_start( btncan, True, True, 0 )
+        def cancallback( widget, dialog ):
+            dialog.destroy()
+
+        btncan.connect( 'clicked', cancallback, dialog )
+        btncan.show()
         response = dialog.run()
 
     def help( self, info ):
-        pass
+        label = gtk.Label( helpdoc )
+        dialog = gtk.Dialog( "Help", None, gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, None )
+        dialog.vbox.pack_start( label )
+        label.show()
+        btncan = gtk.Button( 'Close', stock = gtk.STOCK_CLOSE )
+        dialog.action_area.pack_start( btncan, True, True, 0 )
+        def cancallback( widget, dialog ):
+            dialog.destroy()
+
+        btncan.connect( 'clicked', cancallback, dialog )
+        btncan.show()
+        response = dialog.run()

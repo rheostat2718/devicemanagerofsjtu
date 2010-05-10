@@ -1,4 +1,5 @@
-import os, sys
+import os
+import sys
 
 outputfile = "pkgbuff"
 listfile = 'pkglist'
@@ -115,6 +116,16 @@ def removeKey( keylist ):
 
 def removeDump():
     dumpDict( outputfile, {} )
+
+def editCache( info ):
+    ret = -1
+    if os.path.exists( '/usr/bin/gedit' ):
+        ret = os.system( 'gedit ' + outputfile )
+    elif os.path.exists( '/usr/bin/gvim' ):
+        ret = os.system( 'gvim ' + outputfile )
+    elif os.path.exists( '/usr/bin/vi' ):
+        ret = os.system( 'vi ' + outputfile )
+    return ret
 
 def run():
     """

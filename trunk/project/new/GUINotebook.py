@@ -11,8 +11,8 @@ class DeviceNoteLeft( gtk.Notebook ):
     def __init__( self, device_tree, device_common = None ):
         gtk.Notebook.__init__( self )
         self.set_tab_pos( gtk.POS_TOP )
-        self.common=device_common
-        self.tree=device_tree
+        self.common = device_common
+        self.tree = device_tree
 
         if device_common:
             #common
@@ -83,7 +83,7 @@ class DeviceNoteRight( gtk.Notebook ):
         if self.device != None:
             self.update( self.device )
 
-    def update( self, device=None ):
+    def update( self, device = None ):
         if device == None:
             return
 
@@ -151,8 +151,7 @@ class DeviceNoteRight( gtk.Notebook ):
 
         if self.once:
             if self.drvname:
-                gobject.idle_add( self.gui.manager.notify, 'Pkg', 'gathering information' )
-            thread.start_new_thread( self.PackageThread, ( id, ) )
+                thread.start_new_thread( self.PackageThread, ( id, ) )
 
     def PackageThread( self, callid ):
         if self.drvname:
@@ -166,7 +165,6 @@ class DeviceNoteRight( gtk.Notebook ):
                     thread.exit()
                 self.lock.release()
                 self.package = pkg
-                gobject.idle_add( self.gui.manager.notify, 'Pkg', 'finished gathering' )
                 gobject.idle_add( self.update, self.device )
 
 class DeviceAbstractInfo( gtk.VBox ):
@@ -194,7 +192,7 @@ class DeviceAbstractInfo( gtk.VBox ):
         #TODO
 
 class KeyAndValue( gtk.ScrolledWindow ):
-    def __init__( self, hash = None ):
+    def __init__( self, hash = None, key1 = 'Key', key2 = 'Value' ):
         gtk.ScrolledWindow.__init__( self )
         self.store = gtk.ListStore( str, str )
         self.view = gtk.TreeView( self.store )
@@ -203,14 +201,14 @@ class KeyAndValue( gtk.ScrolledWindow ):
         self.add_with_viewport( self.view )
         self.view.show()
 
-        self.tv_key = gtk.TreeViewColumn( 'Key' )
+        self.tv_key = gtk.TreeViewColumn( key1 )
         self.view.append_column( self.tv_key )
         self.cell_key = gtk.CellRendererText()
         self.tv_key.pack_start( self.cell_key, True )
         self.tv_key.add_attribute( self.cell_key, 'text', 0 )
         self.tv_key.set_sort_column_id( 0 )
 
-        self.tv_val = gtk.TreeViewColumn( 'Value' )
+        self.tv_val = gtk.TreeViewColumn( key2 )
         self.view.append_column( self.tv_val )
         self.cell_val = gtk.CellRendererText()
         self.tv_val.pack_start( self.cell_val, True )
@@ -266,6 +264,7 @@ class ModuleTable( gtk.Table ):
         self.attach( b_change, 3, 4, 9, 10 )
 
         self.show()
+
     def callback_add( self, widget, data = None ):
         self.gui.manager.opt.modadd( data )
 

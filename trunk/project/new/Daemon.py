@@ -49,7 +49,7 @@ class Daemon( object ):
                 device_dbus_obj = self.bus.get_object( 'org.freedesktop.Hal', name )
                 properties = device_dbus_obj.GetAllProperties( dbus_interface = "org.freedesktop.Hal.Device" )
 
-                d=Device(name, properties)
+                d = Device( name, properties )
                 if manager != None:
                     self.manager.append_device( d )
 
@@ -58,15 +58,15 @@ class Daemon( object ):
                 pass
 
 
-    def update(self):
+    def update( self ):
         device_names = self.hal_manager.GetAllDevices()
-        self.manager.device={}
+        self.manager.device = {}
         for name in device_names:
             device_dbus_obj = self.bus.get_object( 'org.freedesktop.Hal', name )
             properties = device_dbus_obj.GetAllProperties( dbus_interface = "org.freedesktop.Hal.Device" )
-            d=Device(name, properties)
-            self.manager.append_device(d)
-            self.add_dev_sig_recv(name)
+            d = Device( name, properties )
+            self.manager.append_device( d )
+            self.add_dev_sig_recv( name )
 
 
     def add_dev_sig_recv( self, udi ):
@@ -80,28 +80,27 @@ class Daemon( object ):
     #    self.loop = gobject.MainLoop()
     #    self.loop.run()
 
-    def send(self, cmd, title = None, info_succ = "succeeded", info_fail = "failed" ):
+    def send( self, cmd, title = None, info_succ = "succeed", info_fail = "failed" ):
         import threading
         if ( self.manager.server == False ):
             m_thread = threading.Thread( target = self.start_server )
             m_thread.start()
             self.manager.server = True
-        m_thread=threading.Thread(target=self._send, args=(cmd, title, info_succ, info_fail,))
+        m_thread = threading.Thread( target = self._send, args = ( cmd, title, info_succ, info_fail, ) )
         m_thread.start()
         #gobject.idle_add(self._send, cmd,title,info_succ, info_fail)
 
-    def _send(self, cmd, title, info_succ, info_fail):
-        if self.manager.server:
-            import time
-            time.sleep(1)
-        if title!=None:
-            result=tunnel.send(cmd)
-            if result=='success':
-                gobject.idle_add(self.notify,title,"succeeded")
+    def _send( self, cmd, title, info_succ, info_fail ):
+        while not self.manager.server:
+            pass
+        if title != None:
+            result = tunnel.send( cmd )
+            if result == 'success':
+                gobject.idle_add( self.notify, title, info_succ )
             else:
-                gobject.idle_add(self.notify,title,"failed")
+                gobject.idle_add( self.notify, title, info_fail )
         else:
-            tunnel.send(cmd)
+            tunnel.send( cmd )
 
     def notify( self, title, info ):
         pynotify.init( 'devicemanager' )
@@ -110,7 +109,7 @@ class Daemon( object ):
         n.show()
 
     def handle( self, signal, udi, *args ):
-        self.notify( str( signal ), self.manager.get_device(udi).get('product') )
+        self.notify( str( signal ), self.manager.get_device( udi ).get( 'product' ) )
         pass
 
     def start_server( self ):
