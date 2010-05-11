@@ -236,14 +236,14 @@ class DeviceDetailTable( KeyAndValue ):
 class ModuleTable( gtk.Table ):
     def __init__( self, gui, drvname ):
         self.gui = gui
-        gtk.Table.__init__( self, 10, 4, False )
+        gtk.Table.__init__( self, 10, 3, False )
 
         import Driver
         self.drv = Driver.Driver( drvname )
         self.info = self.drv.info()
         kv = KeyAndValue( self.info )
         kv.show()
-        self.attach( kv, 0, 4, 0, 9 )
+        self.attach( kv, 0, 3, 0, 9 )
 
         b_add = gtk.Button( 'Add' )
         b_add.connect( 'clicked', self.callback_add, drvname )
@@ -256,12 +256,13 @@ class ModuleTable( gtk.Table ):
         self.attach( b_rem, 1, 2, 9, 10 )
 
         b_reload = gtk.Button( 'Reload' )
+        b_reload.connect( 'clicked', self.callback_reload, drvname )
         b_reload.show()
         self.attach( b_reload, 2, 3, 9, 10 )
 
-        b_change = gtk.Button( 'Change' )
-        b_change.show()
-        self.attach( b_change, 3, 4, 9, 10 )
+        #b_change = gtk.Button( 'Change' )
+        #b_change.show()
+        #self.attach( b_change, 3, 4, 9, 10 )
 
         self.show()
 
@@ -271,7 +272,7 @@ class ModuleTable( gtk.Table ):
     def callback_rem( self, widget, data = None ):
         self.gui.manager.opt.moddel( data )
 
-    def callback_update( self, widget, data = None ):
+    def callback_reload( self, widget, data = None ):
         self.gui.manager.opt.modup( data )
 
 

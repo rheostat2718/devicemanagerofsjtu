@@ -96,14 +96,8 @@ class Operation( object ):
             self.manager.notify( "Package uninstall", "Failed due to no related package." )
         func( self.manager.send )
 
-    def modadd( self, info ):
-        note = self.manager.gui.note_right
-        if note.__dict__.has_key( 'drvname' ):
-            try:
-                drv = note.module.drv
-                print drv.install( self.manager.send )
-            except AttributeError:
-                gobject.idle_add( self.manager.notify, "add driver", "failed due to no driver attributes" )
+    def modchg( self, info ):
+        pass
 
     def moddel( self, info ):
         note = self.manager.gui.note_right
@@ -123,7 +117,7 @@ class Operation( object ):
             except AttributeError:
                 gobject.idle_add( self.manager.notify, "update driver", "failed due to no driver attributes" )
 
-    def modchg( self, info ):
+    def modadd( self, info ):
         drvname = None
         try:
             drvname = self.manager.gui.note_right.drvname
