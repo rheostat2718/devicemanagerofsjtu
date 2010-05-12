@@ -107,7 +107,6 @@ void serv_proc(void * pcookie,
             }
             else
             {
-                usleep(300);
                 strcpy(res,"wait");
             }
             pthread_mutex_unlock(&run);
