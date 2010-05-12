@@ -86,8 +86,12 @@ class Daemon( object ):
             m_thread = threading.Thread( target = self.start_server )
             m_thread.start()
             self.manager.server = True
-        m_thread = threading.Thread( target = self._send, args = ( cmd, title, info_succ, info_fail, ) )
-        m_thread.start()
+        if cmd=='reconf':
+            result=tunnel.send(cmd)
+            gobject.idle_add(self.notify, title, result)
+        else:
+            m_thread = threading.Thread( target = self._send, args = ( cmd, title, info_succ, info_fail, ) )
+            m_thread.start()
         #gobject.idle_add(self._send, cmd,title,info_succ, info_fail)
 
     def _send( self, cmd, title, info_succ='succeeded', info_fail='failed' ):
