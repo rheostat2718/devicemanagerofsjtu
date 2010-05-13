@@ -91,7 +91,7 @@ def loadDict( filename = outputfile ):
 
 def fastload():
     """
-    try use pkgDict at first 
+    try use pkgDict at first
     """
     if not StaticData.pkgDict:
         StaticData.pkgDict = loadDict()
@@ -127,7 +127,7 @@ def editCache( info ):
         ret = os.system( 'vi ' + outputfile )
     return ret
 
-def run():
+def run(info=None):
     """
     very slow process...
     should use a new thread...
@@ -137,7 +137,7 @@ def run():
     dumpDict( outputfile, q )
     combineDict( q )
 
-#by default load pkgDict     
+#by default load pkgDict
 fastload()
 
 if __name__ == '__main__':
